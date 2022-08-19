@@ -9,7 +9,7 @@
 locale                   : "en-US"
 title                    : "Jun Oh"
 title_separator          : "-"
-name                     : &name "Your Name"
+name                     : &name "Jun Oh"
 description              : &description "personal description"
 url                      : https://junoh1.github.io/junoh.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -82,14 +82,14 @@ analytics:
 author:
   name             : "Jun Oh "
   avatar           : "profile.png"
-  bio              : "Ph.D. Candidate in Accounting"
+  bio              : "Ph.D. Candidate in Accounting @ Cornell University"
   location         : "Ithaca, NY"
   employer         :
   pubmed           :
-  googlescholar    : "http://yourfullgooglescholarurl.com"
-  email            :
+  googlescholar    : "https://scholar.google.com/citations?user=TSyRwuQAAAAJ&hl"
+  email            : "jo366@cornell.edu"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
-  uri              :
+  uri              : "https://www.johnson.cornell.edu/programs/phd-program/current-students/jo366/"
   bitbucket        :
   codepen          :
   dribbble         :

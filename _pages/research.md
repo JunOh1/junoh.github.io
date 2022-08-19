@@ -5,12 +5,23 @@ permalink: /research/
 author_profile: true
 ---
 
-{% if author.googlescholar %}
-  You can also find my articles on <u><a href="{{author.googlescholar}}">my Google Scholar profile</a>.</u>
-{% endif %}
+### "Antitrust Risk and Voluntary M&A Disclosure" <em>(Dissertation)</em>
 
-{% include base_path %}
+Abstract: This study examines whether firms alter the disclosure of mergers and acquisitions (M\&A) to reduce the likelihood of being targeted by antitrust authorities. Due to exemptions under the Hart-Scott-Rodino Act, deals that fall below the pre-merger notification threshold can escape formal antitrust scrutiny at the time of merger. However, when firms voluntarily disclose the deal, they can invite antitrust scrutiny, increasing the probability of a merger challenge. Evidence from stealth deals, intrastate deals, and horizontal deals suggest that such risk incentivizes acquirers to lower disclosure, to provide fewer positive disclosures, and less information regarding product markets and industry competition. Collectively, my findings suggest that firms internalize the political costs associated with antitrust risk when disclosing M\&A and highlight a potential conflict between securities and antitrust regulation.
 
-{% for post in site.publications reversed %}
-  {% include archive-single.html %}
-{% endfor %}
+### "Media Conglomeration, Local News, and Capital Market Consequences" <em>with Travis Dyer and Mark H. Lang</em>
+
+Abstract: We examine the effect of news media consolidation on local business news dissemination and its consequences for local investors and capital markets. We use acquisitions of television stations by Sinclair Inc. as plausibly exogenous shocks to local news coverage since Sinclair is alleged to reduce local news budgets and homogenize news coverage. Using large-scale television transcripts data, we find that coverage of local firms drops substantially following Sinclair acquisitions. Further, we document that investor attention, trading, portfolio holdings, and stock return synchronicity all become less locally concentrated for firms in treated geographic areas, and that the informational advantage of local analysts decreases and bid-ask spreads increase. In combination, these results provide insight into the consequences of media consolidation for local business coverage, investors, and capital markets.
+
+### "Technology Coopetition and Firm Voluntary Disclosure: Evidence from Standard Setting Organizations" <em>with P. Eric Yeung</em>
+
+We examine firms’ voluntary R&D disclosure under technology coopetition, focusing on the members in standard setting organizations (SSOs). Technology coopetition is characterized by cooperation to develop technology standards and competition for standard implementation (i.e., obtaining standard-essential patents). In a large sample, we document a significant decrease in the level of 10-K narrative R&D disclosure after a firm joins an SSO. The joiner also accelerates its filing of standard-essential patents. To identify causality, we consider a quasi-natural experiment based on the shock introduced by Rambus’ patent ambush and also document a significant decrease in SSO firms’ R&D disclosure. Further analyses based on i) SSO firms’ search activities of public filings and ii) proxies for private communication within the SSO strongly suggest that the decrease in R&D disclosure is explained by the competitive pressure for developing standard-essential patents as opposed to the substitution effect under cooperation.
+
+
+### "Contract Contingencies and Environmental Uncertainty" <em>with Kai Wai Hui, Guoman She, and P. Eric Yeung</em>
+
+Abstract: Motivated by recent theoretical development on contract contingency, we study the empirical relation between the contingencies specified in firms’ non-ordinary, material product market contracts and environmental uncertainty. We develop new measures of contract-level contingencies based on public firms’ material contract disclosures in regulatory filings. We document a linear, positive relation between contract contingency and various measures of industry- and macro-level uncertainty. Such positive contingency-uncertainty relation is less pronounced for relational contracting parties but more pronounced among product market rivals. Event study around the 2008 financial crisis strengthen a causal interpretation. Our empirical results support the predictions from dynamic models of contract contingency.
+
+### "Algorithmic Trading and Performance-Induced CEO Turnover" <em>with Jaewoo Kim, Hojun Seo, and Luo Zuo </em>
+
+Abstract: We examine the effect of algorithmic trading (AT) on directors’ learning from stock prices. We find that the sensitivity of forced CEO turnover to stock returns decreases with AT. We mitigate correlated omitted variable bias by using the 2016 Tick Size Pilot Program as a shock to AT. In cross-sectional analyses, we document that the negative effect of AT is more pronounced in growth firms, firms with greater exposure to macroeconomic factors, and geographically dispersed firms where the information that AT crowds out is more likely to be new to directors. We also find that the effect is stronger when directors’ expertise likely allows them to extract decision-relevant information from prices and when the directors’ own information set is poor. Overall, our findings suggest that stock prices aggregate information about CEO performance, which is otherwise unavailable to directors, and that they incorporate this information into their CEO turnover decisions.
