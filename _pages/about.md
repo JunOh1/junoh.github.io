@@ -10,8 +10,8 @@ redirect_from:
 
 Hello!
 ------
-My name is Jun Oh and I am a fourth-year accounting Ph.D. student at Cornell University, SC Johnson College of Business. 
-I plan to be on the 2022-2023 academic job market and expect to graduate in May 2023. 
+My name is Jun Oh and I am a fifth-year accounting Ph.D. student at Cornell University, SC Johnson College of Business. 
+I am on the 2022-2023 academic job market. I expect to graduate in May 2023. 
 
 I am broadly interested in the use of firm’s public disclosures, 
 including disclosures in financial statements and in voluntary communications, by various stakeholders.
