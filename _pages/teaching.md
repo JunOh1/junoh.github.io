@@ -18,7 +18,7 @@ author_profile: true
       * Instructors: Mark Nelson, Radha Radhakrishna, P. Eric Yeung, and Sanjeev Bhojraj
   * NBAE 5020: Managerial Reporting
       * Spring 2020
-      * Instructors: Robert J. Bloomfield
+      * Instructor: Robert J. Bloomfield
   * NCC 5000: Financial Accounting
       * Summer 2019
-      * Instructors: Luo Zuo
+      * Instructor: Luo Zuo
