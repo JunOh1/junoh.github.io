@@ -16,7 +16,7 @@ I am on the 2022-2023 academic job market and expect to graduate in May 2023.
 I am broadly interested in the use of firm’s public disclosures, 
 including disclosures in financial statements and in voluntary communications, by various stakeholders.
 Specifically, the two strands of my research explore i) 
-how firms strategically disclose information, and the consequences such disclosures have on competitors and regulators and ii)
+how firms strategically disclose information, specifically non-earnings information, and the consequences such disclosures have on competitors and regulators and ii)
 how information frictions influence investors' acquisition of firms' public disclosures. 
 My research frequently employs textual analysis and is largely motivated by industrial organization topics. 
 
