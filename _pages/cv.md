@@ -9,6 +9,4 @@ redirect_from:
 
 {% include base_path %}
 
-## [CV](https://drive.google.com/file/d/1OdtVQ_AeyPe_dyP4KmMquRlXtZS2flC4/view?usp=sharing)
-
 <object data="../assets/JunOh_CV_Aug2022.pdf" width="700" height="700" type='application/pdf'></object>
