@@ -15,10 +15,10 @@ author_profile: true
 
   * NBAT 6050: Advanced Topic in Accounting, Cornell-Tsinghua Finance MBA Program
       * Fall 2020
-      * Instructors: Mark Nelson, Radha Radhakrishna, P. Eric Yeung, and Sanjeev Bhojraj
+      * Professors Mark Nelson, Radha Radhakrishna, P. Eric Yeung, and Sanjeev Bhojraj
   * NBAE 5020: Managerial Reporting
       * Spring 2020
-      * Instructor: Robert J. Bloomfield
+      * Professor Robert J. Bloomfield
   * NCC 5000: Financial Accounting
       * Summer 2019
-      * Instructor: Luo Zuo
+      * Professor Luo Zuo
