@@ -5,6 +5,8 @@ permalink: teaching/
 author_profile: true
 ---
 
+Teaching Interests: Financial accounting, Financial statement analysis (FSA), Data analytics, and Managerial accounting
+
 ### Instructor
   * NCC 5500: Financial Accounting
       * Spring 2022
