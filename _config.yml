@@ -70,6 +70,12 @@ social:
   name                   : # If the user or organization name differs from the site's name
   links: # An array of links to social media profiles
 
+# Analytics
+analytics:
+  provider               : false # false (default), "google", "google-universal", "google-gtag", "custom"
+  google:
+    tracking_id          :
+    anonymize_ip         : # true, false (default)
 
 # Site Author
 author:
@@ -246,8 +252,8 @@ timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database
 
 
 # Plugins
-- theme: "minimal-mistakes-jekyll"
-+ remote_theme: "mmistakes/minimal-mistakes"
+theme: "minimal-mistakes-jekyll"
+remote_theme: "mmistakes/minimal-mistakes"
 
 # Plugins (previously gems:)
 plugins:
