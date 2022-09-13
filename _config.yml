@@ -70,10 +70,15 @@ social:
   name                   : # If the user or organization name differs from the site's name
   links: # An array of links to social media profiles
 
-
 # Analytics
+analytics:
+  provider               : false # false (default), "google", "google-universal", "google-gtag", "custom"
+  google:
+    tracking_id          :
+    anonymize_ip         : # true, false (default)
+
 # Google Analytics
-google_analytics: UA—241078199-1
+google_analytics    : UA—241078199-1
 
 # Site Author
 author:
@@ -250,19 +255,24 @@ timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database
 
 
 # Plugins
-- theme: minima
-+ remote_theme: jekyll/minima
+- theme: "minimal-mistakes-jekyll"
++ remote_theme: "mmistakes/minimal-mistakes"
 
-  plugins:
-+ - jekyll-remote-theme
+# Plugins (previously gems:)
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
 # mimic GitHub Pages with --safe
 whitelist:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
-  - jemoji
-
+  - jekyll-include-cache
 
 # Archives
 #  Type
