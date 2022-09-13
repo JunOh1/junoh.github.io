@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: ""
+title: "Hello!"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,7 +8,6 @@ redirect_from:
   - /about.html
 ---
 
-Hello!
 ------
 My name is Jun Oh and I am a fifth-year accounting Ph.D. student at Cornell University, SC Johnson College of Business. 
 I am on the 2022-2023 academic job market and expect to graduate in May 2023. 
