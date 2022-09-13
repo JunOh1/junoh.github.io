@@ -16,6 +16,7 @@
 Footer
 © 2022 GitHub, Inc.
 
+{% if site.url != "http://localhost:4000"%}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
 <script>
@@ -25,3 +26,4 @@ Footer
 
   gtag('config', '{{ site.google_analytics }}');
 </script>
+{% endif %}
