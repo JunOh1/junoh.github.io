@@ -5,7 +5,7 @@ permalink: teaching/
 author_profile: true
 ---
 
-My primary teaching interest lie in financial accounting, financial statement analysis (FSA) and data analytics. I am also able to teach managerial accounting.
+My primary teaching interests lie in financial accounting, financial statement analysis (FSA) and data analytics. I am also able to teach managerial accounting.
 ### Instructor
   * NCC 5500: Financial Accounting
       * Spring 2022
