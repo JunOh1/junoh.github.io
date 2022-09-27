@@ -21,6 +21,6 @@ My research frequently employs textual analysis and is largely motivated by indu
 In my dissertation, I examine the intersection between industrial organization and antitrust regulation 
 by studying how antitrust risk affects firms’ disclosure of mergers and acquisitions (M&A).
 
-[<a href="../assets/JunOh_CV_Aug2022.pdf">Curriculum Vitae</a>]
+[<a href="../assets/JunOh_CV_Sept2022.pdf">Curriculum Vitae</a>]
 
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
