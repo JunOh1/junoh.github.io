@@ -17,7 +17,7 @@ We examine firms’ voluntary R&D disclosure under technology coopetition, focus
 
 ### "Media Conglomeration, Local News, and Capital Market Consequences" <em>with Travis Dyer and Mark H. Lang</em>
 We examine the effect of news media consolidation on local business news dissemination and its consequences for local investors and capital markets. We use acquisitions of television stations by Sinclair Inc. as plausibly exogenous shocks to local news coverage since Sinclair is alleged to reduce local news budgets and homogenize news coverage. Using large-scale television transcripts data, we find that coverage of local firms drops substantially following Sinclair acquisitions. Further, we document that investor attention, trading, portfolio holdings, and stock return synchronicity all become less locally concentrated for firms in treated geographic areas, and that the informational advantage of local analysts decreases and bid-ask spreads increase. In combination, these results provide insight into the consequences of media consolidation for local business coverage, investors, and capital markets.
-  * Presented at: 2021 BYU Accounting Research Symposium\*, Cornell University
+  * Presented at: 2021 BYU Accounting Research Symposium\*, Cornell University, Boston College\* 
   * <em>Revising to resubmit to Management Science</em>
 
 ### "Contract Contingencies, Uncertainty, and Firm Performance" <em>with Kai Wai Hui, Guoman She, and P. Eric Yeung</em>
@@ -26,7 +26,7 @@ This study examines contingencies written in firms’ material product market co
 
 ### "Algorithmic Trading and Directors’ Learning from Stock Prices: Evidence from CEO Turnover Decisions" <em>with Jaewoo Kim, Hojun Seo, and Luo Zuo </em>
 We examine the effect of algorithmic trading (AT) on directors’ learning from stock prices. We find that the sensitivity of forced CEO turnover to stock returns decreases with AT. We mitigate correlated omitted variable bias by using the 2016 Tick Size Pilot Program as an exogenous shock to AT. In cross-sectional analyses, we document that the negative effect of AT is more pronounced for growth firms, firms with greater exposure to macroeconomic factors, and firms with a geographically dispersed investor base, where the information that AT crowds out is more likely to be new to directors. We also find that the effect is stronger when directors’ expertise likely allows them to extract decision-relevant information from prices and when the directors’ own information set is poor. Overall, our findings suggest that stock prices aggregate information about CEO performance and CEO-firm match, which is otherwise unavailable to directors, and that directors incorporate this information into their CEO turnover decisions.
-  * Presented at: Purdue University\*, Washington University in St. Louis\*, KAIST-Korea University Joint Workshop\*, 2023 HARC\* (Scheduled)
+  * Presented at: Purdue University\*, Washington University in St. Louis\*, KAIST-Korea University Joint Workshop\*, University of Oregon\*, 2023 HARC\* (Scheduled)
 
 
 Presentation by co-author (*)
