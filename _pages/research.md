@@ -18,7 +18,7 @@ We examine firms’ voluntary R&D disclosure under technology coopetition, focus
 
 ### "Media Conglomeration, Local News, and Capital Market Consequences" <em>with Travis Dyer and Mark H. Lang</em>
 We examine the effect of news media consolidation on local business news dissemination and its consequences for local investors and capital markets. We use acquisitions of television stations by Sinclair Inc. as plausibly exogenous shocks to local news coverage since Sinclair is alleged to reduce local news budgets and homogenize news coverage. Using large-scale television transcripts data, we find that coverage of local firms drops substantially following Sinclair acquisitions. Further, we document that investor attention, trading, portfolio holdings, and stock return synchronicity all become less locally concentrated for firms in treated geographic areas, and that the informational advantage of local analysts decreases and bid-ask spreads increase. In combination, these results provide insight into the consequences of media consolidation for local business coverage, investors, and capital markets.
-  * Presented at: 2021 BYU Accounting Research Symposium\*, Cornell University
+  * Presented at: 2021 BYU Accounting Research Symposium\*, Cornell University 
   * <em>Revising to resubmit to Management Science</em>
 
 ### "Contract Contingencies, Uncertainty, and Firm Performance" <em>with Kai Wai Hui, Guoman She, and P. Eric Yeung</em>
