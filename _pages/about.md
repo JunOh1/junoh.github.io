@@ -20,7 +20,7 @@ I am also interested in how emerging technologies influence firms' information e
 In my dissertation, I examine the intersection between industrial organization and antitrust regulation 
 by studying how antitrust risk affects firms’ disclosure of mergers and acquisitions (M&A).
 
-[<a href="../assets/JunOh_CV_Dec2022.pdf">Curriculum Vitae</a>]
+[<a href="https://drive.google.com/file/d/1Ct4y9Zlj6pKBgROrKvpQNR227cX9NXpW/view?usp=share_link">Curriculum Vitae</a>]
 
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
 
