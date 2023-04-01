@@ -28,7 +28,8 @@ We examine the effect of algorithmic trading (AT) on the extent to which directo
 
 ### "Contract Contingencies, Uncertainty, and Firm Performance" <em>with Kai Wai Hui, Guoman She, and P. Eric Yeung</em>
 This study examines contingencies written in firms’ material product market contracts, focusing on i) exogenous uncertainty as an ex-ante determinant, and ii) operating efficiency and betas as ex-post consequences. We extract material contracts from firms’ public regulatory filings and document a linear, positive relation between contract contingencies and measures of uncertainty. We utilize two major economic shocks (the 2008 financial crisis and the COVID pandemic) to i) identify causality, and ii) detect ex-post consequences of contract contingencies: Contingent contracts allow firms to achieve relatively higher operating efficiency and lower betas when low-likelihood economic outcomes realize.
-* Presented at: Cornell University\*, 2022 AAA Annual Meeting, Boston College\*, 2023 FARS
+ * Presented at: Cornell University\*, 2022 AAA Annual Meeting, Boston College\*, 2023 FARS
+ * <em>Revising to resubmit to Journal of Accounting and Economics</em>
 
 
 
