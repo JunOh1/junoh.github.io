@@ -9,8 +9,7 @@ redirect_from:
 ---
 
 
-My name is Jun Oh and I am a fifth-year accounting Ph.D. student at Cornell University, SC Johnson College of Business. 
-I am on the 2022-2023 academic job market and expect to graduate in May 2023. 
+My name is Jun Oh and I am an assistant professor at The Hong Kong University of Science and Technology (HKUST). 
 
 I am broadly interested in the use of firms’ public disclosures, including disclosures in financial statements and voluntary communications, by various stakeholders. 
 My research focuses on how firms strategically disclose information, primarily non-earnings and textual information, and the consequences
@@ -19,8 +18,6 @@ I am also interested in how emerging technologies influence firms' information e
 
 In my dissertation, I examine the intersection between industrial organization and antitrust regulation 
 by studying how antitrust risk affects firms’ disclosure of mergers and acquisitions (M&A).
-
-[<a href="https://drive.google.com/file/d/1Ct4y9Zlj6pKBgROrKvpQNR227cX9NXpW/view?usp=share_link">Curriculum Vitae</a>]
 
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
 
