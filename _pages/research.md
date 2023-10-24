@@ -27,7 +27,7 @@ This study examines contingencies written in firms’ material product market co
 
 ### "Does Algorithmic Trading Affect Forced CEO Turnover? A Learning Hypothesis" <em>with Jaewoo Kim, Hojun Seo, and Luo Zuo </em>
 We examine the effect of algorithmic trading (AT) on the extent to which directors rely on stock returns in CEO turnover decisions. We find that the sensitivity of forced CEO turnover to stock returns decreases with AT. We alleviate potential endogeneity concerns by using the 2016 Tick Size Pilot Program as an exogenous shock to AT. We document that the negative effect of AT is more pronounced for growth firms, firms with greater exposure to macroeconomic factors, and firms with a geographically dispersed investor base, where the information that AT crowds out is more likely to be new to directors. We also find that the effect is stronger when directors’ expertise likely allows them to extract decision-relevant information from stock returns and when the directors’ own information set is poor. Overall, our findings suggest that stock returns contain information that directors do not otherwise have regarding CEO-firm match and that directors incorporate this information into their CEO turnover decisions.
-  * Presented at: Purdue University\*, Washington University in St. Louis\*, KAIST-Korea University Joint Workshop\*, University of Oregon\*, 2023 HARC\*, 2023 FARS\*, 2023 AAA Annual Meeting
+  * Presented at: Purdue University\*, Washington University in St. Louis\*, KAIST-Korea University Joint Workshop\*, University of Oregon\*, 2023 HARC\*, 2023 FARS\*, 2023 AAA Annual Meeting\*
 
 
 Presentation by co-author (*)
