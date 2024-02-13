@@ -25,7 +25,7 @@ We study contingencies written in firms’ material product market contracts, fo
  * Presented at: Cornell University\*, 2022 AAA Annual Meeting, Boston College\*, 2023 FARS
 
 
-### <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175">"Does Algorithmic Trading Affect Forced CEO Turnover?"</a> <em>with Jaewoo Kim, Hojun Seo, and Luo Zuo </em>
+### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175">"Does Algorithmic Trading Affect Forced CEO Turnover?"</a> <em>with Jaewoo Kim, Hojun Seo, and Luo Zuo </em>
 We examine whether algorithmic trading (AT) affects the extent to which directors rely on stock returns when making CEO turnover decisions. We find that the sensitivity of forced CEO turnover to stock returns decreases with AT. This effect of AT is more pronounced when the information that AT crowds out is more likely to be new to directors, when there is more informed trading that AT dampens, when the directors’ expertise allows them to extract decision-relevant information from stock returns, and when the directors’ own information set is poor. In contrast, the effect of AT does not vary with the strength of firms’ corporate governance. Further analysis suggests that directors rely more on non-market measures and meet more frequently as AT increases. Overall, our findings suggest that directors incorporate information in stock returns regarding the CEO-firm match quality into their CEO turnover decisions and that AT deters such learning.
   * Presented at: Purdue University\*, Washington University in St. Louis\*, KAIST-Korea University Joint Workshop\*, University of Oregon\*, 2023 HARC\*, 2023 FARS\*, 2023 AAA Annual Meeting\*
 
