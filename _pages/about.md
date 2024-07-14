@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 
-My name is Jun Oh and I am an assistant professor of accounting at Purdue University.  
+My name is Jun Oh and I am an assistant professor at Purdue University. I hold a Ph.D in Accounting from Cornell University. 
 
 I am broadly interested in the use of firms’ public disclosures, including disclosures in financial statements and voluntary communications, by various stakeholders. 
 My research focuses on how firms strategically disclose information, primarily non-earnings and textual information, and the consequences
