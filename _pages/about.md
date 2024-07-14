@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 
-My name is Jun Oh and I am an assistant professor at The Hong Kong University of Science and Technology (HKUST). 
+My name is Jun Oh and I am an assistant professor of accounting at Purdue University.  
 
 I am broadly interested in the use of firms’ public disclosures, including disclosures in financial statements and voluntary communications, by various stakeholders. 
 My research focuses on how firms strategically disclose information, primarily non-earnings and textual information, and the consequences
