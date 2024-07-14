@@ -15,7 +15,7 @@ My research focuses on how firms strategically disclose information, primarily n
 such disclosures have on stakeholders such as competitors and regulators. My research is largely motivated by industrial organization topics. 
 I am also interested in how emerging technologies influence firms' information environment. 
 
-In my dissertation, I examine the intersection between industrial organization and antitrust regulation 
+My dissertation examines the intersection between industrial organization and antitrust regulation 
 by studying how antitrust risk affects firms’ disclosure of mergers and acquisitions (M&A).
 
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
