@@ -5,7 +5,7 @@ permalink: research/
 author_profile: true
 ---
 
-<h1 style="font-size: 20px; margin-bottom: 5px;">Publications</h1>
+<h1 style="font-size: 20px; margin-bottom: 2px;">Publications</h1>
 
 ### <a style="text-decoration:none" href="https://doi.org/10.2308/TAR-2022-0544">Technology Coopetition and Voluntary Disclosures of Innovation</a> 
   * with P. Eric Yeung and Bo Zhu
