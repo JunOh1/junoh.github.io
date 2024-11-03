@@ -12,7 +12,7 @@ author_profile: true
   * <em>The Accounting Review, 2024</em>
 
 ### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4055618">Media Conglomeration, Local News, and Capital Market Consequences</a> 
-  * with Travis Dyer and Mark H. Lang
+  * with Travis Dyer and Mark Lang
   * <em>Management Science, 2025 (Forthcoming)</em>
 
 ### <a style="text-decoration:none" href="https://doi.org/10.1016/j.jacceco.2024.101743">Contract Contingencies and Uncertainty: Evidence from Product Market Contracts</a> 
@@ -25,7 +25,7 @@ author_profile: true
 
 ### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4381331">Antitrust Risk and Voluntary M&A Disclosure</a> 
   * Dissertation
-  * Presentations: Cornell University, PhD Poster Session at Nicholas Dopuch Accounting Conference, KAAPA PhD Rookie Camp, Miami Rookie Camp, 2023 FARS, Boston College, Columbia University, Harvard University, HKUST, MIT, National University of Singapore, Purdue University, Singapore Management University, University of British Columbia, University of Hong Kong, University of Illinois at Chicago, University of Michigan, 2023 MIT Asia Accounting Conference
+  * Presentations: Cornell University, Nicholas Dopuch Accounting Conference (PhD Poster Session), KAAPA PhD Rookie Camp, Miami Rookie Camp, 2023 FARS, Boston College, Columbia University, Harvard University, HKUST, MIT, National University of Singapore, Purdue University, Singapore Management University, University of British Columbia, University of Hong Kong, University of Illinois at Chicago, University of Michigan, 2023 MIT Asia Accounting Conference
 
 ### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175">Does Algorithmic Trading Affect Forced CEO Turnover?</a> 
   * with Jaewoo Kim, Hojun Seo, and Luo Zuo 
