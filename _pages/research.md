@@ -6,7 +6,7 @@ author_profile: true
 ---
 <h1 style="font-size: 20px; margin-bottom: 2px;">Publications</h1>
 
-<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 18px;">
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[1]</span>
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://doi.org/10.2308/TAR-2022-0544">Technology Coopetition and Voluntary Disclosures of Innovation</a>
@@ -17,7 +17,7 @@ author_profile: true
   </div>
 </div>
 
-<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 18px;">
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[2]</span>
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4055618">Media Conglomeration, Local News, and Capital Market Consequences</a>
@@ -43,7 +43,7 @@ author_profile: true
 
 <h1 style="font-size: 20px; margin-bottom: 2px;">Working Papers</h1>
 
-<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 18px;">
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[4]</span>
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4381331">Antitrust Risk and Voluntary M&A Disclosure</a>
@@ -54,7 +54,7 @@ author_profile: true
   </div>
 </div>
 
-<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 18px;">
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[5]</span>
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175">Does Algorithmic Trading Affect Forced CEO Turnover?</a>
