@@ -67,7 +67,7 @@ author_profile: true
 
 
 
-Presentation by co-author (*)
+<h1 style="font-size: 10px; margin-bottom: 2px;">Presentation by co-author (*)</h1>
 
 
 
