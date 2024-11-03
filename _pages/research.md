@@ -5,19 +5,21 @@ permalink: research/
 author_profile: true
 ---
 
-<h1 style="font-size: 24px;">Publications</h1>
+<h1 style="font-size: 24px; margin-bottom: 5px;">Publications</h1>
 
-### <a style="text-decoration:none" href="https://doi.org/10.2308/TAR-2022-0544">"Technology Coopetition and Voluntary Disclosures of Innovation"</a> 
+### <a style="text-decoration:none" href="https://doi.org/10.2308/TAR-2022-0544">Technology Coopetition and Voluntary Disclosures of Innovation</a> 
   * with P. Eric Yeung and Bo Zhu
   * <em>The Accounting Review, 2024</em>
 
-### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4055618">"Media Conglomeration, Local News, and Capital Market Consequences"</a> 
+### <a style="text-decoration:none" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4055618">Media Conglomeration, Local News, and Capital Market Consequences</a> 
   * with Travis Dyer and Mark H. Lang
   * <em>Management Science, 2025 (Forthcoming)</em>
 
-### <a style="text-decoration:none" href="https://doi.org/10.1016/j.jacceco.2024.101743">"Contract Contingencies and Uncertainty: Evidence from Product Market Contracts"</a> 
+### <a style="text-decoration:none" href="https://doi.org/10.1016/j.jacceco.2024.101743">Contract Contingencies and Uncertainty: Evidence from Product Market Contracts</a> 
   * with Kai Wai Hui, Guoman She, and P. Eric Yeung
   * <em>Journal of Accounting and Economics, 2025 (Forthcoming)</em>
+
+<br><br> 
 
 <h1 style="font-size: 24px;">Working Papers</h1>
 
