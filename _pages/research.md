@@ -20,7 +20,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[2]</span>
   <div>
-    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4055618">Media Conglomeration, Local News, and Capital Market Consequences</a>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://doi.org/10.1287/mnsc.2023.02247">Media Conglomeration, Local News, and Capital Market Consequences</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer and Mark Lang</li>
       <li style="margin: 0; font-size: 16px;"><em>Management Science, 2025 (Forthcoming)</em></li>
