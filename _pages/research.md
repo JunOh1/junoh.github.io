@@ -66,6 +66,17 @@ author_profile: true
 </div>
 
 
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[6]</span>
+  <div>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5037782">Tiptoeing Around AI: Job Displacement and AI Disclosure</a>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">with Guoman She</li>
+    </ul>
+  </div>
+</div>
+
+
 <span style="font-size: 12px; margin-bottom: 2px; font-weight: normal;">Presentation by co-author (*)</span>
 
 
