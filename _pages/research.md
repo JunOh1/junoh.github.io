@@ -69,7 +69,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[6]</span>
   <div>
-    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5037782">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5176901">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Guoman She</li>
       <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, University of Hong Kong*, Erasmus Accounting Workshop* (Scheduled), TMAC 2025 (Scheduled) </li>
