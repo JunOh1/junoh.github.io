@@ -25,7 +25,7 @@ My research is largely motivated by industrial organization topics, including co
 
 
 
-<!DOCTYPE html>
+
 <html>
 <head>
   <title>Your Page</title>
