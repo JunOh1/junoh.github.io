@@ -8,13 +8,19 @@ redirect_from:
 ---
 
 <style>
-  /* Hide ClustrMaps and prevent interaction */
-  #clustrmaps,
-  #clustrmaps + div {
-    pointer-events: none;
-    opacity: 0;
+  iframe[src*="clustrmaps"],
+  div[id*="clustr"],
+  div[class*="clustr"],
+  #clustrmaps {
+    pointer-events: none !important;
+    opacity: 0 !important;
+    display: block !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
   }
 </style>
+
 
 My name is Jun Oh and I am an assistant professor at Purdue University. I hold a Ph.D in Accounting from Cornell University and a CPA license in Korea (KICPA).
 
