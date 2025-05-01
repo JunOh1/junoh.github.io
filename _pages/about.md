@@ -31,21 +31,18 @@ My research is largely motivated by industrial organization topics, including co
 
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
 
-
 <script>
-  // Wait until the page is fully loaded
-  window.addEventListener('load', function () {
-    // Try to find and disable any iframe ClustrMaps adds
-    const iframes = document.querySelectorAll('iframe');
-    iframes.forEach(iframe => {
-      if (iframe.src.includes('clustrmaps')) {
-        iframe.style.pointerEvents = 'none';
-        iframe.style.opacity = '0';
-        iframe.style.width = '0px';
-        iframe.style.height = '0px';
-        iframe.style.overflow = 'hidden';
-        iframe.style.display = 'block';
-      }
+  const observer = new MutationObserver(() => {
+    const badNodes = document.querySelectorAll('[src*="clustrmaps"], [href*="clustrmaps"], iframe[src*="clustrmaps"], div[id*="clustr"], div[class*="clustr"]');
+    badNodes.forEach(node => {
+      node.style.pointerEvents = 'none';  // Disable interaction
+      node.style.opacity = '1';           // Keep it visible
+      node.style.width = '100%';          // Ensure it's properly displayed
+      node.style.height = 'auto';         // Allow it to resize properly
+      node.style.overflow = 'visible';    // Let it flow normally
     });
   });
+
+  // Start observing the body for any added ClustrMaps content
+  observer.observe(document.body, { childList: true, subtree: true });
 </script>
