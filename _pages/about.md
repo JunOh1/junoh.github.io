@@ -14,4 +14,13 @@ My research focuses on the use of firms’ public disclosures, including disclos
 I am interested in how firms strategically disclose information (e.g., product markets, R&D, competition) and the consequences such disclosures have on stakeholders such as competitors and regulators. 
 My research is largely motivated by industrial organization topics, such as contracting, product markets, and technology competition. 
 
+
+
+
+
+
+
+
+
+
 <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=70&t=n&d=RMSvqEXZDNxGKMwY9IRg8QIkEpAIvhA8kEF4EKjMN7M&co=ffffff&ct=ffffff&cmo=ffffff&cmn=ffffff"></script>
