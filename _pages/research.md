@@ -76,7 +76,7 @@ author_profile: true
     </ul>
   </div>
 </div>
-
+ 
 
 <span style="font-size: 12px; margin-bottom: 2px; font-weight: normal;">Presentation by co-author (*)</span>
 
