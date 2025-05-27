@@ -23,7 +23,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://doi.org/10.1287/mnsc.2023.02247">Media Conglomeration, Local News, and Capital Market Consequences</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer and Mark Lang</li>
-      <li style="margin: 0; font-size: 16px;"><em>Management Science, 2025 (Forthcoming)</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Management Science, 2025</em></li>
     </ul>
   </div>
 </div>
@@ -34,7 +34,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://doi.org/10.1016/j.jacceco.2024.101743">Contract Contingencies and Uncertainty: Evidence from Product Market Contracts</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Kai Wai Hui, Guoman She, and P. Eric Yeung</li>
-      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2025 (Forthcoming)</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2025</em></li>
     </ul>
   </div>
 </div>
