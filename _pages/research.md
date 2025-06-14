@@ -72,11 +72,34 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5176901">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Guoman She</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, University of Hong Kong*, HKUST*, Erasmus Accounting Workshop*, Hanyang Accounting Research Symposium (Scheduled), 22nd LBS Accounting Symposium* (Scheduled), TMAC 2025 (Scheduled) </li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, University of Hong Kong*, HKUST*, Erasmus Accounting Workshop*, Hanyang Accounting Research Symposium, 22nd LBS Accounting Symposium* (Scheduled), 2025 TMAC (Scheduled), NFA 2025 Annual Meeting (Scheduled) </li>
     </ul>
   </div>
 </div>
- 
+
+
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[7]</span>
+  <div>
+    <span style="font-weight: bold;">Interlocking Directors and Technology Foreclosure</span>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">with Hojun Seo</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*</li>
+    </ul>
+  </div>
+</div>
+
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[8]</span>
+  <div>
+    <span style="font-weight: bold;">Reverse Engineering Innovation When Peers Possess Trade Secrets</span>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, 2025 CETAFE (Scheduled)</li>
+    </ul>
+  </div>
+</div>
+
 
 <span style="font-size: 12px; margin-bottom: 2px; font-weight: normal;">Presentation by co-author (*)</span>
 
