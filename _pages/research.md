@@ -72,7 +72,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5176901">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Guoman She</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, University of Hong Kong*, HKUST*, Erasmus Accounting Workshop*, Hanyang Accounting Research Symposium, 22nd LBS Accounting Symposium*, 2025 TMAC, NFA 2025 Annual Meeting (Scheduled), 21st Annual Haskell & White Conference (Scheduled) </li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, University of Hong Kong*, HKUST*, Erasmus Accounting Workshop*, Hanyang Accounting Research Symposium, 22nd LBS Accounting Symposium*, 2025 TMAC, NFA 2025 Annual Meeting, 21st Annual Haskell & White Conference (Scheduled)</li>
     </ul>
   </div>
 </div>
@@ -84,7 +84,7 @@ author_profile: true
     <span style="font-weight: bold;">Interlocking Directors and Technology Foreclosure</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Hojun Seo</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series (Scheduled), 6th Annual RCF-ECGI Corporate Finance and Governance Conference (Scheduled)</li>
     </ul>
   </div>
 </div>
@@ -95,7 +95,7 @@ author_profile: true
     <span style="font-weight: bold;">Reverse Engineering Innovation When Peers Possess Trade Secrets</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, 2025 CETAFE (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, 2025 CETAFE</li>
     </ul>
   </div>
 </div>
