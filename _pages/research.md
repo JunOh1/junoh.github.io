@@ -92,7 +92,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[8]</span>
   <div>
-    <span style="font-weight: bold;">Reverse Engineering Innovation When Peers Possess Trade Secrets</span>
+    <span style="font-weight: bold;">Reverse Engineering Innovation</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
       <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, 2025 CETAFE</li>
