@@ -84,7 +84,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5525158">Reverse Engineering Innovation</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop (Scheduled)</li>
     </ul>
   </div>
 </div>
@@ -96,7 +96,7 @@ author_profile: true
     <span style="font-weight: bold;">Interlocking Directors and Technology Foreclosure</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Hojun Seo</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 6th Annual RCF-ECGI Corporate Finance and Governance Conference (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting (Scheduled)</li>
     </ul>
   </div>
 </div>
