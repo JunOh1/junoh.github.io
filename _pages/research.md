@@ -39,20 +39,20 @@ author_profile: true
   </div>
 </div>
 
-<br>
-
-<h1 style="font-size: 20px; margin-bottom: 2px;">Working Papers</h1>
-
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[4]</span>
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4381331">Antitrust Risk and Voluntary M&A Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">Dissertation</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Cornell University, Nicholas Dopuch Accounting Conference (PhD Poster Session), KAAPA PhD Rookie Camp, Miami Rookie Camp, 2023 FARS, Boston College, Columbia University, Harvard University, HKUST, MIT, National University of Singapore, Purdue University, Singapore Management University, University of British Columbia, University of Hong Kong, University of Illinois at Chicago, University of Michigan, 2023 MIT Asia Accounting Conference</li>
+      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics (Conditionally Accepted)</em></li>
     </ul>
   </div>
 </div>
+
+<br>
+
+<h1 style="font-size: 20px; margin-bottom: 2px;">Working Papers</h1>
 
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[5]</span>
