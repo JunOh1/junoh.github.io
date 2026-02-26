@@ -50,9 +50,6 @@ author_profile: true
   </div>
 </div>
 
-<br>
-
-<h1 style="font-size: 20px; margin-bottom: 2px;">Working Papers</h1>
 
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[5]</span>
@@ -60,10 +57,16 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175">Algorithmic Trading and Forced CEO Turnover: A Learning Hypothesis</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Jaewoo Kim, Hojun Seo, and Luo Zuo</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University*, Washington University in St. Louis*, KAIST-Korea University Joint Workshop*, University of Oregon*, 2023 HARC*, 2023 FARS*, 2023 AAA Annual Meeting*, 2024 ABFER*</li>
+      <li style="margin: 0; font-size: 16px;"><em>Review of Accounting Studies (Accepted)</em></li>
     </ul>
   </div>
 </div>
+
+
+
+<br>
+
+<h1 style="font-size: 20px; margin-bottom: 2px;">Working Papers</h1>
 
 
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
@@ -84,7 +87,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5525158">Reverse Engineering Innovation</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop</li>
     </ul>
   </div>
 </div>
