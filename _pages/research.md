@@ -86,7 +86,7 @@ author_profile: true
   <div>
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5525158">Reverse Engineering Innovation</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
-      <li style="margin: 0; font-size: 16px;">with Travis Dyer</li>
+      <li style="margin: 0; font-size: 16px;">with <a href="https://marriott.byu.edu/directory/details?id=8659" style="color: inherit; text-decoration: none;">Travis Dyer</a></li>
       <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop, 4th Bocconi Accounting Symposium (Scheduled)</li>
     </ul>
   </div>
