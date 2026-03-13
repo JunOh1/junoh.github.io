@@ -42,7 +42,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[4]</span>
   <div>
-    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4381331">Antitrust Risk and Voluntary M&A Disclosure</a>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://doi.org/10.1016/j.jacceco.2026.101884">Antitrust Risk and Voluntary M&A Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">Dissertation</li>
       <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026 (Forthcoming)</em></li>
