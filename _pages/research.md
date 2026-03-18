@@ -80,7 +80,6 @@ author_profile: true
   </div>
 </div>
 
-
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[7]</span>
   <div>
@@ -92,9 +91,22 @@ author_profile: true
   </div>
 </div>
 
-
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[8]</span>
+  <div>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6428260">Résumé Washing</a>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">
+        with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
+        <a href="https://www.hbs.edu/faculty/Pages/profile.aspx?facId=774396" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[9]</span>
   <div>
     <span style="font-weight: bold;">Interlocking Directors and Technology Foreclosure</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
