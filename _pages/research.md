@@ -98,7 +98,8 @@ author_profile: true
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
-        <a href="https://www.hbs.edu/faculty/Pages/profile.aspx?facId=774396" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
+        <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
+      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State* (Scheduled)</li>
       </li>
     </ul>
   </div>
@@ -111,7 +112,7 @@ author_profile: true
     <span style="font-weight: bold;">Interlocking Directors and Technology Foreclosure</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting</li>
     </ul>
   </div>
 </div>
