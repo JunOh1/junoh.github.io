@@ -69,7 +69,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5176901">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://www.sheguoman.com/" style="color: inherit; text-decoration: none;">Guoman She</a></li>
-      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, Conditionally Accepted</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026 (Forthcoming)</em></li>
     </ul>
   </div>
 </div>
