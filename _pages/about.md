@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: ""
+title: "Hello!!"
 excerpt: "Assistant Professor of Accounting at Purdue University researching disclosure, innovation, product markets, technology markets, and industrial organization."
 author_profile: true
 
@@ -46,7 +46,19 @@ redirect_from:
   }
 </style>
 
-<!-- Main content of your page -->
+<style>
+.page__title {
+    display: none;
+}
+
+.custom-header {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+</style>
+
+<h1 class="custom-header">About Me</h1>
 
 My name is Jun Oh and I am an assistant professor at Purdue University. I hold a Ph.D in Accounting from Cornell University and a CPA license in Korea (KICPA).
 
