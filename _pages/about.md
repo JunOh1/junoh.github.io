@@ -1,11 +1,19 @@
 ---
 permalink: /
-title: "Hello!"
+title: ""
+excerpt: "Assistant Professor of Accounting at Purdue University researching disclosure, innovation, product markets, technology markets, and industrial organization."
 author_profile: true
+
 redirect_from: 
   - /about/
   - /about.html
 ---
+<style>
+.page__title {
+    display: none;
+}
+</style>
+
 
 <!-- CSS to handle ClustrMaps iframe visibility and the white overlay -->
 <style>
