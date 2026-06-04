@@ -11,11 +11,11 @@ author_profile: true
 
 <ul style="list-style-type: disc; padding-left: 20px; margin-top: 5px;">
 <li style="font-size: 16px;">
-<a href="https://www.dropbox.com/scl/fi/gox02ksq838n6qemn1sig/auto_fear_firm_level.dta?rlkey=fj1bud6mz7u16rf7h44zfgv2u&st=6zkdpt28&dl=0">Firm-level data</a>
+<a href="https://www.dropbox.com/scl/fi/gox02ksq838n6qemn1sig/auto_fear_firm_level.dta?rlkey=fj1bud6mz7u16rf7h44zfgv2u&st=6zkdpt28&dl=0">Firm-level</a>
 </li>
 
 <li style="font-size: 16px;">
-<a href="https://www.dropbox.com/scl/fi/47edranxqbyrxw41sb5pm/auto_fear_dma_level.dta?rlkey=c8uhsfdm9w545zgz77sgcrxl1&st=zhgede1i&dl=0">DMA-level data</a>
+<a href="https://www.dropbox.com/scl/fi/47edranxqbyrxw41sb5pm/auto_fear_dma_level.dta?rlkey=c8uhsfdm9w545zgz77sgcrxl1&st=zhgede1i&dl=0">DMA-level</a>
 </li>
 
 <li style="font-size: 16px;">
