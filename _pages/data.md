@@ -23,8 +23,8 @@ Users should cite:
 <em>Oh, J., &amp; She, G. (2026). Whispering Progress: Fear of Automation and Voluntary Disclosure. Journal of Accounting and Economics, 101904.</em>
 </li>
 
-<li style="font-size: 16px;">
-Please let me know if you find any issues with the data. For non-commercial research and educational use only. The user of the data assumes any and all liability by its use. 
+<li style="font-size: 16px;"> 
+For non-commercial research and educational use only. The user of the data assumes any and all liability by its use. 
 </li>
 </ul>
 </div>
