@@ -20,6 +20,7 @@ author_profile: true
 
 <li style="font-size: 16px;">
 Users should cite:
+
 <em>Oh, J., &amp; She, G. (2026). Whispering Progress: Fear of Automation and Voluntary Disclosure. Journal of Accounting and Economics, 101904.</em>
 </li>
 
