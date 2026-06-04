@@ -5,7 +5,6 @@ permalink: /data/
 author_profile: true
 ---
 
-<h1 style="font-size: 20px; margin-bottom: 2px;">Data</h1>
 
 <div style="margin-top: 10px; font-size: 18px;">
 <span style="font-weight: bold;">Automation Fear Index</span>
