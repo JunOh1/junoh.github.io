@@ -1,8 +1,8 @@
-name = "YOUR_WORKER_NAME"
+name = "visitor-logger"
 main = "worker.js"
 compatibility_date = "2026-07-11"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "YOUR_D1_DATABASE_NAME"
-database_id = "YOUR_D1_DATABASE_ID"
+database_name = "visitor_logs"
+database_id = "bd70c6a4-34af-4fb6-b7e1-c610a0fe1023"
