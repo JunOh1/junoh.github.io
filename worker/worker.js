@@ -363,6 +363,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%digital ocean, inc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%virtual systems llc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%pt gunung sedayu sentosa%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%bot%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%crawler%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%spider%' THEN 1
@@ -424,6 +425,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%palo alto networks%' THEN 1      
           WHEN lower(coalesce(org,'')) LIKE '%digital ocean, inc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%virtual systems llc%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
           ELSE 0
         END
       `;
@@ -443,6 +445,12 @@ export default {
         ...commonLogFilters
       ];
 
+      const referrerFilters = [
+        "referer IS NOT NULL",
+        "referer != ''",
+        ...commonLogFilters
+      ];
+
       const logWhere =
         commonLogFilters.length
           ? `WHERE ${commonLogFilters.join(" AND ")}`
@@ -450,6 +458,9 @@ export default {
 
       const downloadWhere =
         `WHERE ${downloadFilters.join(" AND ")}`;
+
+      const referrerWhere =
+        `WHERE ${referrerFilters.join(" AND ")}`;
 
       const academicWhere = `
         WHERE
@@ -710,6 +721,33 @@ export default {
 
       const countries =
         countriesRaw.results.slice(0, PAGE_SIZE);
+
+      const topReferrers = await env.DB.prepare(`
+        SELECT
+          referer,
+          COUNT(*) AS visits
+        FROM visitor_logs
+        ${referrerWhere}
+        GROUP BY referer
+        ORDER BY visits DESC
+        LIMIT 20
+      `)
+        .bind(...rangeParams)
+        .all();
+
+      const topLocations = await env.DB.prepare(`
+        SELECT
+          country,
+          city,
+          COUNT(*) AS visits
+        FROM visitor_logs
+        ${logWhere}
+        GROUP BY country, city
+        ORDER BY visits DESC
+        LIMIT 20
+      `)
+        .bind(...rangeParams)
+        .all();
 
       // ======================================
       // DATA DOWNLOAD ANALYTICS
@@ -1532,6 +1570,56 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
       html += `
     </table>
     ${pager("countryPage", countryPage, countriesHasNext, "countries")}
+  </div>
+
+  <div class="panel">
+    <h2>Top Referrers</h2>
+    <table class="clean-table">
+      <tr>
+        <th>Referrer</th>
+        <th>Visits</th>
+      </tr>
+`;
+
+      for (const row of topReferrers.results) {
+        html += `
+      <tr>
+        <td>
+          <a href="${escapeHtml(row.referer)}" target="_blank">
+            ${escapeHtml(row.referer)}
+          </a>
+        </td>
+        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
+      </tr>
+`;
+      }
+
+      html += `
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Top Country-City</h2>
+    <table class="clean-table">
+      <tr>
+        <th>Country</th>
+        <th>City</th>
+        <th>Visits</th>
+      </tr>
+`;
+
+      for (const row of topLocations.results) {
+        html += `
+      <tr>
+        <td>${escapeHtml(row.country || "Unknown")}</td>
+        <td>${escapeHtml(row.city || "Unknown")}</td>
+        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
+      </tr>
+`;
+      }
+
+      html += `
+    </table>
   </div>
 </section>
 `;
