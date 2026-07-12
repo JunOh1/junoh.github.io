@@ -298,6 +298,11 @@ export default {
       const activeView =
         requestedView === "human" ? "human" : "total";
 
+      const activeParents =
+        url.searchParams.get("parents") === "exclude"
+          ? "exclude"
+          : "include";
+
       const startDate =
         rangeStart(activeRange);
 
@@ -440,6 +445,10 @@ export default {
         commonLogFilters.push(`${logBotCase} = 0`);
       }
 
+      if (activeParents === "exclude") {
+        commonLogFilters.push("ip != '59.15.80.113'");
+      }
+
       const downloadFilters = [
         "path LIKE 'DOWNLOAD:%'",
         ...commonLogFilters
@@ -494,6 +503,10 @@ export default {
         eventFilters.push(`${eventBotCase} = 0`);
       }
 
+      if (activeParents === "exclude") {
+        eventFilters.push("ip != '59.15.80.113'");
+      }
+
       const eventWhere =
         `WHERE ${eventFilters.join(" AND ")}`;
 
@@ -502,6 +515,7 @@ export default {
 
         params.set("range", overrides.range || activeRange);
         params.set("view", overrides.view || activeView);
+        params.set("parents", overrides.parents || activeParents);
 
         const nextPage =
           overrides.page || page;
@@ -571,6 +585,23 @@ export default {
 
         return `<a class="range-link${active}" href="${adminUrl({
           view: value,
+          page: 1,
+          orgPage: 1,
+          countryPage: 1,
+          dailyPage: 1,
+          linkPage: 1,
+          downloadPage: 1
+        })}">
+          ${label}
+        </a>`;
+      }
+
+      function parentLink(label, value) {
+        const active =
+          activeParents === value ? " active" : "";
+
+        return `<a class="range-link${active}" href="${adminUrl({
+          parents: value,
           page: 1,
           orgPage: 1,
           countryPage: 1,
@@ -722,18 +753,48 @@ export default {
       const countries =
         countriesRaw.results.slice(0, PAGE_SIZE);
 
-      const topReferrers = await env.DB.prepare(`
+      const topReferrersRaw = await env.DB.prepare(`
         SELECT
           referer,
           COUNT(*) AS visits
         FROM visitor_logs
         ${referrerWhere}
+          AND lower(referer) NOT LIKE '%junoh.me%'
+          AND lower(referer) NOT LIKE '%junoh.github.io%'
+          AND lower(referer) NOT LIKE '%junoh1.github.io%'
+          AND NOT EXISTS (
+            SELECT 1
+            FROM visitor_logs earlier
+            WHERE
+              coalesce(earlier.session_id, earlier.visitor_id, '') =
+                coalesce(visitor_logs.session_id, visitor_logs.visitor_id, '')
+              AND earlier.ts < visitor_logs.ts
+          )
         GROUP BY referer
         ORDER BY visits DESC
-        LIMIT 20
       `)
         .bind(...rangeParams)
         .all();
+
+      const referrerTotals = {};
+
+      for (const row of topReferrersRaw.results) {
+        const label =
+          normalizeReferrer(row.referer);
+
+        if (!label) {
+          continue;
+        }
+
+        referrerTotals[label] =
+          (referrerTotals[label] || 0) + row.visits;
+      }
+
+      const topReferrers =
+        Object.entries(referrerTotals)
+          .map(([referer, visits]) => ({ referer, visits }))
+          .sort((a, b) => b.visits - a.visits)
+          .slice(0, 20);
 
       const topLocations = await env.DB.prepare(`
         SELECT
@@ -935,6 +996,52 @@ export default {
           .replace(/^DOWNLOAD:\s*/, "");
       }
 
+      function normalizeReferrer(referer) {
+        try {
+          const parsed =
+            new URL(referer.includes("://") ? referer : `https://${referer}`);
+
+          const host =
+            parsed.hostname.toLowerCase().replace(/^www\./, "");
+
+          if (host.endsWith("google.com") || host.includes("google.co.")) {
+            if (host.includes("scholar")) {
+              return "Google Scholar";
+            }
+
+            return "Google";
+          }
+
+          if (host.includes("scholar.google.")) {
+            return "Google Scholar";
+          }
+
+          if (host.endsWith("bing.com")) {
+            return "Bing";
+          }
+
+          if (host.endsWith("linkedin.com")) {
+            return "LinkedIn";
+          }
+
+          if (host.endsWith("duckduckgo.com")) {
+            return "DuckDuckGo";
+          }
+
+          if (host.endsWith("business.purdue.edu")) {
+            return "Purdue Business";
+          }
+
+          if (host.endsWith("sheguoman.com")) {
+            return "She Guoman";
+          }
+
+          return host;
+        } catch {
+          return referer || "";
+        }
+      }
+
       let html = `
 <!DOCTYPE html>
 <html>
@@ -1031,12 +1138,10 @@ th,td{
 .chart-card{
   margin:18px 0 30px;
   padding:22px 24px 18px;
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid #dde2eb;
   border-radius:8px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,0)),
-    #12110e;
-  box-shadow:0 14px 34px rgba(17,24,39,.16);
+  background:#fff;
+  box-shadow:0 8px 22px rgba(22,29,45,.06);
 }
 
 .chart-header{
@@ -1048,7 +1153,7 @@ th,td{
 }
 
 .chart-title{
-  color:#d8d0c4;
+  color:#334155;
   font-size:13px;
   font-weight:700;
   letter-spacing:3px;
@@ -1056,7 +1161,7 @@ th,td{
 }
 
 .chart-note{
-  color:#8f8679;
+  color:#64748b;
   font-size:13px;
   font-weight:600;
 }
@@ -1332,6 +1437,11 @@ th,td{
     <div class="range-tabs">
       ${viewLink("Total", "total")}
       ${viewLink("Likely Human", "human")}
+    </div>
+
+    <div class="range-tabs">
+      ${parentLink("Include Parents", "include")}
+      ${parentLink("Exclude Parents", "exclude")}
     </div>
   </div>
 </header>
@@ -1621,14 +1731,10 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
       </tr>
 `;
 
-      for (const row of topReferrers.results) {
+      for (const row of topReferrers) {
         html += `
       <tr>
-        <td>
-          <a href="${escapeHtml(row.referer)}" target="_blank">
-            ${escapeHtml(row.referer)}
-          </a>
-        </td>
+        <td>${escapeHtml(row.referer)}</td>
         <td><span class="metric">${escapeHtml(row.visits)}</span></td>
       </tr>
 `;
@@ -1758,12 +1864,12 @@ new Chart(
         {
           label: "Visits",
           data: data.map(x => x.visits),
-          borderColor: "#d13932",
-          backgroundColor: "rgba(209,57,50,.14)",
-          pointBackgroundColor: "#d13932",
-          pointBorderColor: "#d13932",
-          pointHoverBackgroundColor: "#f0d9c2",
-          pointHoverBorderColor: "#d13932",
+          borderColor: "#3f1f8f",
+          backgroundColor: "rgba(63,31,143,.10)",
+          pointBackgroundColor: "#3f1f8f",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#3f1f8f",
+          pointHoverBorderColor: "#fff",
           pointRadius: 4,
           pointHoverRadius: 6,
           borderWidth: 3,
@@ -1773,12 +1879,12 @@ new Chart(
         {
           label: "Unique Visitors",
           data: data.map(x => x.unique),
-          borderColor: "#b9b09f",
-          backgroundColor: "rgba(185,176,159,.08)",
-          pointBackgroundColor: "#b9b09f",
-          pointBorderColor: "#b9b09f",
-          pointHoverBackgroundColor: "#f0d9c2",
-          pointHoverBorderColor: "#b9b09f",
+          borderColor: "#64748b",
+          backgroundColor: "rgba(100,116,139,.06)",
+          pointBackgroundColor: "#64748b",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#64748b",
+          pointHoverBorderColor: "#fff",
           pointRadius: 3,
           pointHoverRadius: 5,
           borderWidth: 2,
@@ -1788,12 +1894,12 @@ new Chart(
         {
           label: "Pageviews",
           data: data.map(x => x.pageviews),
-          borderColor: "#6f63bf",
-          backgroundColor: "rgba(111,99,191,.08)",
-          pointBackgroundColor: "#6f63bf",
-          pointBorderColor: "#6f63bf",
-          pointHoverBackgroundColor: "#f0d9c2",
-          pointHoverBorderColor: "#6f63bf",
+          borderColor: "#0f766e",
+          backgroundColor: "rgba(15,118,110,.06)",
+          pointBackgroundColor: "#0f766e",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#0f766e",
+          pointHoverBorderColor: "#fff",
           pointRadius: 3,
           pointHoverRadius: 5,
           borderWidth: 2,
@@ -1814,7 +1920,7 @@ new Chart(
         legend: {
           position: "bottom",
           labels: {
-            color: "#b9b09f",
+            color: "#475569",
             boxWidth: 10,
             boxHeight: 10,
             padding: 18,
@@ -1823,11 +1929,11 @@ new Chart(
           }
         },
         tooltip: {
-          backgroundColor: "rgba(18,17,14,.96)",
-          borderColor: "rgba(255,255,255,.16)",
+          backgroundColor: "rgba(15,23,42,.96)",
+          borderColor: "rgba(148,163,184,.22)",
           borderWidth: 1,
-          titleColor: "#f0d9c2",
-          bodyColor: "#e7dfd3",
+          titleColor: "#f8fafc",
+          bodyColor: "#e2e8f0",
           padding: 12,
           displayColors: true
         }
@@ -1838,21 +1944,21 @@ new Chart(
             display: false
           },
           ticks: {
-            color: "#8f8679",
+            color: "#64748b",
             maxRotation: 0
           },
           border: {
-            color: "rgba(255,255,255,.12)"
+            color: "#e2e8f0"
           }
         },
         y: {
           beginAtZero: true,
           grid: {
-            color: "rgba(185,176,159,.16)",
+            color: "#e8edf5",
             borderDash: [5, 7]
           },
           ticks: {
-            color: "#8f8679",
+            color: "#64748b",
             precision: 0
           },
           border: {
