@@ -327,6 +327,12 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%aws%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internetbolaget hosting in sweden%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internetbolaget sweden ab%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%internetbolaget hosting customers%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%internetbolaget customer%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%blix group as%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%idigital internet inc%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%dteko vietnam technology company limited%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%advin services llc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -391,6 +397,12 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%aws%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internetbolaget hosting in sweden%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internetbolaget sweden ab%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%internetbolaget hosting customers%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%internetbolaget customer%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%blix group as%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%idigital internet inc%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%dteko vietnam technology company limited%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%advin services llc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -1002,7 +1014,8 @@ export default {
 
       function cleanReferrerLabel(referer) {
         return String(referer || "-")
-          .replace(/^https?:\/\//i, "");
+          .replace(/^https?:\/\//i, "")
+          .replace(/\/+$/, "");
       }
 
       function normalizeReferrer(referer) {
