@@ -1083,7 +1083,9 @@ body{
   max-width:1180px;
   margin:0 auto;
   padding:34px 24px 56px;
-  background:#f6f7fb;
+  background:
+    linear-gradient(180deg, #f8fafc 0, #f6f7fb 280px),
+    #f6f7fb;
   color:#111827;
 }
 
@@ -1096,12 +1098,14 @@ h1{
 }
 
 h2{
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:22px;
-  font-weight:500;
-  margin-top:26px;
-  margin-bottom:12px;
+  color:#334155;
+  font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size:13px;
+  font-weight:800;
+  margin-top:28px;
+  margin-bottom:10px;
   letter-spacing:0;
+  text-transform:uppercase;
 }
 
 a{
@@ -1118,7 +1122,7 @@ a{
   gap:24px;
   margin-bottom:22px;
   padding-bottom:18px;
-  border-bottom:1px solid #d8dce5;
+  border-bottom:1px solid #dde2eb;
 }
 
 .dashboard-subtitle{
@@ -1136,25 +1140,34 @@ a{
 
 table{
   width:100%;
-  border-collapse:collapse;
+  border-collapse:separate;
+  border-spacing:0;
   margin-bottom:20px;
   background:#fff;
 }
 
 th{
-  background:#f5f5f5;
-  font-size:13px;
-  padding:6px;
+  background:#f8fafc;
+  color:#64748b;
+  font-size:11px;
+  font-weight:800;
+  padding:10px 12px;
+  text-transform:uppercase;
 }
 
 td{
   font-size:12px;
-  padding:5px;
+  padding:10px 12px;
 }
 
 th,td{
-  border:1px solid #ddd;
+  border:0;
+  border-bottom:1px solid #e5eaf2;
   text-align:left;
+}
+
+tr:last-child td{
+  border-bottom:0;
 }
 
 .chart-card{
@@ -1227,7 +1240,8 @@ th,td{
   border:1px solid #dde2eb;
   border-radius:8px;
   background:#fff;
-  margin-bottom:12px;
+  margin-bottom:16px;
+  box-shadow:0 8px 22px rgba(22,29,45,.05);
 }
 
 .table-scroll table{
@@ -1260,11 +1274,15 @@ th,td{
   border-radius:8px;
   background:#fff;
   overflow:hidden;
+  box-shadow:0 8px 22px rgba(22,29,45,.05);
 }
 
 .stat-card{
-  padding:16px 18px;
+  padding:18px 20px;
   border-right:1px solid #dde2eb;
+  background:
+    linear-gradient(180deg, rgba(63,31,143,.035), rgba(255,255,255,0) 70%),
+    #fff;
 }
 
 .stat-card:last-child{
@@ -1291,7 +1309,7 @@ th,td{
 .link-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:18px;
+  gap:20px;
   margin-top:20px;
   margin-bottom:30px;
 }
@@ -1306,17 +1324,20 @@ th,td{
   background:#fff;
   overflow:hidden;
   scroll-margin-top:16px;
-  box-shadow:0 1px 2px rgba(22, 29, 45, .04);
+  box-shadow:0 8px 22px rgba(22,29,45,.05);
 }
 
 .panel h2{
-  font-size:16px;
+  color:#334155;
+  font-size:13px;
   margin:0;
   padding:14px 16px;
   border-bottom:1px solid #dde2eb;
-  background:#fbfbfd;
-  font-family:Georgia, "Times New Roman", serif;
-  font-weight:500;
+  background:#f8fafc;
+  font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight:800;
+  letter-spacing:0;
+  text-transform:uppercase;
 }
 
 .clean-table{
@@ -1325,7 +1346,7 @@ th,td{
 
 .clean-table th{
   background:#fff;
-  color:#666;
+  color:#64748b;
   font-size:11px;
   text-transform:uppercase;
   letter-spacing:0;
@@ -1381,19 +1402,20 @@ th,td{
 .pager{
   display:flex;
   gap:10px;
-  margin:10px 0 20px;
+  margin:10px 0 22px;
   font-size:13px;
   font-weight:700;
 }
 
 .pager a{
   display:inline-block;
-  padding:6px 10px;
+  padding:7px 11px;
   border:1px solid #d8dce5;
   border-radius:4px;
   background:#fff;
   color:#273244;
   text-decoration:none;
+  box-shadow:0 4px 12px rgba(22,29,45,.04);
 }
 
 @media (max-width: 800px){
