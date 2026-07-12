@@ -449,6 +449,8 @@ export default {
         commonLogFilters.push("ip != '59.15.80.113'");
       }
 
+      commonLogFilters.push("ip != '223.119.20.199'");
+
       const downloadFilters = [
         "path LIKE 'DOWNLOAD:%'",
         ...commonLogFilters
@@ -506,6 +508,8 @@ export default {
       if (activeParents === "exclude") {
         eventFilters.push("ip != '59.15.80.113'");
       }
+
+      eventFilters.push("ip != '223.119.20.199'");
 
       const eventWhere =
         `WHERE ${eventFilters.join(" AND ")}`;
@@ -996,6 +1000,11 @@ export default {
           .replace(/^DOWNLOAD:\s*/, "");
       }
 
+      function cleanReferrerLabel(referer) {
+        return String(referer || "-")
+          .replace(/^https?:\/\//i, "");
+      }
+
       function normalizeReferrer(referer) {
         try {
           const parsed =
@@ -1209,8 +1218,25 @@ th,td{
 }
 
 .table-scroll table{
-  min-width:980px;
   margin-bottom:0;
+}
+
+.wide-table{
+  min-width:980px;
+}
+
+.medium-table{
+  min-width:720px;
+}
+
+.compact-table{
+  min-width:0;
+}
+
+.compact-table th:last-child,
+.compact-table td:last-child{
+  width:1%;
+  white-space:nowrap;
 }
 
 .stats-panel{
@@ -1412,6 +1438,20 @@ th,td{
   .chart-canvas-wrap{
     height:260px;
   }
+
+  .table-scroll th,
+  .table-scroll td,
+  .clean-table td{
+    font-size:12px;
+  }
+
+  .clean-table th{
+    font-size:10px;
+  }
+
+  .medium-table{
+    min-width:620px;
+  }
 }
 
 </style>
@@ -1474,7 +1514,7 @@ th,td{
 
 <div class="table-scroll">
 
-<table>
+<table class="wide-table">
 
 <tr>
 <th>Time</th>
@@ -1512,7 +1552,7 @@ th,td{
 <td>${escapeHtml(row.browser)}</td>
 <td>${escapeHtml(row.device_type)}</td>
 <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
-<td>${escapeHtml(row.referer || "-")}</td>
+<td>${escapeHtml(cleanReferrerLabel(row.referer))}</td>
 <td>${categoryMetric(row)}</td>
 </tr>
 `;
@@ -1540,7 +1580,7 @@ ${pager("page", page, recentHasNext, "recent-visitors")}
 
 <div class="table-scroll">
 
-<table>
+<table class="compact-table">
 
 <tr>
   <th>Dataset</th>
@@ -1567,7 +1607,7 @@ html += `
 
 <div class="table-scroll">
 
-<table>
+<table class="compact-table">
 
 <tr>
   <th>Organization</th>
@@ -1594,7 +1634,7 @@ html += `
 
 <div class="table-scroll">
 
-<table>
+<table class="medium-table">
 
 <tr>
   <th>Time</th>
@@ -1677,28 +1717,6 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
     ${pager("orgPage", orgPage, topOrgsHasNext, "top-organizations")}
   </div>
 
-  <div class="panel">
-    <h2>Top Pages</h2>
-    <table class="clean-table">
-      <tr>
-        <th>Page</th>
-        <th>Views</th>
-      </tr>
-`;
-
-      for (const row of topPages.results) {
-        html += `
-      <tr>
-        <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
-        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
-      </tr>
-`;
-      }
-
-      html += `
-    </table>
-  </div>
-
   <div class="panel" id="countries">
     <h2>Countries</h2>
     <table class="clean-table">
@@ -1720,28 +1738,6 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
       html += `
     </table>
     ${pager("countryPage", countryPage, countriesHasNext, "countries")}
-  </div>
-
-  <div class="panel">
-    <h2>Top Referrers</h2>
-    <table class="clean-table">
-      <tr>
-        <th>Referrer</th>
-        <th>Visits</th>
-      </tr>
-`;
-
-      for (const row of topReferrers) {
-        html += `
-      <tr>
-        <td>${escapeHtml(row.referer)}</td>
-        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
-      </tr>
-`;
-      }
-
-      html += `
-    </table>
   </div>
 
   <div class="panel">
@@ -1767,6 +1763,50 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
       html += `
     </table>
   </div>
+
+  <div class="panel">
+    <h2>Top Referrers</h2>
+    <table class="clean-table">
+      <tr>
+        <th>Referrer</th>
+        <th>Visits</th>
+      </tr>
+`;
+
+      for (const row of topReferrers) {
+        html += `
+      <tr>
+        <td>${escapeHtml(row.referer)}</td>
+        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
+      </tr>
+`;
+      }
+
+      html += `
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Top Pages</h2>
+    <table class="clean-table">
+      <tr>
+        <th>Page</th>
+        <th>Views</th>
+      </tr>
+`;
+
+      for (const row of topPages.results) {
+        html += `
+      <tr>
+        <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
+        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
+      </tr>
+`;
+      }
+
+      html += `
+    </table>
+  </div>
 </section>
 `;
 
@@ -1775,7 +1815,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 
 <div class="table-scroll">
 
-<table>
+<table class="compact-table">
 
 <tr>
   <th>Paper</th>
@@ -1803,7 +1843,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 
 <div class="table-scroll">
 
-<table>
+<table class="wide-table">
 
 <tr>
   <th>Time</th>
