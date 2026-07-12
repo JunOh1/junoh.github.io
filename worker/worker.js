@@ -1042,13 +1042,18 @@ export default {
         return `<span class="metric human">Human</span>`;
       }
 
+      function iconPill(kind, label, type, svg) {
+        const safeLabel =
+          escapeHtml(label || "Other");
+        const safeType =
+          String(type || "other").replace(/[^a-z0-9_-]/gi, "");
+
+        return `<span class="${kind}-icon ${safeType}" title="${safeLabel}" aria-label="${safeLabel}">${svg}</span>`;
+      }
+
       function osIcon(ua) {
         const value =
           String(ua || "").toLowerCase();
-
-        function icon(label, type, svg) {
-          return `<span class="os-icon ${type}" title="${label}" aria-label="${label}">${svg}</span>`;
-        }
 
         const phoneSvg = `
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1057,11 +1062,17 @@ export default {
           </svg>
         `;
 
-        const desktopSvg = `
+        const tabletSvg = `
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="12" rx="2"></rect>
-            <line x1="8" y1="20" x2="16" y2="20"></line>
-            <line x1="12" y1="16" x2="12" y2="20"></line>
+            <rect x="5" y="2.5" width="14" height="19" rx="2"></rect>
+            <line x1="11" y1="18" x2="13" y2="18"></line>
+          </svg>
+        `;
+
+        const laptopSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="5" y="4" width="14" height="10" rx="1.5"></rect>
+            <path d="M3 19h18l-2-4H5z"></path>
           </svg>
         `;
 
@@ -1102,30 +1113,89 @@ export default {
         `;
 
         if (value.includes("iphone") || value.includes("cpu iphone os")) {
-          return icon("iOS", "apple", phoneSvg);
+          return iconPill("os", "iOS", "ios", phoneSvg);
         }
 
         if (value.includes("ipad")) {
-          return icon("iPadOS", "apple", phoneSvg);
+          return iconPill("os", "iPadOS", "ipados", tabletSvg);
         }
 
         if (value.includes("macintosh") || value.includes("mac os x")) {
-          return icon("macOS", "apple", desktopSvg);
+          return iconPill("os", "macOS", "macos", laptopSvg);
         }
 
         if (value.includes("android")) {
-          return icon("Android", "android", androidSvg);
+          return iconPill("os", "Android", "android", androidSvg);
         }
 
         if (value.includes("windows")) {
-          return icon("Windows", "windows", windowsSvg);
+          return iconPill("os", "Windows", "windows", windowsSvg);
         }
 
         if (value.includes("linux")) {
-          return icon("Linux", "linux", linuxSvg);
+          return iconPill("os", "Linux", "linux", linuxSvg);
         }
 
-        return icon("Other", "other", otherSvg);
+        return iconPill("os", "Other", "other", otherSvg);
+      }
+
+      function browserIcon(browser) {
+        const value =
+          String(browser || "").toLowerCase();
+
+        const circleSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+
+        const compassSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M15 9l-2 5-4 1 2-5z"></path>
+          </svg>
+        `;
+
+        const edgeSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 14a8 8 0 1 1 15.5-3c-3-2-7.5-1-9.5 2 2-.6 5-.3 7 1.5A6.5 6.5 0 0 1 4 14z"></path>
+          </svg>
+        `;
+
+        const firefoxSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 5c2.5 1.4 4 3.8 4 7a8 8 0 1 1-13.5-5.8"></path>
+            <path d="M8 4c1.5 1 2 2.3 1.4 4C11 6.8 13.4 6.8 15 8c-3.5.3-5.5 2.1-5.5 4.4 0 2.1 1.7 3.6 3.8 3.6 2.4 0 4.2-1.8 4.2-4.1"></path>
+          </svg>
+        `;
+
+        const otherSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <path d="M12 4c2 2.2 3 5 3 8s-1 5.8-3 8"></path>
+            <path d="M12 4c-2 2.2-3 5-3 8s1 5.8 3 8"></path>
+          </svg>
+        `;
+
+        if (value === "chrome") {
+          return iconPill("browser", "Chrome", "chrome", circleSvg);
+        }
+
+        if (value === "safari") {
+          return iconPill("browser", "Safari", "safari", compassSvg);
+        }
+
+        if (value === "firefox") {
+          return iconPill("browser", "Firefox", "firefox", firefoxSvg);
+        }
+
+        if (value === "edge") {
+          return iconPill("browser", "Edge", "edge", edgeSvg);
+        }
+
+        return iconPill("browser", browser || "Other", "other", otherSvg);
       }
 
       function cleanDownloadLabel(path) {
@@ -1576,7 +1646,8 @@ tr:last-child td{
   min-width:auto;
 }
 
-.os-icon{
+.os-icon,
+.browser-icon{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -1589,7 +1660,8 @@ tr:last-child td{
   font-weight:800;
 }
 
-.os-icon svg{
+.os-icon svg,
+.browser-icon svg{
   width:16px;
   height:16px;
   fill:none;
@@ -1605,7 +1677,9 @@ tr:last-child td{
   stroke:none;
 }
 
-.os-icon.apple{
+.os-icon.macos,
+.os-icon.ios,
+.os-icon.ipados{
   background:#f8fafc;
   color:#111827;
 }
@@ -1623,6 +1697,31 @@ tr:last-child td{
 .os-icon.linux{
   background:#fef3c7;
   color:#92400e;
+}
+
+.browser-icon.chrome{
+  background:#fff7ed;
+  color:#ea580c;
+}
+
+.browser-icon.safari{
+  background:#e0f2fe;
+  color:#0369a1;
+}
+
+.browser-icon.firefox{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.browser-icon.edge{
+  background:#ccfbf1;
+  color:#0f766e;
+}
+
+.browser-icon.other{
+  background:#f1f5f9;
+  color:#334155;
 }
 
 .pager{
@@ -1855,7 +1954,7 @@ tr:last-child td{
       : ""
   }
 </td>
-<td>${escapeHtml(row.browser)}</td>
+<td>${browserIcon(row.browser)}</td>
 <td>${osIcon(row.ua)}</td>
 <td>${escapeHtml(row.device_type)}</td>
 <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
