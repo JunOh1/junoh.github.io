@@ -323,6 +323,26 @@ export default {
         END
       `;
 
+      const osSql = `
+        CASE
+          WHEN lower(coalesce(ua,'')) LIKE '%iphone%'
+            OR lower(coalesce(ua,'')) LIKE '%cpu iphone os%'
+          THEN 'iOS'
+          WHEN lower(coalesce(ua,'')) LIKE '%ipad%'
+          THEN 'iPadOS'
+          WHEN lower(coalesce(ua,'')) LIKE '%macintosh%'
+            OR lower(coalesce(ua,'')) LIKE '%mac os x%'
+          THEN 'macOS'
+          WHEN lower(coalesce(ua,'')) LIKE '%android%'
+          THEN 'Android'
+          WHEN lower(coalesce(ua,'')) LIKE '%windows%'
+          THEN 'Windows'
+          WHEN lower(coalesce(ua,'')) LIKE '%linux%'
+          THEN 'Linux'
+          ELSE 'Other'
+        END
+      `;
+
       const logBotCase = `
         CASE
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
@@ -703,6 +723,7 @@ export default {
           city,
           referer,
           ip,
+          ua,
           ${logBotCase} AS likely_bot
         FROM visitor_logs
         ${recentLogWhere}
@@ -854,6 +875,19 @@ export default {
         FROM visitor_logs
         ${logWhere}
         GROUP BY country, city
+        ORDER BY visits DESC
+        LIMIT 20
+      `)
+        .bind(...rangeParams)
+        .all();
+
+      const topOperatingSystems = await env.DB.prepare(`
+        SELECT
+          ${osSql} AS os,
+          COUNT(*) AS visits
+        FROM visitor_logs
+        ${logWhere}
+        GROUP BY ${osSql}
         ORDER BY visits DESC
         LIMIT 20
       `)
@@ -1039,6 +1073,37 @@ export default {
         }
 
         return `<span class="metric human">Human</span>`;
+      }
+
+      function detectOs(ua) {
+        const value =
+          String(ua || "").toLowerCase();
+
+        if (value.includes("iphone") || value.includes("cpu iphone os")) {
+          return "iOS";
+        }
+
+        if (value.includes("ipad")) {
+          return "iPadOS";
+        }
+
+        if (value.includes("macintosh") || value.includes("mac os x")) {
+          return "macOS";
+        }
+
+        if (value.includes("android")) {
+          return "Android";
+        }
+
+        if (value.includes("windows")) {
+          return "Windows";
+        }
+
+        if (value.includes("linux")) {
+          return "Linux";
+        }
+
+        return "Other";
       }
 
       function cleanDownloadLabel(path) {
@@ -1333,7 +1398,7 @@ tr:last-child td{
 }
 
 .wide-table{
-  min-width:980px;
+  min-width:1060px;
 }
 
 .wide-table td{
@@ -1692,6 +1757,7 @@ tr:last-child td{
 <th>City</th>
 <th>IP</th>
 <th>Browser</th>
+<th>OS</th>
 <th>Device</th>
 <th>Page</th>
 <th>Referrer</th>
@@ -1719,6 +1785,7 @@ tr:last-child td{
   }
 </td>
 <td>${escapeHtml(row.browser)}</td>
+<td>${escapeHtml(detectOs(row.ua))}</td>
 <td>${escapeHtml(row.device_type)}</td>
 <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
 <td>${escapeHtml(cleanReferrerLabel(row.referer))}</td>
@@ -1968,6 +2035,28 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
         html += `
       <tr>
         <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
+        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
+      </tr>
+`;
+      }
+
+      html += `
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Top OS</h2>
+    <table class="clean-table">
+      <tr>
+        <th>OS</th>
+        <th>Visits</th>
+      </tr>
+`;
+
+      for (const row of topOperatingSystems.results) {
+        html += `
+      <tr>
+        <td>${escapeHtml(row.os || "Other")}</td>
         <td><span class="metric">${escapeHtml(row.visits)}</span></td>
       </tr>
 `;
