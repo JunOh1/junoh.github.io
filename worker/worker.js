@@ -860,23 +860,59 @@ export default {
 <style>
 
 body{
-  font-family:Arial,sans-serif;
-  max-width:1100px;
-  margin:20px auto;
-  padding:0 16px;
-  background:#f8fafc;
+  font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  max-width:1180px;
+  margin:0 auto;
+  padding:34px 24px 56px;
+  background:#f6f7fb;
   color:#111827;
 }
 
 h1{
-  font-size:32px;
-  margin-bottom:10px;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:38px;
+  font-weight:500;
+  margin:0;
+  letter-spacing:0;
 }
 
 h2{
-  font-size:20px;
-  margin-top:20px;
-  margin-bottom:10px;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:22px;
+  font-weight:500;
+  margin-top:26px;
+  margin-bottom:12px;
+  letter-spacing:0;
+}
+
+a{
+  color:#3f1f8f;
+  font-weight:700;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+
+.dashboard-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:1px solid #d8dce5;
+}
+
+.dashboard-subtitle{
+  color:#5f6878;
+  font-size:14px;
+  margin-top:8px;
+}
+
+.controls{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
 }
 
 table{
@@ -904,55 +940,64 @@ th,td{
 
 canvas{
   max-width:1200px;
-  margin-bottom:20px;
+  margin-bottom:26px;
+  padding:18px;
+  border:1px solid #dde2eb;
+  border-radius:8px;
+  background:#fff;
 }
 
 .range-tabs{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
-  margin:12px 0 18px;
+  margin:0;
 }
 
 .range-link{
-  padding:7px 12px;
-  border:1px solid #e5e7eb;
-  border-radius:999px;
+  padding:7px 11px;
+  border:1px solid #d8dce5;
+  border-radius:4px;
   background:#fff;
-  color:#374151;
+  color:#273244;
   text-decoration:none;
   font-size:13px;
-  font-weight:700;
+  font-weight:600;
 }
 
 .range-link.active{
-  background:#111827;
+  background:#2f195f;
   color:#fff;
-  border-color:#111827;
+  border-color:#2f195f;
 }
 
 .table-scroll{
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
+  border:1px solid #dde2eb;
+  border-radius:8px;
+  background:#fff;
+  margin-bottom:12px;
 }
 
 .table-scroll table{
   min-width:980px;
+  margin-bottom:0;
 }
 
 .stats-panel{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  margin:16px 0 24px;
-  border:1px solid #e5e7eb;
+  margin:18px 0 28px;
+  border:1px solid #dde2eb;
   border-radius:8px;
   background:#fff;
   overflow:hidden;
 }
 
 .stat-card{
-  padding:14px 18px;
-  border-right:1px solid #e5e7eb;
+  padding:16px 18px;
+  border-right:1px solid #dde2eb;
 }
 
 .stat-card:last-child{
@@ -964,18 +1009,19 @@ canvas{
   font-size:11px;
   font-weight:700;
   text-transform:uppercase;
-  letter-spacing:.04em;
+  letter-spacing:0;
   margin-bottom:8px;
 }
 
 .stat-value{
-  font-size:26px;
+  font-size:28px;
   line-height:1;
   font-weight:700;
-  color:#111827;
+  color:#2f195f;
 }
 
-.summary-grid{
+.summary-grid,
+.link-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
@@ -983,20 +1029,27 @@ canvas{
   margin-bottom:30px;
 }
 
+.link-grid{
+  align-items:start;
+}
+
 .panel{
-  border:1px solid #e5e7eb;
+  border:1px solid #dde2eb;
   border-radius:8px;
   background:#fff;
   overflow:hidden;
   scroll-margin-top:16px;
+  box-shadow:0 1px 2px rgba(22, 29, 45, .04);
 }
 
 .panel h2{
   font-size:16px;
   margin:0;
   padding:14px 16px;
-  border-bottom:1px solid #e5e7eb;
-  background:#fafafa;
+  border-bottom:1px solid #dde2eb;
+  background:#fbfbfd;
+  font-family:Georgia, "Times New Roman", serif;
+  font-weight:500;
 }
 
 .clean-table{
@@ -1008,7 +1061,7 @@ canvas{
   color:#666;
   font-size:11px;
   text-transform:uppercase;
-  letter-spacing:.04em;
+  letter-spacing:0;
 }
 
 .clean-table td{
@@ -1031,8 +1084,8 @@ canvas{
   min-width:28px;
   padding:3px 8px;
   border-radius:999px;
-  background:#eef2ff;
-  color:#3730a3;
+  background:#eef1ff;
+  color:#2f2995;
   font-weight:700;
   text-align:center;
 }
@@ -1063,25 +1116,33 @@ canvas{
 .pager a{
   display:inline-block;
   padding:6px 10px;
-  border:1px solid #e5e7eb;
-  border-radius:999px;
+  border:1px solid #d8dce5;
+  border-radius:4px;
   background:#fff;
-  color:#374151;
+  color:#273244;
   text-decoration:none;
 }
 
 @media (max-width: 800px){
   body{
-    margin:12px auto;
-    padding:0 12px;
+    padding:22px 14px 40px;
   }
 
   h1{
-    font-size:26px;
+    font-size:30px;
   }
 
   h2{
     font-size:18px;
+  }
+
+  .dashboard-header{
+    display:block;
+  }
+
+  .controls{
+    align-items:flex-start;
+    margin-top:16px;
   }
 
   .stats-panel{
@@ -1090,8 +1151,8 @@ canvas{
 
   .stat-card{
     padding:14px 16px;
-    border-right:1px solid #e5e7eb;
-    border-bottom:1px solid #e5e7eb;
+    border-right:1px solid #dde2eb;
+    border-bottom:1px solid #dde2eb;
   }
 
   .stat-card:nth-child(even){
@@ -1110,6 +1171,10 @@ canvas{
     grid-template-columns:1fr;
   }
 
+  .link-grid{
+    grid-template-columns:1fr;
+  }
+
   canvas{
     max-width:100%;
   }
@@ -1121,19 +1186,26 @@ canvas{
 
 <body>
 
-<h1>Visitor Dashboard</h1>
+<header class="dashboard-header">
+  <div>
+    <h1>Visitor Dashboard</h1>
+    <div class="dashboard-subtitle">Site traffic, downloads, and paper-link activity</div>
+  </div>
 
-<div class="range-tabs">
-  ${rangeLink("Today", "today")}
-  ${rangeLink("7 days", "7d")}
-  ${rangeLink("30 days", "30d")}
-  ${rangeLink("All", "all")}
-</div>
+  <div class="controls">
+    <div class="range-tabs">
+      ${rangeLink("Today", "today")}
+      ${rangeLink("7 days", "7d")}
+      ${rangeLink("30 days", "30d")}
+      ${rangeLink("All", "all")}
+    </div>
 
-<div class="range-tabs">
-  ${viewLink("Total", "total")}
-  ${viewLink("Likely Human", "human")}
-</div>
+    <div class="range-tabs">
+      ${viewLink("Total", "total")}
+      ${viewLink("Likely Human", "human")}
+    </div>
+  </div>
+</header>
 
 <section class="stats-panel">
 
@@ -1421,6 +1493,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
     </table>
     ${pager("countryPage", countryPage, countriesHasNext, "countries")}
   </div>
+</section>
 `;
 
       const linkRowStart =
@@ -1433,7 +1506,9 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
         false;
 
       html += `
-  <span id="paper-links"></span>
+<h2 id="paper-links">Paper Link Clicks</h2>
+
+<section class="link-grid">
 `;
 
       for (const [linkName, group] of Object.entries(linkGroups)) {
