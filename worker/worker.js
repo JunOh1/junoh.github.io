@@ -25,7 +25,8 @@ function normalizeOrg(org) {
     "NUS Gigapop": "National University of Singapore",
     "imported inetnum object for NUS-1": "National University of Singapore",
     "universitaet Hamburg campus net": "Universitaet Hamburg",
-    "Lamont-Doherty Earth Observatory of Columbia University": "Columbia University"
+    "Lamont-Doherty Earth Observatory of Columbia University": "Columbia University",
+    "The Hong Kong University of Science and Technology": "Hong Kong University of Science and Technology"
   };
 
   return map[org] || org;
@@ -277,6 +278,9 @@ export default {
       const downloadOffset =
         (downloadPage - 1) * PAGE_SIZE;
 
+      const linkOffset =
+        (linkPage - 1) * PAGE_SIZE;
+
       const requestedRange =
         url.searchParams.get("range") || "all";
 
@@ -299,6 +303,17 @@ export default {
 
       const rangeParams =
         startDate ? [startDate] : [];
+
+      const normalizedOrgSql = `
+        CASE
+          WHEN org IN (
+            'The Hong Kong University of Science and Technology',
+            'Hong Kong University of Science and Technology'
+          )
+          THEN 'Hong Kong University of Science and Technology'
+          ELSE org
+        END
+      `;
 
       const logBotCase = `
         CASE
@@ -645,11 +660,11 @@ export default {
 
       const topOrgsRaw = await env.DB.prepare(`
         SELECT
-          org,
+          ${normalizedOrgSql} AS org,
           COUNT(*) AS visits
         FROM visitor_logs
         ${academicWhere}
-        GROUP BY org
+        GROUP BY ${normalizedOrgSql}
         ORDER BY visits DESC
         LIMIT ?
         OFFSET ?
@@ -714,11 +729,11 @@ export default {
 
       const topDownloaders = await env.DB.prepare(`
         SELECT
-          org,
+          ${normalizedOrgSql} AS org,
           COUNT(*) AS downloads
         FROM visitor_logs
         ${downloadWhere}
-        GROUP BY org
+        GROUP BY ${normalizedOrgSql}
         ORDER BY downloads DESC
         LIMIT 20
       `)
@@ -728,14 +743,15 @@ export default {
       const downloadHistoryRaw =
         await env.DB.prepare(`
           SELECT
+            ts,
             path,
-            org,
+            ${normalizedOrgSql} AS org,
             country,
-            COUNT(*) AS downloads
+            ip,
+            ${logBotCase} AS likely_bot
           FROM visitor_logs
           ${downloadWhere}
-          GROUP BY path, org, country
-          ORDER BY downloads DESC
+          ORDER BY ts DESC
           LIMIT ?
           OFFSET ?
         `)
@@ -750,38 +766,28 @@ export default {
 
       const linkClickDetails = await env.DB.prepare(`
         SELECT
+          ts,
           text,
           target,
           country,
           city,
           org,
-          ${eventBotCase} AS likely_bot,
-          COUNT(*) AS clicks
+          ip,
+          ${eventBotCase} AS likely_bot
         FROM visitor_events
         ${eventWhere}
-        GROUP BY text, target, country, city, org, likely_bot
-        ORDER BY text ASC, clicks DESC
+        ORDER BY ts DESC
+        LIMIT ?
+        OFFSET ?
       `)
-        .bind(...rangeParams)
+        .bind(...rangeParams, PAGE_SIZE + 1, linkOffset)
         .all();
 
-      const linkGroups = {};
+      const linkHasNext =
+        linkClickDetails.results.length > PAGE_SIZE;
 
-      for (const row of linkClickDetails.results) {
-        const key =
-          row.text || row.target || "unknown";
-
-        if (!linkGroups[key]) {
-          linkGroups[key] = {
-            target: row.target,
-            rows: [],
-            total: 0
-          };
-        }
-
-        linkGroups[key].rows.push(row);
-        linkGroups[key].total += row.clicks;
-      }
+      const linkRows =
+        linkClickDetails.results.slice(0, PAGE_SIZE);
 
       const dailyRaw = await env.DB.prepare(`
         SELECT
@@ -844,6 +850,34 @@ export default {
         unique: r.unique_visitors,
         pageviews: r.pageviews
       }));
+
+      function dashboardTime(ts) {
+        return new Date(ts)
+          .toLocaleString(
+            "en-US",
+            {
+              timeZone: "America/New_York",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false
+            }
+          );
+      }
+
+      function categoryMetric(row) {
+        if (row.ip === "59.15.80.113") {
+          return `<span class="metric parents">Parents</span>`;
+        }
+
+        if (row.likely_bot) {
+          return `<span class="metric bot">Bot</span>`;
+        }
+
+        return `<span class="metric human">Human</span>`;
+      }
 
       let html = `
 <!DOCTYPE html>
@@ -1105,6 +1139,12 @@ canvas{
   color:#166534;
 }
 
+.metric.parents{
+  background:#fff3cd;
+  color:#8a5a00;
+  min-width:auto;
+}
+
 .pager{
   display:flex;
   gap:10px;
@@ -1247,24 +1287,12 @@ canvas{
 <th>Device</th>
 <th>Page</th>
 <th>Referrer</th>
-<th>Bot?</th>
+<th>Category</th>
 </tr>
 `;
 
       for (const row of recentRows) {
-        const nyTime = new Date(row.ts)
-          .toLocaleString(
-            "en-US",
-            {
-              timeZone: "America/New_York",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false
-            }
-          );
+        const nyTime = dashboardTime(row.ts);
 
         html += `
 <tr>
@@ -1286,13 +1314,7 @@ canvas{
 <td>${escapeHtml(row.device_type)}</td>
 <td>${escapeHtml(row.path)}</td>
 <td>${escapeHtml(row.referer || "-")}</td>
-<td>
-  ${
-    row.likely_bot
-      ? `<span class="metric bot">1</span>`
-      : `<span class="metric human">0</span>`
-  }
-</td>
+<td>${categoryMetric(row)}</td>
 </tr>
 `;
       }
@@ -1369,10 +1391,11 @@ html += `
 <table>
 
 <tr>
+  <th>Time</th>
   <th>Dataset</th>
   <th>Organization</th>
   <th>Country</th>
-  <th>Downloads</th>
+  <th>Category</th>
 </tr>
 `;
 
@@ -1380,10 +1403,11 @@ for (const row of downloadHistory) {
 
   html += `
   <tr>
+    <td>${escapeHtml(dashboardTime(row.ts))}</td>
     <td>${escapeHtml(row.path)}</td>
     <td>${escapeHtml(row.org)}</td>
     <td>${escapeHtml(row.country)}</td>
-    <td>${escapeHtml(row.downloads)}</td>
+    <td>${categoryMetric(row)}</td>
   </tr>
   `;
 }
@@ -1496,74 +1520,55 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 </section>
 `;
 
-      const linkRowStart =
-        (linkPage - 1) * PAGE_SIZE;
-
-      const linkRowEnd =
-        linkRowStart + PAGE_SIZE;
-
-      let linkHasNext =
-        false;
-
       html += `
 <h2 id="paper-links">Paper Link Clicks</h2>
 
-<section class="link-grid">
+<div class="table-scroll">
+
+<table>
+
+<tr>
+  <th>Time</th>
+  <th>Paper</th>
+  <th>Organization</th>
+  <th>City</th>
+  <th>Country</th>
+  <th>IP</th>
+  <th>Category</th>
+</tr>
 `;
 
-      for (const [linkName, group] of Object.entries(linkGroups)) {
-        const visibleRows =
-          group.rows.slice(linkRowStart, linkRowEnd);
-
-        if (group.rows.length > linkRowEnd) {
-          linkHasNext = true;
-        }
-
+      for (const row of linkRows) {
         html += `
-  <div class="panel">
-    <h2>
-      <a href="${escapeHtml(group.target)}" target="_blank">
-        ${escapeHtml(linkName)}
-      </a>
-      <span class="metric" style="float:right;">${escapeHtml(group.total)}</span>
-    </h2>
-
-    <table class="clean-table">
-      <tr>
-        <th>Organization</th>
-        <th>City</th>
-        <th>Country</th>
-        <th>Bot?</th>
-        <th>Clicks</th>
-      </tr>
-`;
-
-        for (const row of visibleRows) {
-          html += `
-      <tr>
-        <td>${escapeHtml(row.org || "Unknown")}</td>
-        <td>${escapeHtml(row.city || "")}</td>
-        <td>${escapeHtml(row.country || "")}</td>
-        <td>
-          ${
-            row.likely_bot
-              ? `<span class="metric bot">1</span>`
-              : `<span class="metric human">0</span>`
-          }
-        </td>
-        <td><span class="metric">${escapeHtml(row.clicks)}</span></td>
-      </tr>
-`;
-        }
-
-        html += `
-    </table>
-  </div>
+<tr>
+  <td>${escapeHtml(dashboardTime(row.ts))}</td>
+  <td>
+    <a href="${escapeHtml(row.target)}" target="_blank">
+      ${escapeHtml(row.text || row.target || "unknown")}
+    </a>
+  </td>
+  <td>${escapeHtml(row.org || "Unknown")}</td>
+  <td>${escapeHtml(row.city || "")}</td>
+  <td>${escapeHtml(row.country || "")}</td>
+  <td>
+    ${
+      row.ip
+        ? `<a href="https://whatismyipaddress.com/ip/${encodeURIComponent(row.ip)}"
+             target="_blank">
+             ${escapeHtml(row.ip)}
+           </a>`
+        : ""
+    }
+  </td>
+  <td>${categoryMetric(row)}</td>
+</tr>
 `;
       }
 
       html += `
-</section>
+</table>
+
+</div>
 
 ${pager("linkPage", linkPage, linkHasNext, "paper-links")}
 
