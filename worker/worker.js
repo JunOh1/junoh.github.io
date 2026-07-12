@@ -299,9 +299,9 @@ export default {
         requestedView === "human" ? "human" : "total";
 
       const activeParents =
-        url.searchParams.get("parents") === "exclude"
-          ? "exclude"
-          : "include";
+        url.searchParams.get("parents") === "include"
+          ? "include"
+          : "exclude";
 
       const startDate =
         rangeStart(activeRange);
@@ -1511,7 +1511,7 @@ th,td{
 </td>
 <td>${escapeHtml(row.browser)}</td>
 <td>${escapeHtml(row.device_type)}</td>
-<td>${escapeHtml(row.path)}</td>
+<td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
 <td>${escapeHtml(row.referer || "-")}</td>
 <td>${categoryMetric(row)}</td>
 </tr>
@@ -1689,7 +1689,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
       for (const row of topPages.results) {
         html += `
       <tr>
-        <td>${escapeHtml(row.path)}</td>
+        <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
         <td><span class="metric">${escapeHtml(row.visits)}</span></td>
       </tr>
 `;
