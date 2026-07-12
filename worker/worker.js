@@ -556,7 +556,10 @@ export default {
         </a>`;
       }
 
-      function pager(paramName, currentPage, hasNext) {
+      function pager(paramName, currentPage, hasNext, anchor = "") {
+        const hash =
+          anchor ? `#${anchor}` : "";
+
         let out = `
 <div class="pager">
 `;
@@ -565,14 +568,14 @@ export default {
           const prev = {};
           prev[paramName] = currentPage - 1;
 
-          out += `<a href="${adminUrl(prev)}">Previous</a>`;
+          out += `<a href="${adminUrl(prev)}${hash}">Previous</a>`;
         }
 
         if (hasNext) {
           const next = {};
           next[paramName] = currentPage + 1;
 
-          out += `<a href="${adminUrl(next)}">Next</a>`;
+          out += `<a href="${adminUrl(next)}${hash}">Next</a>`;
         }
 
         out += `
@@ -985,6 +988,7 @@ canvas{
   border-radius:8px;
   background:#fff;
   overflow:hidden;
+  scroll-margin-top:16px;
 }
 
 .panel h2{
@@ -1155,7 +1159,7 @@ canvas{
 
 </section>
 
-<h2>Recent Visitors</h2>
+<h2 id="recent-visitors">Recent Visitors</h2>
 
 <div class="table-scroll">
 
@@ -1226,7 +1230,7 @@ canvas{
 
 </div>
 
-${pager("page", page, recentHasNext)}
+${pager("page", page, recentHasNext, "recent-visitors")}
 
 <h2>Traffic Trend</h2>
 
@@ -1286,7 +1290,7 @@ html += `
 
 </div>
 
-<h2>Download History</h2>
+<h2 id="download-history">Download History</h2>
 
 <div class="table-scroll">
 
@@ -1317,13 +1321,13 @@ html += `
 
 </div>
 
-${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
+${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history")}
 
 <section class="summary-grid">
 `;
 
       html += `
-  <div class="panel">
+  <div class="panel" id="daily-traffic">
     <h2>Daily Traffic</h2>
     <table class="clean-table">
       <tr>
@@ -1347,10 +1351,10 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
 
       html += `
     </table>
-    ${pager("dailyPage", dailyPage, dailyHasNext)}
+    ${pager("dailyPage", dailyPage, dailyHasNext, "daily-traffic")}
   </div>
 
-  <div class="panel">
+  <div class="panel" id="top-organizations">
     <h2>Top Organizations</h2>
     <table class="clean-table">
       <tr>
@@ -1370,7 +1374,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
 
       html += `
     </table>
-    ${pager("orgPage", orgPage, topOrgsHasNext)}
+    ${pager("orgPage", orgPage, topOrgsHasNext, "top-organizations")}
   </div>
 
   <div class="panel">
@@ -1395,7 +1399,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
     </table>
   </div>
 
-  <div class="panel">
+  <div class="panel" id="countries">
     <h2>Countries</h2>
     <table class="clean-table">
       <tr>
@@ -1415,7 +1419,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
 
       html += `
     </table>
-    ${pager("countryPage", countryPage, countriesHasNext)}
+    ${pager("countryPage", countryPage, countriesHasNext, "countries")}
   </div>
 `;
 
@@ -1427,6 +1431,10 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
 
       let linkHasNext =
         false;
+
+      html += `
+  <span id="paper-links"></span>
+`;
 
       for (const [linkName, group] of Object.entries(linkGroups)) {
         const visibleRows =
@@ -1482,7 +1490,7 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext)}
       html += `
 </section>
 
-${pager("linkPage", linkPage, linkHasNext)}
+${pager("linkPage", linkPage, linkHasNext, "paper-links")}
 
 <script>
 
