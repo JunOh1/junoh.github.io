@@ -323,26 +323,6 @@ export default {
         END
       `;
 
-      const osSql = `
-        CASE
-          WHEN lower(coalesce(ua,'')) LIKE '%iphone%'
-            OR lower(coalesce(ua,'')) LIKE '%cpu iphone os%'
-          THEN 'iOS'
-          WHEN lower(coalesce(ua,'')) LIKE '%ipad%'
-          THEN 'iPadOS'
-          WHEN lower(coalesce(ua,'')) LIKE '%macintosh%'
-            OR lower(coalesce(ua,'')) LIKE '%mac os x%'
-          THEN 'macOS'
-          WHEN lower(coalesce(ua,'')) LIKE '%android%'
-          THEN 'Android'
-          WHEN lower(coalesce(ua,'')) LIKE '%windows%'
-          THEN 'Windows'
-          WHEN lower(coalesce(ua,'')) LIKE '%linux%'
-          THEN 'Linux'
-          ELSE 'Other'
-        END
-      `;
-
       const logBotCase = `
         CASE
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
@@ -881,19 +861,6 @@ export default {
         .bind(...rangeParams)
         .all();
 
-      const topOperatingSystems = await env.DB.prepare(`
-        SELECT
-          ${osSql} AS os,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY ${osSql}
-        ORDER BY visits DESC
-        LIMIT 20
-      `)
-        .bind(...rangeParams)
-        .all();
-
       // ======================================
       // DATA DOWNLOAD ANALYTICS
       // ======================================
@@ -1075,35 +1042,90 @@ export default {
         return `<span class="metric human">Human</span>`;
       }
 
-      function detectOs(ua) {
+      function osIcon(ua) {
         const value =
           String(ua || "").toLowerCase();
 
+        function icon(label, type, svg) {
+          return `<span class="os-icon ${type}" title="${label}" aria-label="${label}">${svg}</span>`;
+        }
+
+        const phoneSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="7" y="2.5" width="10" height="19" rx="2"></rect>
+            <line x1="11" y1="18" x2="13" y2="18"></line>
+          </svg>
+        `;
+
+        const desktopSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+            <line x1="8" y1="20" x2="16" y2="20"></line>
+            <line x1="12" y1="16" x2="12" y2="20"></line>
+          </svg>
+        `;
+
+        const windowsSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 5.5l8-1v7H3z"></path>
+            <path d="M13 4.2l8-1v8.3h-8z"></path>
+            <path d="M3 13h8v7l-8-1z"></path>
+            <path d="M13 13h8v8.2l-8-1z"></path>
+          </svg>
+        `;
+
+        const androidSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6" y="8" width="12" height="10" rx="2"></rect>
+            <line x1="8" y1="5" x2="10" y2="8"></line>
+            <line x1="16" y1="5" x2="14" y2="8"></line>
+            <circle cx="10" cy="12" r=".8"></circle>
+            <circle cx="14" cy="12" r=".8"></circle>
+          </svg>
+        `;
+
+        const linuxSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 18c1.2-4.5 1.7-8.5 6-8.5s4.8 4 6 8.5"></path>
+            <path d="M9 18h6"></path>
+            <circle cx="10" cy="13" r=".7"></circle>
+            <circle cx="14" cy="13" r=".7"></circle>
+          </svg>
+        `;
+
+        const otherSvg = `
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M9.5 9a3 3 0 0 1 5 2c0 2-2.5 2-2.5 4"></path>
+            <line x1="12" y1="18" x2="12" y2="18"></line>
+          </svg>
+        `;
+
         if (value.includes("iphone") || value.includes("cpu iphone os")) {
-          return "iOS";
+          return icon("iOS", "apple", phoneSvg);
         }
 
         if (value.includes("ipad")) {
-          return "iPadOS";
+          return icon("iPadOS", "apple", phoneSvg);
         }
 
         if (value.includes("macintosh") || value.includes("mac os x")) {
-          return "macOS";
+          return icon("macOS", "apple", desktopSvg);
         }
 
         if (value.includes("android")) {
-          return "Android";
+          return icon("Android", "android", androidSvg);
         }
 
         if (value.includes("windows")) {
-          return "Windows";
+          return icon("Windows", "windows", windowsSvg);
         }
 
         if (value.includes("linux")) {
-          return "Linux";
+          return icon("Linux", "linux", linuxSvg);
         }
 
-        return "Other";
+        return icon("Other", "other", otherSvg);
       }
 
       function cleanDownloadLabel(path) {
@@ -1554,6 +1576,55 @@ tr:last-child td{
   min-width:auto;
 }
 
+.os-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  background:#f1f5f9;
+  color:#334155;
+  font-size:14px;
+  font-weight:800;
+}
+
+.os-icon svg{
+  width:16px;
+  height:16px;
+  fill:none;
+  stroke:currentColor;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:2;
+}
+
+.os-icon.windows svg path,
+.os-icon.android svg circle{
+  fill:currentColor;
+  stroke:none;
+}
+
+.os-icon.apple{
+  background:#f8fafc;
+  color:#111827;
+}
+
+.os-icon.android{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.os-icon.windows{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.os-icon.linux{
+  background:#fef3c7;
+  color:#92400e;
+}
+
 .pager{
   display:flex;
   gap:10px;
@@ -1785,7 +1856,7 @@ tr:last-child td{
   }
 </td>
 <td>${escapeHtml(row.browser)}</td>
-<td>${escapeHtml(detectOs(row.ua))}</td>
+<td>${osIcon(row.ua)}</td>
 <td>${escapeHtml(row.device_type)}</td>
 <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
 <td>${escapeHtml(cleanReferrerLabel(row.referer))}</td>
@@ -2044,27 +2115,6 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
     </table>
   </div>
 
-  <div class="panel">
-    <h2>Top OS</h2>
-    <table class="clean-table">
-      <tr>
-        <th>OS</th>
-        <th>Visits</th>
-      </tr>
-`;
-
-      for (const row of topOperatingSystems.results) {
-        html += `
-      <tr>
-        <td>${escapeHtml(row.os || "Other")}</td>
-        <td><span class="metric">${escapeHtml(row.visits)}</span></td>
-      </tr>
-`;
-      }
-
-      html += `
-    </table>
-  </div>
 </section>
 `;
 
