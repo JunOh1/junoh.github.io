@@ -303,6 +303,9 @@ export default {
           ? "include"
           : "exclude";
 
+      const activeOrgSearch =
+        (url.searchParams.get("orgSearch") || "").trim();
+
       const startDate =
         rangeStart(activeRange);
 
@@ -533,6 +536,13 @@ export default {
         params.set("view", overrides.view || activeView);
         params.set("parents", overrides.parents || activeParents);
 
+        const nextOrgSearch =
+          overrides.orgSearch ?? activeOrgSearch;
+
+        if (nextOrgSearch) {
+          params.set("orgSearch", nextOrgSearch);
+        }
+
         const nextPage =
           overrides.page || page;
 
@@ -658,6 +668,22 @@ export default {
         return out;
       }
 
+      const recentLogFilters =
+        [...commonLogFilters];
+
+      const recentParams =
+        [...rangeParams];
+
+      if (activeOrgSearch) {
+        recentLogFilters.push("lower(coalesce(org,'')) LIKE ?");
+        recentParams.push(`%${activeOrgSearch.toLowerCase()}%`);
+      }
+
+      const recentLogWhere =
+        recentLogFilters.length
+          ? `WHERE ${recentLogFilters.join(" AND ")}`
+          : "";
+
       const recentRaw = await env.DB.prepare(`
         SELECT
           ts,
@@ -671,12 +697,12 @@ export default {
           ip,
           ${logBotCase} AS likely_bot
         FROM visitor_logs
-        ${logWhere}
+        ${recentLogWhere}
         ORDER BY id DESC
         LIMIT ?
         OFFSET ?
       `)
-        .bind(...rangeParams, PAGE_SIZE + 1, offset)
+        .bind(...recentParams, PAGE_SIZE + 1, offset)
         .all();
 
       const recentHasNext =
@@ -1278,6 +1304,25 @@ tr:last-child td{
   font-weight:700;
 }
 
+.table-search-button{
+  padding:9px 12px;
+  border:1px solid #d8dce5;
+  border-radius:6px;
+  background:#fff;
+  color:#273244;
+  font:inherit;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(22,29,45,.04);
+}
+
+.table-search-clear{
+  color:#64748b;
+  font-size:12px;
+  font-weight:700;
+}
+
 .wide-table{
   min-width:980px;
 }
@@ -1483,6 +1528,12 @@ tr:last-child td{
     margin-top:8px;
   }
 
+  .table-search-button,
+  .table-search-clear{
+    display:inline-block;
+    margin-top:8px;
+  }
+
   .stats-panel{
     grid-template-columns:1fr 1fr;
   }
@@ -1590,16 +1641,30 @@ tr:last-child td{
 
 <h2 id="recent-visitors">Recent Visitors</h2>
 
-<div class="table-tools">
+<form class="table-tools" action="/admin" method="get">
+  <input type="hidden" name="range" value="${escapeHtml(activeRange)}">
+  <input type="hidden" name="view" value="${escapeHtml(activeView)}">
+  <input type="hidden" name="parents" value="${escapeHtml(activeParents)}">
   <input
     id="recentOrgSearch"
+    name="orgSearch"
     class="table-search"
     type="search"
     placeholder="Search organization"
+    value="${escapeHtml(activeOrgSearch)}"
     autocomplete="off"
   >
-  <span id="recentOrgSearchCount" class="table-search-count"></span>
-</div>
+  <button class="table-search-button" type="submit">Search</button>
+  ${
+    activeOrgSearch
+      ? `<a class="table-search-clear" href="${adminUrl({
+          orgSearch: "",
+          page: 1
+        })}">Clear</a>
+         <span class="table-search-count">Searching all recent visitors</span>`
+      : ""
+  }
+</form>
 
 <div class="table-scroll">
 
@@ -1623,7 +1688,7 @@ tr:last-child td{
         const nyTime = dashboardTime(row.ts);
 
         html += `
-<tr data-org="${escapeHtml(row.org || "")}">
+<tr>
 <td>${escapeHtml(nyTime)}</td>
 <td>${escapeHtml(row.org)}</td>
 <td>${escapeHtml(row.country)}</td>
@@ -2098,48 +2163,6 @@ new Chart(
     }
   }
 );
-
-const recentOrgSearch =
-  document.getElementById("recentOrgSearch");
-
-const recentOrgSearchCount =
-  document.getElementById("recentOrgSearchCount");
-
-const recentRows =
-  Array.from(document.querySelectorAll("[data-org]"));
-
-function filterRecentOrganizations() {
-  const query =
-    recentOrgSearch.value.trim().toLowerCase();
-
-  let visible =
-    0;
-
-  for (const row of recentRows) {
-    const org =
-      row.dataset.org.toLowerCase();
-
-    const match =
-      !query || org.includes(query);
-
-    row.style.display =
-      match ? "" : "none";
-
-    if (match) {
-      visible += 1;
-    }
-  }
-
-  recentOrgSearchCount.textContent =
-    query ? visible + " shown" : "";
-}
-
-if (recentOrgSearch) {
-  recentOrgSearch.addEventListener(
-    "input",
-    filterRecentOrganizations
-  );
-}
 
 </script>
 
