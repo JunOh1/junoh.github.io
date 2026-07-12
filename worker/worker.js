@@ -1028,13 +1028,46 @@ th,td{
   text-align:left;
 }
 
-canvas{
-  max-width:1200px;
-  margin-bottom:26px;
-  padding:18px;
-  border:1px solid #dde2eb;
+.chart-card{
+  margin:18px 0 30px;
+  padding:22px 24px 18px;
+  border:1px solid rgba(255,255,255,.08);
   border-radius:8px;
-  background:#fff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,0)),
+    #12110e;
+  box-shadow:0 14px 34px rgba(17,24,39,.16);
+}
+
+.chart-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:12px;
+}
+
+.chart-title{
+  color:#d8d0c4;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.chart-note{
+  color:#8f8679;
+  font-size:13px;
+  font-weight:600;
+}
+
+.chart-canvas-wrap{
+  height:320px;
+}
+
+.chart-canvas-wrap canvas{
+  width:100%;
+  height:100%;
 }
 
 .range-tabs{
@@ -1271,8 +1304,8 @@ canvas{
     grid-template-columns:1fr;
   }
 
-  canvas{
-    max-width:100%;
+  .chart-canvas-wrap{
+    height:260px;
   }
 }
 
@@ -1382,9 +1415,16 @@ canvas{
 
 ${pager("page", page, recentHasNext, "recent-visitors")}
 
-<h2>Traffic Trend</h2>
+<section class="chart-card">
+  <div class="chart-header">
+    <div class="chart-title">Traffic Trend</div>
+    <div class="chart-note">${escapeHtml(activeRange === "all" ? "all tracked days" : activeRange)}</div>
+  </div>
 
-<canvas id="trafficChart"></canvas>
+  <div class="chart-canvas-wrap">
+    <canvas id="trafficChart"></canvas>
+  </div>
+</section>
 
 <h2>Dataset Downloads</h2>
 
@@ -1717,21 +1757,109 @@ new Chart(
       datasets: [
         {
           label: "Visits",
-          data: data.map(x => x.visits)
+          data: data.map(x => x.visits),
+          borderColor: "#d13932",
+          backgroundColor: "rgba(209,57,50,.14)",
+          pointBackgroundColor: "#d13932",
+          pointBorderColor: "#d13932",
+          pointHoverBackgroundColor: "#f0d9c2",
+          pointHoverBorderColor: "#d13932",
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
+          tension: .35,
+          fill: true
         },
         {
           label: "Unique Visitors",
-          data: data.map(x => x.unique)
+          data: data.map(x => x.unique),
+          borderColor: "#b9b09f",
+          backgroundColor: "rgba(185,176,159,.08)",
+          pointBackgroundColor: "#b9b09f",
+          pointBorderColor: "#b9b09f",
+          pointHoverBackgroundColor: "#f0d9c2",
+          pointHoverBorderColor: "#b9b09f",
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+          tension: .35,
+          fill: false
         },
         {
           label: "Pageviews",
-          data: data.map(x => x.pageviews)
+          data: data.map(x => x.pageviews),
+          borderColor: "#6f63bf",
+          backgroundColor: "rgba(111,99,191,.08)",
+          pointBackgroundColor: "#6f63bf",
+          pointBorderColor: "#6f63bf",
+          pointHoverBackgroundColor: "#f0d9c2",
+          pointHoverBorderColor: "#6f63bf",
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+          tension: .35,
+          fill: false
         }
       ]
     },
 
     options: {
-      responsive:true
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "#b9b09f",
+            boxWidth: 10,
+            boxHeight: 10,
+            padding: 18,
+            usePointStyle: true,
+            pointStyle: "circle"
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(18,17,14,.96)",
+          borderColor: "rgba(255,255,255,.16)",
+          borderWidth: 1,
+          titleColor: "#f0d9c2",
+          bodyColor: "#e7dfd3",
+          padding: 12,
+          displayColors: true
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: "#8f8679",
+            maxRotation: 0
+          },
+          border: {
+            color: "rgba(255,255,255,.12)"
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: "rgba(185,176,159,.16)",
+            borderDash: [5, 7]
+          },
+          ticks: {
+            color: "#8f8679",
+            precision: 0
+          },
+          border: {
+            display: false
+          }
+        }
+      }
     }
   }
 );
