@@ -675,8 +675,16 @@ export default {
         [...rangeParams];
 
       if (activeOrgSearch) {
-        recentLogFilters.push("lower(coalesce(org,'')) LIKE ?");
-        recentParams.push(`%${activeOrgSearch.toLowerCase()}%`);
+        recentLogFilters.push(`(
+          lower(coalesce(org,'')) LIKE ?
+          OR lower(coalesce(country,'')) LIKE ?
+          OR lower(coalesce(city,'')) LIKE ?
+        )`);
+        recentParams.push(
+          `%${activeOrgSearch.toLowerCase()}%`,
+          `%${activeOrgSearch.toLowerCase()}%`,
+          `%${activeOrgSearch.toLowerCase()}%`
+        );
       }
 
       const recentLogWhere =
@@ -1650,7 +1658,7 @@ tr:last-child td{
     name="orgSearch"
     class="table-search"
     type="search"
-    placeholder="Search organization"
+    placeholder="Search organization, country, or city"
     value="${escapeHtml(activeOrgSearch)}"
     autocomplete="off"
   >
