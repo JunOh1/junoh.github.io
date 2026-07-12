@@ -789,6 +789,19 @@ export default {
       const linkRows =
         linkClickDetails.results.slice(0, PAGE_SIZE);
 
+      const linkTotals = await env.DB.prepare(`
+        SELECT
+          text,
+          target,
+          COUNT(*) AS clicks
+        FROM visitor_events
+        ${eventWhere}
+        GROUP BY text, target
+        ORDER BY clicks DESC
+      `)
+        .bind(...rangeParams)
+        .all();
+
       const dailyRaw = await env.DB.prepare(`
         SELECT
           substr(ts,1,10) AS date,
@@ -877,6 +890,11 @@ export default {
         }
 
         return `<span class="metric human">Human</span>`;
+      }
+
+      function cleanDownloadLabel(path) {
+        return String(path || "")
+          .replace(/^DOWNLOAD:\s*/, "");
       }
 
       let html = `
@@ -1346,7 +1364,7 @@ for (const row of downloads.results) {
 
   html += `
   <tr>
-    <td>${escapeHtml(row.path)}</td>
+    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
     <td>${escapeHtml(row.downloads)}</td>
   </tr>
   `;
@@ -1395,7 +1413,6 @@ html += `
   <th>Dataset</th>
   <th>Organization</th>
   <th>Country</th>
-  <th>Category</th>
 </tr>
 `;
 
@@ -1404,10 +1421,9 @@ for (const row of downloadHistory) {
   html += `
   <tr>
     <td>${escapeHtml(dashboardTime(row.ts))}</td>
-    <td>${escapeHtml(row.path)}</td>
+    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
     <td>${escapeHtml(row.org)}</td>
     <td>${escapeHtml(row.country)}</td>
-    <td>${categoryMetric(row)}</td>
   </tr>
   `;
 }
@@ -1528,13 +1544,40 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 <table>
 
 <tr>
+  <th>Paper</th>
+  <th>Total Clicks</th>
+</tr>
+`;
+
+      for (const row of linkTotals.results) {
+        html += `
+<tr>
+  <td>
+    <a href="${escapeHtml(row.target)}" target="_blank">
+      ${escapeHtml(row.text || row.target || "unknown")}
+    </a>
+  </td>
+  <td><span class="metric">${escapeHtml(row.clicks)}</span></td>
+</tr>
+`;
+      }
+
+      html += `
+</table>
+
+</div>
+
+<div class="table-scroll">
+
+<table>
+
+<tr>
   <th>Time</th>
   <th>Paper</th>
   <th>Organization</th>
   <th>City</th>
   <th>Country</th>
   <th>IP</th>
-  <th>Category</th>
 </tr>
 `;
 
@@ -1560,7 +1603,6 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
         : ""
     }
   </td>
-  <td>${categoryMetric(row)}</td>
 </tr>
 `;
       }
