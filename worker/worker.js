@@ -1185,13 +1185,14 @@ th{
   color:#64748b;
   font-size:11px;
   font-weight:800;
-  padding:10px 12px;
+  padding:8px 12px;
   text-transform:uppercase;
 }
 
 td{
   font-size:12px;
-  padding:10px 12px;
+  line-height:1.25;
+  padding:7px 12px;
 }
 
 th,td{
@@ -1335,6 +1336,11 @@ tr:last-child td{
   min-width:980px;
 }
 
+.wide-table td{
+  padding-top:6px;
+  padding-bottom:6px;
+}
+
 .medium-table{
   min-width:720px;
 }
@@ -1437,7 +1443,8 @@ tr:last-child td{
 
 .clean-table td{
   font-size:13px;
-  padding:10px 12px;
+  line-height:1.25;
+  padding:7px 12px;
 }
 
 .clean-table th,
