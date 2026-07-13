@@ -66,6 +66,15 @@ function rangeStart(range) {
   return "";
 }
 
+function isIgnoredIp(ip) {
+  return [
+    "195.133.129.113",
+    "195.252.220.27",
+    "223.119.20.199",
+    "132.147.101.179"
+  ].includes(ip);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -76,7 +85,7 @@ export default {
       "media-conglomeration": "https://doi.org/10.1287/mnsc.2023.02247",
       "contract-contingencies": "https://doi.org/10.1016/j.jacceco.2024.101743",
       "antitrust-ma": "https://doi.org/10.1016/j.jacceco.2026.101884",
-      "algorithmic-trading": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4202175",
+      "algorithmic-trading": "https://doi.org/10.1007/s11142-026-09980-1",
       "whispering-progress": "https://doi.org/10.1016/j.jacceco.2026.101904",
       "reverse-engineering": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5525158",
       "resume-washing": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6480522"
@@ -103,16 +112,12 @@ export default {
         request.headers.get("referer") || "";
 
 
-      const isMyVisit =
-        ip === "195.133.129.113" ||
-        ip === "195.252.220.27";
-
       const isCloudflarePreview =
         request.cf?.asOrganization === "Cloudflare, Inc." ||
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      if (!isMyVisit && !isCloudflarePreview) {
+      if (!isIgnoredIp(ip) && !isCloudflarePreview) {
         await env.DB.prepare(`
           INSERT INTO visitor_events
           (
@@ -162,16 +167,12 @@ export default {
       const referer =
         request.headers.get("referer") || "";
 
-      const isMyVisit =
-        ip === "195.133.129.113" ||
-        ip === "195.252.220.27";
-
       const isCloudflarePreview =
         request.cf?.asOrganization === "Cloudflare, Inc." ||
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      if (isMyVisit || isCloudflarePreview) {
+      if (isIgnoredIp(ip) || isCloudflarePreview) {
         return;
       }
 
@@ -464,7 +465,7 @@ export default {
         commonLogFilters.push("ip != '59.15.80.113'");
       }
 
-      commonLogFilters.push("ip != '223.119.20.199'");
+      commonLogFilters.push("ip NOT IN ('223.119.20.199', '132.147.101.179')");
 
       const downloadFilters = [
         "path LIKE 'DOWNLOAD:%'",
@@ -524,7 +525,7 @@ export default {
         eventFilters.push("ip != '59.15.80.113'");
       }
 
-      eventFilters.push("ip != '223.119.20.199'");
+      eventFilters.push("ip NOT IN ('223.119.20.199', '132.147.101.179')");
 
       const eventWhere =
         `WHERE ${eventFilters.join(" AND ")}`;
@@ -942,11 +943,10 @@ export default {
       const linkTotals = await env.DB.prepare(`
         SELECT
           text,
-          target,
           COUNT(*) AS clicks
         FROM visitor_events
         ${eventWhere}
-        GROUP BY text, target
+        GROUP BY text
         ORDER BY clicks DESC
       `)
         .bind(...rangeParams)
@@ -2148,11 +2148,14 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 `;
 
       for (const row of linkTotals.results) {
+        const paperTarget =
+          goLinks[row.text] || row.target || "";
+
         html += `
 <tr>
   <td>
-    <a href="${escapeHtml(row.target)}" target="_blank">
-      ${escapeHtml(row.text || row.target || "unknown")}
+    <a href="${escapeHtml(paperTarget)}" target="_blank">
+      ${escapeHtml(row.text || paperTarget || "unknown")}
     </a>
   </td>
   <td><span class="metric">${escapeHtml(row.clicks)}</span></td>
@@ -2392,10 +2395,6 @@ new Chart(
         request.headers.get("referer") || "";
 
 
-      const isMyVisit =
-        ip === "195.133.129.113" ||
-        ip === "195.252.220.27";
-
       const isCloudflarePreview =
         request.cf?.asOrganization === "Cloudflare, Inc." ||
         referer.includes("preview.devprod.cloudflare.dev") ||
@@ -2409,7 +2408,7 @@ new Chart(
         setSessionCookie = true;
       }
 
-      if (!isMyVisit && !isCloudflarePreview) {
+      if (!isIgnoredIp(ip) && !isCloudflarePreview) {
         await env.DB.prepare(`
           INSERT INTO visitor_logs
           (
