@@ -1489,6 +1489,22 @@ tr:last-child td{
   white-space:nowrap;
 }
 
+@media (min-width: 801px){
+  .compact-table{
+    table-layout:fixed;
+  }
+
+  .compact-table th:first-child,
+  .compact-table td:first-child{
+    width:78%;
+  }
+
+  .compact-table th:last-child,
+  .compact-table td:last-child{
+    width:22%;
+  }
+}
+
 .stats-panel{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
