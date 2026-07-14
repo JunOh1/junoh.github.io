@@ -774,11 +774,18 @@ export default {
 
       const topPages = await env.DB.prepare(`
         SELECT
-          path,
+          CASE
+            WHEN path IN ('/research', '/research/') THEN '/research'
+            ELSE path
+          END AS path,
           COUNT(*) AS visits
         FROM visitor_logs
         ${logWhere}
-        GROUP BY path
+        GROUP BY
+          CASE
+            WHEN path IN ('/research', '/research/') THEN '/research'
+            ELSE path
+          END
         ORDER BY visits DESC
         LIMIT 20
       `)
@@ -1001,6 +1008,7 @@ export default {
         .all();
 
       const chartData = dailyChart.results.map(r => ({
+        rawDate: r.date,
         date: new Date(r.date)
           .toLocaleDateString(
             "en-SG",
@@ -1171,6 +1179,10 @@ export default {
             return "LinkedIn";
           }
 
+          if (host === "com.linkedin.android") {
+            return "LinkedIn";
+          }
+
           if (host.endsWith("duckduckgo.com")) {
             return "DuckDuckGo";
           }
@@ -1180,7 +1192,15 @@ export default {
           }
 
           if (host.endsWith("sheguoman.com")) {
-            return "She Guoman";
+            return "Guoman She's website";
+          }
+
+          if (host === "weixin110.qq.com") {
+            return "QQ";
+          }
+
+          if (host === "search.yahoo.com") {
+            return "Yahoo";
           }
 
           return host;
@@ -1325,6 +1345,29 @@ tr:last-child td{
   color:#64748b;
   font-size:13px;
   font-weight:600;
+}
+
+.chart-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.chart-grain{
+  padding:6px 9px;
+  border:1px solid #d8dce5;
+  border-radius:4px;
+  background:#fff;
+  color:#273244;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:700;
+}
+
+.chart-grain.active{
+  background:#2f195f;
+  border-color:#2f195f;
+  color:#fff;
 }
 
 .chart-canvas-wrap{
@@ -1891,7 +1934,11 @@ ${pager("page", page, recentHasNext, "recent-visitors")}
 <section class="chart-card">
   <div class="chart-header">
     <div class="chart-title">Traffic Trend</div>
-    <div class="chart-note">${escapeHtml(activeRange === "all" ? "all tracked days" : activeRange)}</div>
+    <div class="chart-actions" aria-label="Traffic trend aggregation">
+      <button class="chart-grain active" type="button" data-grain="daily">Daily</button>
+      <button class="chart-grain" type="button" data-grain="weekly">Weekly</button>
+      <button class="chart-grain" type="button" data-grain="monthly">Monthly</button>
+    </div>
   </div>
 
   <div class="chart-canvas-wrap">
@@ -1899,92 +1946,6 @@ ${pager("page", page, recentHasNext, "recent-visitors")}
   </div>
 </section>
 
-<h2>Dataset Downloads</h2>
-
-<div class="table-scroll">
-
-<table class="compact-table">
-
-<tr>
-  <th>Dataset</th>
-  <th>Downloads</th>
-</tr>
-`;
-
-for (const row of downloads.results) {
-
-  html += `
-  <tr>
-    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
-    <td>${escapeHtml(row.downloads)}</td>
-  </tr>
-  `;
-}
-
-html += `
-</table>
-
-</div>
-
-<h2>Top Downloading Institutions</h2>
-
-<div class="table-scroll">
-
-<table class="compact-table">
-
-<tr>
-  <th>Organization</th>
-  <th>Downloads</th>
-</tr>
-`;
-
-for (const row of topDownloaders.results) {
-
-  html += `
-  <tr>
-    <td>${escapeHtml(row.org)}</td>
-    <td>${escapeHtml(row.downloads)}</td>
-  </tr>
-  `;
-}
-
-html += `
-</table>
-
-</div>
-
-<h2 id="download-history">Download History</h2>
-
-<div class="table-scroll">
-
-<table class="medium-table">
-
-<tr>
-  <th>Time</th>
-  <th>Dataset</th>
-  <th>Organization</th>
-  <th>Country</th>
-</tr>
-`;
-
-for (const row of downloadHistory) {
-
-  html += `
-  <tr>
-    <td>${escapeHtml(dashboardTime(row.ts))}</td>
-    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
-    <td>${escapeHtml(row.org)}</td>
-    <td>${escapeHtml(row.country)}</td>
-  </tr>
-  `;
-}
-
-html += `
-</table>
-
-</div>
-
-${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history")}
 
 <section class="summary-grid">
 `;
@@ -2215,22 +2176,194 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 
 ${pager("linkPage", linkPage, linkHasNext, "paper-links")}
 
+<h2>Dataset Downloads</h2>
+
+<div class="table-scroll">
+
+<table class="compact-table">
+
+<tr>
+  <th>Dataset</th>
+  <th>Downloads</th>
+</tr>
+`;
+
+for (const row of downloads.results) {
+
+  html += `
+  <tr>
+    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
+    <td>${escapeHtml(row.downloads)}</td>
+  </tr>
+  `;
+}
+
+html += `
+</table>
+
+</div>
+
+<h2>Top Downloading Institutions</h2>
+
+<div class="table-scroll">
+
+<table class="compact-table">
+
+<tr>
+  <th>Organization</th>
+  <th>Downloads</th>
+</tr>
+`;
+
+for (const row of topDownloaders.results) {
+
+  html += `
+  <tr>
+    <td>${escapeHtml(row.org)}</td>
+    <td>${escapeHtml(row.downloads)}</td>
+  </tr>
+  `;
+}
+
+html += `
+</table>
+
+</div>
+
+<h2 id="download-history">Download History</h2>
+
+<div class="table-scroll">
+
+<table class="medium-table">
+
+<tr>
+  <th>Time</th>
+  <th>Dataset</th>
+  <th>Organization</th>
+  <th>Country</th>
+</tr>
+`;
+
+for (const row of downloadHistory) {
+
+  html += `
+  <tr>
+    <td>${escapeHtml(dashboardTime(row.ts))}</td>
+    <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
+    <td>${escapeHtml(row.org)}</td>
+    <td>${escapeHtml(row.country)}</td>
+  </tr>
+  `;
+}
+
+html += `
+</table>
+
+</div>
+
+${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history")}
+
+
 <script>
 
 const data = ${JSON.stringify(chartData)};
 
-new Chart(
-  document.getElementById("trafficChart"),
-  {
+function chartDate(rawDate) {
+  return new Date(rawDate + "T00:00:00Z");
+}
+
+function shortDateLabel(date) {
+  return date.toLocaleDateString(
+    "en-SG",
+    {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC"
+    }
+  );
+}
+
+function monthLabel(date) {
+  return date.toLocaleDateString(
+    "en-SG",
+    {
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC"
+    }
+  );
+}
+
+function weekStart(date) {
+  const copy =
+    new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const day =
+    copy.getUTCDay() || 7;
+
+  copy.setUTCDate(copy.getUTCDate() - day + 1);
+  return copy;
+}
+
+function aggregateTraffic(grain) {
+  if (grain === "daily") {
+    return data.map(row => ({
+      date: row.date,
+      visits: row.visits,
+      unique: row.unique,
+      pageviews: row.pageviews
+    }));
+  }
+
+  const buckets =
+    new Map();
+
+  for (const row of data) {
+    const date =
+      chartDate(row.rawDate);
+
+    const keyDate =
+      grain === "monthly"
+        ? new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
+        : weekStart(date);
+
+    const key =
+      keyDate.toISOString().slice(0, 10);
+
+    if (!buckets.has(key)) {
+      buckets.set(key, {
+        key,
+        date:
+          grain === "monthly"
+            ? monthLabel(keyDate)
+            : shortDateLabel(keyDate),
+        visits: 0,
+        unique: 0,
+        pageviews: 0
+      });
+    }
+
+    const bucket =
+      buckets.get(key);
+
+    bucket.visits += Number(row.visits || 0);
+    bucket.unique += Number(row.unique || 0);
+    bucket.pageviews += Number(row.pageviews || 0);
+  }
+
+  return [...buckets.values()].sort((a, b) => a.key.localeCompare(b.key));
+}
+
+function chartConfig(rows) {
+  return {
     type: "line",
 
     data: {
-      labels: data.map(x => x.date),
+      labels: rows.map(x => x.date),
 
       datasets: [
         {
           label: "Visits",
-          data: data.map(x => x.visits),
+          data: rows.map(x => x.visits),
           borderColor: "#3f1f8f",
           backgroundColor: "rgba(63,31,143,.10)",
           pointBackgroundColor: "#3f1f8f",
@@ -2245,7 +2378,7 @@ new Chart(
         },
         {
           label: "Unique Visitors",
-          data: data.map(x => x.unique),
+          data: rows.map(x => x.unique),
           borderColor: "#64748b",
           backgroundColor: "rgba(100,116,139,.06)",
           pointBackgroundColor: "#64748b",
@@ -2260,7 +2393,7 @@ new Chart(
         },
         {
           label: "Pageviews",
-          data: data.map(x => x.pageviews),
+          data: rows.map(x => x.pageviews),
           borderColor: "#0f766e",
           backgroundColor: "rgba(15,118,110,.06)",
           pointBackgroundColor: "#0f766e",
@@ -2334,8 +2467,27 @@ new Chart(
         }
       }
     }
-  }
-);
+  };
+}
+
+const trafficCanvas =
+  document.getElementById("trafficChart");
+
+let trafficChart =
+  new Chart(trafficCanvas, chartConfig(aggregateTraffic("daily")));
+
+for (const button of document.querySelectorAll(".chart-grain")) {
+  button.addEventListener("click", () => {
+    for (const other of document.querySelectorAll(".chart-grain")) {
+      other.classList.toggle("active", other === button);
+    }
+
+    trafficChart.destroy();
+    trafficChart =
+      new Chart(trafficCanvas, chartConfig(aggregateTraffic(button.dataset.grain)));
+  });
+}
+
 
 </script>
 
