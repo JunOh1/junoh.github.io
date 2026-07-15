@@ -337,6 +337,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%idigital internet inc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%dteko vietnam technology company limited%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%advin services llc%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%b.v., dataprovider%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -407,6 +408,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%idigital internet inc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%dteko vietnam technology company limited%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%advin services llc%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%b.v., dataprovider%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
