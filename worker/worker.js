@@ -326,6 +326,15 @@ export default {
 
       const logBotCase = `
         CASE
+          WHEN ip IN (
+            '194.5.82.64',
+            '194.5.82.167',
+            '194.5.82.95',
+            '194.5.82.82',
+            '194.5.82.77',
+            '194.5.82.63',
+            '194.5.82.65'
+          ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%aws%' THEN 1
@@ -396,6 +405,15 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN ip IN (
+            '194.5.82.64',
+            '194.5.82.167',
+            '194.5.82.95',
+            '194.5.82.82',
+            '194.5.82.77',
+            '194.5.82.63',
+            '194.5.82.65'
+          ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
