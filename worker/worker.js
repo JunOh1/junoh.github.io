@@ -366,6 +366,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%felcloud%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%uab code200%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%code200 uab%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%hydra communications ltd%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -465,6 +466,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%felcloud%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%uab code200%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%code200 uab%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%hydra communications ltd%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
