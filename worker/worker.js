@@ -345,7 +345,9 @@ export default {
             '194.5.82.76',
             '194.5.82.60',
             '38.253.224.3',
-            '38.253.224.40'
+            '38.253.224.40',
+            '95.85.238.63',
+            '5.83.214.21'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -367,6 +369,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%uab code200%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%code200 uab%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%hydra communications ltd%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%byteplus%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -444,7 +447,9 @@ export default {
             '194.5.82.76',
             '194.5.82.60',
             '38.253.224.3',
-            '38.253.224.40'
+            '38.253.224.40',
+            '95.85.238.63',
+            '5.83.214.21'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -467,6 +472,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%uab code200%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%code200 uab%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%hydra communications ltd%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%byteplus%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
