@@ -45,7 +45,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/antitrust-ma">Antitrust Risk and Voluntary M&A Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">Dissertation</li>
-      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026 (Forthcoming)</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026</em></li>
     </ul>
   </div>
 </div>
@@ -87,7 +87,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/reverse-engineering">Reverse Engineering Innovation</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://marriott.byu.edu/directory/details?id=8659" style="color: inherit; text-decoration: none;">Travis Dyer</a></li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop, 2026 Colorado Summer Accounting Research Conference (Scheduled), 4th Bocconi Accounting Symposium (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, CUHK*, Southern Methodist University, 2025 CETAFE, 2026 Disclosure, Information Sharing, and Secrecy Workshop, 2026 Colorado Summer Accounting Research Conference, 4th Bocconi Accounting Symposium</li>
     </ul>
   </div>
 </div>
@@ -95,7 +95,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[8]</span>
   <div>
-    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/resume-washing">Résumé Washing</a>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/resume-washing">Partisan Résumés: ESG Signaling over the Political Cycle</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
