@@ -1,0 +1,9 @@
+name = "visitor-logger"
+main = "worker.js"
+compatibility_date = "2026-07-11"
+preview_urls = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "visitor_logs"
+database_id = "bd70c6a4-34af-4fb6-b7e1-c610a0fe1023"
