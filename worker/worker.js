@@ -374,6 +374,8 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%byteplus%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%ace data centers ii, l.l.c.%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%senko digital llc - de network%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%ionos se%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%hostroyale technologies pvt ltd%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
@@ -481,6 +483,8 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%byteplus%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%ace data centers ii, l.l.c.%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%senko digital llc - de network%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%ionos se%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%hostroyale technologies pvt ltd%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%granslosa system gsys kb%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rica web services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%iyi bir net%' THEN 1
