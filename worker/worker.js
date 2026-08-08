@@ -88,7 +88,7 @@ export default {
       "algorithmic-trading": "https://doi.org/10.1007/s11142-026-09980-1",
       "whispering-progress": "https://doi.org/10.1016/j.jacceco.2026.101904",
       "reverse-engineering": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5525158",
-      "resume-washing": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7224480"
+      "resume-washing": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6428260"
     };
 
     if (path.startsWith("/go/")) {
