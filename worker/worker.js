@@ -357,7 +357,10 @@ export default {
             '181.119.109.115',
             '37.41.206.114',
             '95.212.48.85',
-            '196.189.120.12'
+            '196.189.120.12',
+            '2001:bc8:1210:d47e:dc00:ff:feca:16f9',
+            '146.247.228.98',
+            '193.235.141.125'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -474,7 +477,10 @@ export default {
             '181.119.109.115',
             '37.41.206.114',
             '95.212.48.85',
-            '196.189.120.12'
+            '196.189.120.12',
+            '2001:bc8:1210:d47e:dc00:ff:feca:16f9',
+            '146.247.228.98',
+            '193.235.141.125'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
