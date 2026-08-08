@@ -426,6 +426,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%virtual systems llc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%pt gunung sedayu sentosa%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%modmc%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%bot%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%crawler%' THEN 1
           WHEN lower(coalesce(ua,'')) LIKE '%spider%' THEN 1
@@ -541,6 +542,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%digital ocean, inc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%virtual systems llc%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%modmc%' THEN 1
           ELSE 0
         END
       `;
