@@ -315,7 +315,10 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("tencent cloud computing") ||
     /^ovh\b/.test(normalizedOrg) ||
     normalizedOrg.includes("microsoft corporation") ||
-    normalizedOrg.includes("aceville pte")
+    normalizedOrg.includes("aceville pte") ||
+    normalizedOrg.includes("amazon data services") ||
+    normalizedOrg.includes("amazon technologies") ||
+    normalizedOrg.includes("amazon.com")
   );
 }
 
