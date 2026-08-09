@@ -1485,9 +1485,47 @@ export default {
       const totalVisits =
         totals.results[0]?.total_visits || 0;
 
-      const viewsPerVisit =
-        totalVisits > 0
-          ? (totalPageviews / totalVisits).toFixed(1)
+      const dailyVisitorTotals = await env.DB.prepare(`
+        SELECT
+          COUNT(DISTINCT substr(ts, 1, 10) || ':' || visitor_id) AS visitor_days,
+          MIN(substr(ts, 1, 10)) AS first_day,
+          MAX(substr(ts, 1, 10)) AS last_day
+        FROM visitor_logs
+        ${logWhere}
+      `)
+        .bind(...rangeParams)
+        .all();
+
+      const dailyVisitorRow =
+        dailyVisitorTotals.results[0] || {};
+
+      const visitorDays =
+        dailyVisitorRow.visitor_days || 0;
+
+      let averageWindowDays = 0;
+
+      if (activeRange === "today") {
+        averageWindowDays = 1;
+      } else if (activeRange === "7d") {
+        averageWindowDays = 7;
+      } else if (activeRange === "30d") {
+        averageWindowDays = 30;
+      } else if (dailyVisitorRow.first_day && dailyVisitorRow.last_day) {
+        averageWindowDays =
+          Math.max(
+            1,
+            Math.round(
+              (
+                new Date(`${dailyVisitorRow.last_day}T00:00:00Z`) -
+                new Date(`${dailyVisitorRow.first_day}T00:00:00Z`)
+              ) / (24 * 60 * 60 * 1000)
+            ) + 1
+          );
+      }
+
+      const averageDailyUniqueVisitors =
+        averageWindowDays > 0
+          ? (visitorDays / averageWindowDays).toFixed(1)
           : "0";
 
       const topOrgsRaw = await env.DB.prepare(`
@@ -1913,7 +1951,7 @@ export default {
             return "Bing";
           }
 
-          if (host.endsWith("linkedin.com")) {
+          if (host.endsWith("linkedin.com") || host.endsWith("lnkd.in")) {
             return "LinkedIn";
           }
 
@@ -2597,8 +2635,8 @@ tr:last-child td{
   </div>
 
   <div class="stat-card">
-    <div class="stat-label">Views Per Visit</div>
-    <div class="stat-value">${escapeHtml(viewsPerVisit)}</div>
+    <div class="stat-label">Avg Daily Visitors</div>
+    <div class="stat-value">${escapeHtml(averageDailyUniqueVisitors)}</div>
   </div>
 
 </section>
