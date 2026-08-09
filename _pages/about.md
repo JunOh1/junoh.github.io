@@ -1,6 +1,5 @@
 ---
 permalink: /
-title: "Hello!!"
 excerpt: "Assistant Professor of Accounting at Purdue University researching disclosure, innovation, product markets, technology markets, and industrial organization."
 author_profile: true
 
