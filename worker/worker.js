@@ -1528,6 +1528,22 @@ export default {
           ? (visitorDays / averageWindowDays).toFixed(1)
           : "0";
 
+      const academicTotals = await env.DB.prepare(`
+        SELECT COUNT(*) AS visits
+        FROM visitor_logs
+        ${academicWhere}
+      `)
+        .bind(...rangeParams)
+        .all();
+
+      const academicVisits =
+        academicTotals.results[0]?.visits || 0;
+
+      const academicVisitPercent =
+        totalPageviews > 0
+          ? `${((academicVisits / totalPageviews) * 100).toFixed(1)}%`
+          : "0.0%";
+
       const topOrgsRaw = await env.DB.prepare(`
         SELECT
           ${normalizedOrgSql} AS org,
@@ -2355,6 +2371,24 @@ tr:last-child td{
   text-transform:uppercase;
 }
 
+.panel h2.with-metric{
+  align-items:center;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.heading-metric{
+  background:#eef2ff;
+  border-radius:999px;
+  color:#302080;
+  font-size:12px;
+  font-weight:800;
+  padding:4px 10px;
+  text-transform:none;
+  white-space:nowrap;
+}
+
 .clean-table{
   margin:0;
 }
@@ -2771,7 +2805,10 @@ ${pager("page", page, recentHasNext, "recent-visitors")}
   </div>
 
   <div class="panel" id="top-organizations">
-    <h2>Top Organizations</h2>
+    <h2 class="with-metric">
+      <span>Top Organizations</span>
+      <span class="heading-metric">${escapeHtml(academicVisitPercent)} university visits</span>
+    </h2>
     <table class="clean-table">
       <tr>
         <th>Organization</th>
