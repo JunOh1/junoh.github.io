@@ -279,14 +279,22 @@ function isBannedBotIp(ip) {
   ].includes(ip);
 }
 
+function isBannedBotOrg(org) {
+  return String(org || "")
+    .toLowerCase()
+    .includes("collyer quay");
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
     const requestIp =
       request.headers.get("cf-connecting-ip") || "";
+    const requestOrg =
+      request.cf?.asOrganization || "";
 
-    if (isBannedBotIp(requestIp)) {
+    if (isBannedBotIp(requestIp) || isBannedBotOrg(requestOrg)) {
       return new Response("Forbidden", { status: 403 });
     }
 
