@@ -280,9 +280,13 @@ function isBannedBotIp(ip) {
 }
 
 function isBannedBotOrg(org) {
-  return String(org || "")
-    .toLowerCase()
-    .includes("collyer quay");
+  const normalizedOrg =
+    String(org || "").toLowerCase();
+
+  return (
+    normalizedOrg.includes("collyer quay") ||
+    normalizedOrg.includes("tencent cloud computing")
+  );
 }
 
 export default {
