@@ -286,7 +286,8 @@ function isBannedBotOrg(org) {
   return (
     normalizedOrg.includes("collyer quay") ||
     normalizedOrg.includes("tencent cloud computing") ||
-    /^ovh\b/.test(normalizedOrg)
+    /^ovh\b/.test(normalizedOrg) ||
+    normalizedOrg.includes("microsoft corporation")
   );
 }
 
