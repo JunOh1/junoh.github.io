@@ -881,6 +881,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%1337 services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internet vikings%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%aceville pte%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%digivps.com%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%techoff srv%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%infrastructure group%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%egihosting%' THEN 1
@@ -1201,6 +1202,7 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%1337 services%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%internet vikings%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%aceville pte%' THEN 1
+          WHEN lower(coalesce(org,'')) LIKE '%digivps.com%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%techoff srv%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%infrastructure group%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%egihosting%' THEN 1
