@@ -354,7 +354,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("google llc") ||
     normalizedOrg.includes("alibaba cloud") ||
     normalizedOrg.includes("digivps.com") ||
-    normalizedOrg.includes("datacamp limited")
+    normalizedOrg.includes("datacamp limited") ||
+    normalizedOrg.includes("internetbolaget hosting")
   );
 }
 
