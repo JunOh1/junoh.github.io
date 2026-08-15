@@ -362,7 +362,9 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("digivps.com") ||
     normalizedOrg.includes("datacamp limited") ||
     normalizedOrg.includes("internetbolaget hosting") ||
-    normalizedOrg.includes("fbw networks sas")
+    normalizedOrg.includes("fbw networks sas") ||
+    normalizedOrg.includes("internet vikings international") ||
+    normalizedOrg.includes("internet vikings hosting in sweden")
   );
 }
 
