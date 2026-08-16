@@ -375,7 +375,13 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("internet vikings hosting in sweden") ||
     normalizedOrg.includes("contabo gmbh") ||
     normalizedOrg.includes("b.v., dataprovider") ||
-    normalizedOrg.includes("oracle svenska ab")
+    normalizedOrg.includes("oracle svenska ab") ||
+    normalizedOrg.includes("palo alto networks, inc") ||
+    normalizedOrg.includes("bl networks") ||
+    normalizedOrg.includes("virtual systems llc") ||
+    normalizedOrg.includes("fr onyphe") ||
+    normalizedOrg.includes("code200 uab") ||
+    normalizedOrg.includes("uab code200")
   );
 }
 
