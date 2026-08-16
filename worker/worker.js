@@ -382,7 +382,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("virtual systems llc") ||
     normalizedOrg.includes("fr onyphe") ||
     normalizedOrg.includes("code200 uab") ||
-    normalizedOrg.includes("uab code200")
+    normalizedOrg.includes("uab code200") ||
+    normalizedOrg.includes("techoff srv limited")
   );
 }
 
