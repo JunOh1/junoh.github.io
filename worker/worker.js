@@ -342,7 +342,8 @@ function isBannedBotIp(ip) {
     "177.105.246.48",
     "141.98.252.206",
     "192.253.248.142",
-    "36.213.110.165"
+    "36.213.110.165",
+    "190.86.73.217"
   ].includes(ip);
 }
 
@@ -367,7 +368,10 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("internetbolaget hosting") ||
     normalizedOrg.includes("fbw networks sas") ||
     normalizedOrg.includes("internet vikings international") ||
-    normalizedOrg.includes("internet vikings hosting in sweden")
+    normalizedOrg.includes("internet vikings hosting in sweden") ||
+    normalizedOrg.includes("contabo gmbh") ||
+    normalizedOrg.includes("b.v., dataprovider") ||
+    normalizedOrg.includes("oracle svenska ab")
   );
 }
 
@@ -896,7 +900,8 @@ export default {
             '177.105.246.48',
             '141.98.252.206',
             '192.253.248.142',
-            '36.213.110.165'
+            '36.213.110.165',
+            '190.86.73.217'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1249,7 +1254,8 @@ export default {
             '177.105.246.48',
             '141.98.252.206',
             '192.253.248.142',
-            '36.213.110.165'
+            '36.213.110.165',
+            '190.86.73.217'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
