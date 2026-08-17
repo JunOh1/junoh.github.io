@@ -390,7 +390,9 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("fr onyphe") ||
     normalizedOrg.includes("code200 uab") ||
     normalizedOrg.includes("uab code200") ||
-    normalizedOrg.includes("techoff srv limited")
+    normalizedOrg.includes("techoff srv limited") ||
+    normalizedOrg.includes("m247 ltd paris") ||
+    normalizedOrg.includes("digitalocean, llc")
   );
 }
 
