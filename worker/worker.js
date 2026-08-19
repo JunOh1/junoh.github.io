@@ -361,7 +361,9 @@ function isBannedBotIp(ip) {
     "93.152.221.226",
     "2a06:a880:5:fd84::1",
     "46.232.235.133",
-    "85.121.55.170"
+    "85.121.55.170",
+    "46.232.235.6",
+    "211.249.40.11"
   ].includes(ip);
 }
 
@@ -398,7 +400,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("uab code200") ||
     normalizedOrg.includes("techoff srv limited") ||
     normalizedOrg.includes("m247 ltd paris") ||
-    normalizedOrg.includes("digitalocean, llc")
+    normalizedOrg.includes("digitalocean, llc") ||
+    normalizedOrg.includes("nsec - sistemas informaticos, s.a.")
   );
 }
 
@@ -946,7 +949,9 @@ export default {
             '93.152.221.226',
             '2a06:a880:5:fd84::1',
             '46.232.235.133',
-            '85.121.55.170'
+            '85.121.55.170',
+            '46.232.235.6',
+            '211.249.40.11'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1318,7 +1323,9 @@ export default {
             '93.152.221.226',
             '2a06:a880:5:fd84::1',
             '46.232.235.133',
-            '85.121.55.170'
+            '85.121.55.170',
+            '46.232.235.6',
+            '211.249.40.11'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
