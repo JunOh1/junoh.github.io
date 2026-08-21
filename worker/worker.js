@@ -2532,7 +2532,7 @@ tr:last-child td{
 }
 
 .wide-table{
-  min-width:1060px;
+  min-width:1140px;
 }
 
 .wide-table td{
@@ -2985,6 +2985,7 @@ tr:last-child td{
 <th>Country</th>
 <th>City</th>
 <th>IP</th>
+<th>AbuseIP</th>
 <th>Browser</th>
 <th>OS</th>
 <th>Device</th>
@@ -3009,6 +3010,17 @@ ${showRecentCategory ? "<th>Category</th>" : ""}
       ? `<a href="https://whatismyipaddress.com/ip/${encodeURIComponent(row.ip)}"
            target="_blank">
            ${escapeHtml(row.ip)}
+         </a>`
+    : ""
+  }
+</td>
+<td>
+  ${
+    row.ip
+      ? `<a href="https://www.abuseipdb.com/check/${encodeURIComponent(row.ip)}"
+           target="_blank"
+           rel="noopener noreferrer">
+           Check
          </a>`
       : ""
   }
