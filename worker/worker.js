@@ -426,7 +426,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("techoff srv limited") ||
     normalizedOrg.includes("m247 ltd paris") ||
     normalizedOrg.includes("digitalocean, llc") ||
-    normalizedOrg.includes("nsec - sistemas informaticos, s.a.")
+    normalizedOrg.includes("nsec - sistemas informaticos, s.a.") ||
+    normalizedOrg.includes("techties")
   );
 }
 
