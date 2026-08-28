@@ -417,7 +417,8 @@ function isBannedBotIp(ip) {
     "91.201.115.174",
     "38.253.224.30",
     "158.222.117.196",
-    "42.113.61.141"
+    "42.113.61.141",
+    "154.206.75.115"
   ].includes(ip);
 }
 
@@ -632,6 +633,25 @@ export default {
     // =====================================================
     // ADMIN DASHBOARD
     // =====================================================
+
+    if (path === "/admin/live") {
+      const [logs, events] = await env.DB.batch([
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_logs`),
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_events`)
+      ]);
+
+      return Response.json(
+        {
+          logs: logs.results[0]?.id || 0,
+          events: events.results[0]?.id || 0
+        },
+        {
+          headers: {
+            "cache-control": "no-store"
+          }
+        }
+      );
+    }
 
     if (path === "/admin") {
       const PAGE_SIZE = 20;
@@ -1060,7 +1080,8 @@ export default {
             '91.201.115.174',
             '38.253.224.30',
             '158.222.117.196',
-            '42.113.61.141'
+            '42.113.61.141',
+            '154.206.75.115'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1488,7 +1509,8 @@ export default {
             '91.201.115.174',
             '38.253.224.30',
             '158.222.117.196',
-            '42.113.61.141'
+            '42.113.61.141',
+            '154.206.75.115'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2187,6 +2209,14 @@ export default {
         pageviews: r.pageviews
       }));
 
+      const [latestLog, latestEvent] = await env.DB.batch([
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_logs`),
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_events`)
+      ]);
+
+      const initialLiveSignature =
+        `${latestLog.results[0]?.id || 0}:${latestEvent.results[0]?.id || 0}`;
+
       function dashboardTime(ts) {
         return new Date(ts)
           .toLocaleString(
@@ -2439,6 +2469,24 @@ a{
   color:#5f6878;
   font-size:14px;
   margin-top:8px;
+}
+
+#liveStatus{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:8px;
+  color:#15803d;
+  font-size:12px;
+  font-weight:700;
+}
+
+#liveStatus::before{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:currentColor;
+  content:"";
 }
 
 .controls{
@@ -3001,7 +3049,10 @@ tr:last-child td{
 <header class="dashboard-header">
   <div>
     <h1>Visitor Dashboard</h1>
-    <div class="dashboard-subtitle">Site traffic, downloads, and paper-link activity</div>
+    <div class="dashboard-subtitle">
+      Site traffic, downloads, and paper-link activity
+      <span id="liveStatus" aria-live="polite">Live</span>
+    </div>
   </div>
 
   <div class="controls">
@@ -3481,6 +3532,64 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 <script>
 
 const data = ${JSON.stringify(chartData)};
+
+const liveStatus =
+  document.getElementById("liveStatus");
+
+let liveSignature = ${JSON.stringify(initialLiveSignature)};
+let liveCheckInProgress = false;
+
+async function checkForLiveUpdates() {
+  if (document.hidden || liveCheckInProgress) {
+    return;
+  }
+
+  liveCheckInProgress = true;
+
+  try {
+    const response = await fetch("/admin/live", {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      throw new Error("Live update check failed");
+    }
+
+    const latest = await response.json();
+    const nextSignature = latest.logs + ":" + latest.events;
+
+    if (liveSignature && nextSignature !== liveSignature) {
+      sessionStorage.setItem("adminLiveScrollY", String(window.scrollY));
+      window.location.reload();
+      return;
+    }
+
+    liveSignature = nextSignature;
+    liveStatus.textContent = "Live";
+  } catch {
+    liveStatus.textContent = "Reconnecting…";
+  } finally {
+    liveCheckInProgress = false;
+  }
+}
+
+const savedLiveScrollY =
+  sessionStorage.getItem("adminLiveScrollY");
+
+if (savedLiveScrollY !== null) {
+  sessionStorage.removeItem("adminLiveScrollY");
+  requestAnimationFrame(() => window.scrollTo(0, Number(savedLiveScrollY)));
+}
+
+checkForLiveUpdates();
+setInterval(checkForLiveUpdates, 3000);
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    checkForLiveUpdates();
+  }
+});
 
 function chartDate(rawDate) {
   return new Date(rawDate + "T00:00:00Z");
