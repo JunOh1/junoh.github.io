@@ -422,7 +422,8 @@ function isBannedBotIp(ip) {
     "154.206.75.115",
     "193.182.19.144",
     "194.132.51.97",
-    "83.140.111.201"
+    "83.140.111.201",
+    "213.209.159.84"
   ].includes(ip);
 }
 
@@ -1089,7 +1090,8 @@ export default {
             '154.206.75.115',
             '193.182.19.144',
             '194.132.51.97',
-            '83.140.111.201'
+            '83.140.111.201',
+            '213.209.159.84'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1521,7 +1523,8 @@ export default {
             '154.206.75.115',
             '193.182.19.144',
             '194.132.51.97',
-            '83.140.111.201'
+            '83.140.111.201',
+            '213.209.159.84'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2500,6 +2503,30 @@ a{
   content:"";
 }
 
+#recentVisitorsTable.new-visitor-captured{
+  animation:visitor-table-flash 2.4s ease-out;
+}
+
+#recentVisitorsTable.new-visitor-captured td{
+  animation:visitor-cell-flash 2.4s ease-out;
+}
+
+@keyframes visitor-table-flash{
+  0%, 35%{
+    border-color:#7dd3fc;
+    box-shadow:0 0 0 4px rgba(125,211,252,.3), 0 8px 22px rgba(22,29,45,.05);
+  }
+  100%{
+    border-color:#dde2eb;
+    box-shadow:0 8px 22px rgba(22,29,45,.05);
+  }
+}
+
+@keyframes visitor-cell-flash{
+  0%, 35%{ background:#e0f2fe; }
+  100%{ background:#fff; }
+}
+
 .controls{
   display:flex;
   flex-direction:column;
@@ -3062,7 +3089,7 @@ tr:last-child td{
     <h1>Visitor Dashboard</h1>
     <div class="dashboard-subtitle">
       Site traffic, downloads, and paper-link activity
-      <span id="liveStatus" aria-live="polite">Live</span>
+      <span id="liveStatus" aria-live="polite">Watching for visitors</span>
     </div>
   </div>
 
@@ -3137,7 +3164,7 @@ tr:last-child td{
   }
 </form>
 
-<div class="table-scroll">
+<div class="table-scroll" id="recentVisitorsTable">
 
 <table class="wide-table">
 
@@ -3550,6 +3577,47 @@ const liveStatus =
 let liveSignature = ${JSON.stringify(initialLiveSignature)};
 let liveCheckInProgress = false;
 
+async function updateRecentVisitorsInPlace() {
+  const response = await fetch(window.location.href, {
+    cache: "no-store",
+    credentials: "same-origin",
+    headers: {
+      "x-admin-live-update": "1"
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error("Recent visitors update failed");
+  }
+
+  const nextDocument = new DOMParser()
+    .parseFromString(await response.text(), "text/html");
+  const currentTable = document.getElementById("recentVisitorsTable");
+  const nextTable = nextDocument.getElementById("recentVisitorsTable");
+  const currentStats = document.querySelector(".stats-panel");
+  const nextStats = nextDocument.querySelector(".stats-panel");
+
+  if (!currentTable || !nextTable) {
+    throw new Error("Recent visitors table is missing");
+  }
+
+  currentTable.innerHTML = nextTable.innerHTML;
+
+  if (currentStats && nextStats) {
+    currentStats.innerHTML = nextStats.innerHTML;
+  }
+
+  currentTable.classList.remove("new-visitor-captured");
+  void currentTable.offsetWidth;
+  currentTable.classList.add("new-visitor-captured");
+  liveStatus.textContent = "New visitor captured";
+
+  setTimeout(() => {
+    currentTable.classList.remove("new-visitor-captured");
+    liveStatus.textContent = "Watching for visitors";
+  }, 2400);
+}
+
 async function checkForLiveUpdates() {
   if (document.hidden || liveCheckInProgress) {
     return;
@@ -3571,26 +3639,24 @@ async function checkForLiveUpdates() {
     const nextSignature = latest.logs + ":" + latest.events;
 
     if (liveSignature && nextSignature !== liveSignature) {
-      sessionStorage.setItem("adminLiveScrollY", String(window.scrollY));
-      window.location.reload();
-      return;
+      const previousLogId = Number(liveSignature.split(":")[0]);
+      const hasNewVisitor = Number(latest.logs) > previousLogId;
+
+      if (hasNewVisitor) {
+        await updateRecentVisitorsInPlace();
+      }
     }
 
     liveSignature = nextSignature;
-    liveStatus.textContent = "Live";
+    if (!document.getElementById("recentVisitorsTable")
+      ?.classList.contains("new-visitor-captured")) {
+      liveStatus.textContent = "Watching for visitors";
+    }
   } catch {
     liveStatus.textContent = "Reconnecting…";
   } finally {
     liveCheckInProgress = false;
   }
-}
-
-const savedLiveScrollY =
-  sessionStorage.getItem("adminLiveScrollY");
-
-if (savedLiveScrollY !== null) {
-  sessionStorage.removeItem("adminLiveScrollY");
-  requestAnimationFrame(() => window.scrollTo(0, Number(savedLiveScrollY)));
 }
 
 checkForLiveUpdates();
