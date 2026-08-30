@@ -76,6 +76,35 @@ function isIgnoredIp(ip) {
   ].includes(ip);
 }
 
+async function ensureIgnoredIpsTable(env) {
+  await env.DB.prepare(`
+    CREATE TABLE IF NOT EXISTS ignored_ips (
+      ip TEXT PRIMARY KEY,
+      created_at TEXT NOT NULL
+    )
+  `)
+    .run();
+}
+
+async function isIgnoredIpForAnalytics(env, ip) {
+  if (!ip || isIgnoredIp(ip)) {
+    return true;
+  }
+
+  await ensureIgnoredIpsTable(env);
+
+  const row = await env.DB.prepare(`
+    SELECT ip
+    FROM ignored_ips
+    WHERE ip = ?
+    LIMIT 1
+  `)
+    .bind(ip)
+    .first();
+
+  return Boolean(row);
+}
+
 function isBannedBotIp(ip) {
   return [
     "194.5.82.64",
@@ -423,7 +452,9 @@ function isBannedBotIp(ip) {
     "193.182.19.144",
     "194.132.51.97",
     "83.140.111.201",
-    "213.209.159.84"
+    "213.209.159.84",
+    "193.107.20.38",
+    "217.60.97.123"
   ].includes(ip);
 }
 
@@ -517,7 +548,10 @@ export default {
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      if (!isIgnoredIp(ip) && !isCloudflarePreview) {
+      const shouldIgnoreIp =
+        await isIgnoredIpForAnalytics(env, ip);
+
+      if (!shouldIgnoreIp && !isCloudflarePreview) {
         await env.DB.prepare(`
           INSERT INTO visitor_events
           (
@@ -572,7 +606,10 @@ export default {
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      if (isIgnoredIp(ip) || isCloudflarePreview) {
+      const shouldIgnoreIp =
+        await isIgnoredIpForAnalytics(env, ip);
+
+      if (shouldIgnoreIp || isCloudflarePreview) {
         return;
       }
 
@@ -650,6 +687,175 @@ export default {
         {
           logs: logs.results[0]?.id || 0,
           events: events.results[0]?.id || 0
+        },
+        {
+          headers: {
+            "cache-control": "no-store"
+          }
+        }
+      );
+    }
+
+    if (path === "/admin/visitor/delete") {
+      if (request.method !== "POST") {
+        return Response.json(
+          { ok: false, error: "Method not allowed" },
+          {
+            status: 405,
+            headers: {
+              "allow": "POST",
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      let payload = {};
+
+      try {
+        payload = await request.json();
+      } catch {
+        return Response.json(
+          { ok: false, error: "Invalid JSON" },
+          {
+            status: 400,
+            headers: {
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      const id =
+        Number(payload.id);
+
+      if (!Number.isInteger(id) || id < 1) {
+        return Response.json(
+          { ok: false, error: "Invalid visitor id" },
+          {
+            status: 400,
+            headers: {
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      const visitorRow = await env.DB.prepare(`
+        SELECT ip, session_id, visitor_id
+        FROM visitor_logs
+        WHERE id = ?
+        LIMIT 1
+      `)
+        .bind(id)
+        .first();
+
+      if (!visitorRow) {
+        return Response.json(
+          { ok: true, deleted: 0, eventsDeleted: 0 },
+          {
+            headers: {
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      const [logDelete, eventDelete] = await env.DB.batch([
+        env.DB.prepare(`
+        DELETE FROM visitor_logs
+        WHERE id = ?
+      `)
+          .bind(id),
+        env.DB.prepare(`
+          DELETE FROM visitor_events
+          WHERE
+            (? != '' AND ip = ?)
+            OR (? != '' AND session_id = ?)
+            OR (? != '' AND visitor_id = ?)
+        `)
+          .bind(
+            visitorRow.ip || "",
+            visitorRow.ip || "",
+            visitorRow.session_id || "",
+            visitorRow.session_id || "",
+            visitorRow.visitor_id || "",
+            visitorRow.visitor_id || ""
+          )
+      ]);
+
+      return Response.json(
+        {
+          ok: true,
+          deleted: logDelete.meta?.changes || 0,
+          eventsDeleted: eventDelete.meta?.changes || 0
+        },
+        {
+          headers: {
+            "cache-control": "no-store"
+          }
+        }
+      );
+    }
+
+    if (path === "/admin/ip/block") {
+      if (request.method !== "POST") {
+        return Response.json(
+          { ok: false, error: "Method not allowed" },
+          {
+            status: 405,
+            headers: {
+              "allow": "POST",
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      let payload = {};
+
+      try {
+        payload = await request.json();
+      } catch {
+        return Response.json(
+          { ok: false, error: "Invalid JSON" },
+          {
+            status: 400,
+            headers: {
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      const ip =
+        String(payload.ip || "").trim();
+
+      if (!ip) {
+        return Response.json(
+          { ok: false, error: "Invalid IP address" },
+          {
+            status: 400,
+            headers: {
+              "cache-control": "no-store"
+            }
+          }
+        );
+      }
+
+      await ensureIgnoredIpsTable(env);
+
+      await env.DB.prepare(`
+        INSERT OR IGNORE INTO ignored_ips (ip, created_at)
+        VALUES (?, ?)
+      `)
+        .bind(ip, new Date().toISOString())
+        .run();
+
+      return Response.json(
+        {
+          ok: true,
+          blocked: ip
         },
         {
           headers: {
@@ -1091,7 +1297,9 @@ export default {
             '193.182.19.144',
             '194.132.51.97',
             '83.140.111.201',
-            '213.209.159.84'
+            '213.209.159.84',
+            '193.107.20.38',
+            '217.60.97.123'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1524,7 +1732,9 @@ export default {
             '193.182.19.144',
             '194.132.51.97',
             '83.140.111.201',
-            '213.209.159.84'
+            '213.209.159.84',
+            '193.107.20.38',
+            '217.60.97.123'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -1842,6 +2052,7 @@ export default {
 
       const recentRaw = await env.DB.prepare(`
         SELECT
+          id,
           ts,
           org,
           browser,
@@ -2485,24 +2696,6 @@ a{
   margin-top:8px;
 }
 
-#liveStatus{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-left:8px;
-  color:#15803d;
-  font-size:12px;
-  font-weight:700;
-}
-
-#liveStatus::before{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:currentColor;
-  content:"";
-}
-
 #recentVisitorsTable.new-visitor-captured{
   animation:visitor-table-flash 2.4s ease-out;
 }
@@ -2525,6 +2718,44 @@ a{
 @keyframes visitor-cell-flash{
   0%, 35%{ background:#e0f2fe; }
   100%{ background:#fff; }
+}
+
+.row-action-button{
+  appearance:none;
+  border:1px solid #d6dce8;
+  border-radius:6px;
+  background:#fff;
+  color:#8a1f2d;
+  cursor:pointer;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  padding:5px 8px;
+}
+
+.row-action-button:hover{
+  background:#fff1f2;
+  border-color:#fecdd3;
+}
+
+.row-action-button.secondary{
+  color:#334155;
+}
+
+.row-action-button.secondary:hover{
+  background:#f1f5f9;
+  border-color:#cbd5e1;
+}
+
+.row-action-button:disabled{
+  cursor:wait;
+  opacity:.55;
+}
+
+.row-actions{
+  display:flex;
+  gap:6px;
+  white-space:nowrap;
 }
 
 .controls{
@@ -3089,7 +3320,6 @@ tr:last-child td{
     <h1>Visitor Dashboard</h1>
     <div class="dashboard-subtitle">
       Site traffic, downloads, and paper-link activity
-      <span id="liveStatus" aria-live="polite">Watching for visitors</span>
     </div>
   </div>
 
@@ -3181,6 +3411,7 @@ tr:last-child td{
 <th>Page</th>
 <th>Referrer</th>
 ${showRecentCategory ? "<th>Category</th>" : ""}
+<th>Action</th>
 </tr>
 `;
 
@@ -3220,6 +3451,30 @@ ${showRecentCategory ? "<th>Category</th>" : ""}
 <td>${escapeHtml(cleanDownloadLabel(row.path))}</td>
 <td>${escapeHtml(cleanReferrerLabel(row.referer))}</td>
 ${showRecentCategory ? `<td>${categoryMetric(row)}</td>` : ""}
+<td>
+  <div class="row-actions">
+    <button
+      class="row-action-button"
+      type="button"
+      data-delete-visitor-id="${escapeHtml(row.id)}"
+      aria-label="Delete visitor row from ${escapeHtml(nyTime)}"
+    >
+      Delete
+    </button>
+    ${
+      row.ip
+        ? `<button
+            class="row-action-button secondary"
+            type="button"
+            data-block-ip="${escapeHtml(row.ip)}"
+            aria-label="Block IP ${escapeHtml(row.ip)}"
+          >
+            Block IP
+          </button>`
+        : ""
+    }
+  </div>
+</td>
 </tr>
 `;
       }
@@ -3571,19 +3826,19 @@ ${pager("downloadPage", downloadPage, downloadHistoryHasNext, "download-history"
 
 const data = ${JSON.stringify(chartData)};
 
-const liveStatus =
-  document.getElementById("liveStatus");
-
 let liveSignature = ${JSON.stringify(initialLiveSignature)};
 let liveCheckInProgress = false;
 
-async function updateRecentVisitorsInPlace() {
-  const response = await fetch(window.location.href, {
+async function updateRecentVisitorsInPlace(options = {}) {
+  const shouldFlash =
+    options.flash !== false;
+
+  const dashboardUrl = new URL(window.location.href);
+  dashboardUrl.searchParams.set("liveRefresh", String(Date.now()));
+
+  const response = await fetch(dashboardUrl, {
     cache: "no-store",
-    credentials: "same-origin",
-    headers: {
-      "x-admin-live-update": "1"
-    }
+    credentials: "same-origin"
   });
 
   if (!response.ok) {
@@ -3607,29 +3862,32 @@ async function updateRecentVisitorsInPlace() {
     currentStats.innerHTML = nextStats.innerHTML;
   }
 
-  currentTable.classList.remove("new-visitor-captured");
-  void currentTable.offsetWidth;
-  currentTable.classList.add("new-visitor-captured");
-  liveStatus.textContent = "New visitor captured";
-
-  setTimeout(() => {
+  if (shouldFlash) {
     currentTable.classList.remove("new-visitor-captured");
-    liveStatus.textContent = "Watching for visitors";
-  }, 2400);
+    void currentTable.offsetWidth;
+    currentTable.classList.add("new-visitor-captured");
+
+    setTimeout(() => {
+      currentTable.classList.remove("new-visitor-captured");
+    }, 2400);
+  }
 }
 
 async function checkForLiveUpdates() {
-  if (document.hidden || liveCheckInProgress) {
+  if (liveCheckInProgress) {
     return;
   }
 
   liveCheckInProgress = true;
 
   try {
-    const response = await fetch("/admin/live", {
+    const response = await fetch(
+      "/admin/live?poll=" + encodeURIComponent(Date.now()),
+      {
       cache: "no-store",
       credentials: "same-origin"
-    });
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Live update check failed");
@@ -3648,23 +3906,122 @@ async function checkForLiveUpdates() {
     }
 
     liveSignature = nextSignature;
-    if (!document.getElementById("recentVisitorsTable")
-      ?.classList.contains("new-visitor-captured")) {
-      liveStatus.textContent = "Watching for visitors";
-    }
   } catch {
-    liveStatus.textContent = "Reconnecting…";
   } finally {
     liveCheckInProgress = false;
   }
 }
 
 checkForLiveUpdates();
-setInterval(checkForLiveUpdates, 3000);
+setInterval(checkForLiveUpdates, 2000);
 
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
     checkForLiveUpdates();
+  }
+});
+
+document.addEventListener("click", async event => {
+  const blockButton =
+    event.target.closest("[data-block-ip]");
+
+  if (blockButton) {
+    const ip =
+      blockButton.dataset.blockIp;
+
+    if (!ip || blockButton.disabled) {
+      return;
+    }
+
+    const confirmed =
+      window.confirm(
+        "Block " + ip + " from future tracking?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    blockButton.disabled = true;
+    blockButton.textContent = "Blocking";
+
+    try {
+      const response = await fetch("/admin/ip/block", {
+        method: "POST",
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ ip })
+      });
+
+      if (!response.ok) {
+        throw new Error("Block failed");
+      }
+
+      const result = await response.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Block failed");
+      }
+
+      await updateRecentVisitorsInPlace({ flash: false });
+      await checkForLiveUpdates();
+    } catch {
+      blockButton.disabled = false;
+      blockButton.textContent = "Block IP";
+      window.alert("Could not block that IP. Please try again.");
+    }
+
+    return;
+  }
+
+  const button =
+    event.target.closest("[data-delete-visitor-id]");
+
+  if (!button) {
+    return;
+  }
+
+  const id =
+    button.dataset.deleteVisitorId;
+
+  if (!id || button.disabled) {
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Deleting";
+
+  try {
+    const response = await fetch("/admin/visitor/delete", {
+      method: "POST",
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ id: Number(id) })
+    });
+
+    if (!response.ok) {
+      throw new Error("Delete failed");
+    }
+
+    const result = await response.json();
+
+    if (!result.ok) {
+      throw new Error(result.error || "Delete failed");
+    }
+
+    button.closest("tr")?.remove();
+    await updateRecentVisitorsInPlace({ flash: false });
+    await checkForLiveUpdates();
+  } catch {
+    button.disabled = false;
+    button.textContent = "Delete";
+    window.alert("Could not delete that visitor row. Please try again.");
   }
 });
 
@@ -3960,7 +4317,10 @@ for (const button of document.querySelectorAll(".chart-grain")) {
         setSessionCookie = true;
       }
 
-      if (!isIgnoredIp(ip) && !isCloudflarePreview) {
+      const shouldIgnoreIp =
+        await isIgnoredIpForAnalytics(env, ip);
+
+      if (!shouldIgnoreIp && !isCloudflarePreview) {
         await env.DB.prepare(`
           INSERT INTO visitor_logs
           (
