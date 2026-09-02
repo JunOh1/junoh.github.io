@@ -76,6 +76,10 @@ function isIgnoredIp(ip) {
   ].includes(ip);
 }
 
+function reportAnalyticsError(context, error) {
+  console.error(`Analytics failed during ${context}:`, error);
+}
+
 async function ensureIgnoredIpsTable(env) {
   await env.DB.prepare(`
     CREATE TABLE IF NOT EXISTS ignored_ips (
@@ -90,8 +94,6 @@ async function isIgnoredIpForAnalytics(env, ip) {
   if (!ip || isIgnoredIp(ip)) {
     return true;
   }
-
-  await ensureIgnoredIpsTable(env);
 
   const row = await env.DB.prepare(`
     SELECT ip
@@ -462,7 +464,10 @@ function isBannedBotIp(ip) {
     "103.215.74.213",
     "45.136.59.96",
     "93.158.95.193",
-    "192.121.31.109"
+    "192.121.31.109",
+    "51.15.192.215",
+    "79.147.77.122",
+    "200.105.99.98"
   ].includes(ip);
 }
 
@@ -556,11 +561,12 @@ export default {
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      const shouldIgnoreIp =
-        await isIgnoredIpForAnalytics(env, ip);
+      try {
+        const shouldIgnoreIp =
+          await isIgnoredIpForAnalytics(env, ip);
 
-      if (!shouldIgnoreIp && !isCloudflarePreview) {
-        await env.DB.prepare(`
+        if (!shouldIgnoreIp && !isCloudflarePreview) {
+          await env.DB.prepare(`
           INSERT INTO visitor_events
           (
             ts,
@@ -590,7 +596,10 @@ export default {
             request.cf?.city || "",
             normalizeOrg(request.cf?.asOrganization || "")
           )
-          .run();
+            .run();
+        }
+      } catch (error) {
+        reportAnalyticsError("go-link logging", error);
       }
 
       return Response.redirect(target, 302);
@@ -614,17 +623,18 @@ export default {
         referer.includes("preview.devprod.cloudflare.dev") ||
         referer.includes("dash.cloudflare.com");
 
-      const shouldIgnoreIp =
-        await isIgnoredIpForAnalytics(env, ip);
+      try {
+        const shouldIgnoreIp =
+          await isIgnoredIpForAnalytics(env, ip);
 
-      if (shouldIgnoreIp || isCloudflarePreview) {
-        return;
-      }
+        if (shouldIgnoreIp || isCloudflarePreview) {
+          return;
+        }
 
-      const sessionId =
-        getCookie(request, "session_id");
+        const sessionId =
+          getCookie(request, "session_id");
 
-      await env.DB.prepare(`
+        await env.DB.prepare(`
         INSERT INTO visitor_logs
         (
           ts,
@@ -658,7 +668,10 @@ export default {
           ip,
           sessionId
         )
-        .run();
+          .run();
+      } catch (error) {
+        reportAnalyticsError("download logging", error);
+      }
     }
 
     if (path === "/download/firm-level") {
@@ -916,7 +929,7 @@ export default {
         (linkPage - 1) * PAGE_SIZE;
 
       const requestedRange =
-        url.searchParams.get("range") || "all";
+        url.searchParams.get("range") || "7d";
 
       const allowedRanges =
         ["today", "7d", "30d", "all"];
@@ -924,7 +937,7 @@ export default {
       const activeRange =
         allowedRanges.includes(requestedRange)
           ? requestedRange
-          : "all";
+          : "7d";
 
       const requestedView =
         url.searchParams.get("view") || "human";
@@ -1315,7 +1328,10 @@ export default {
             '103.215.74.213',
             '45.136.59.96',
             '93.158.95.193',
-            '192.121.31.109'
+            '192.121.31.109',
+            '51.15.192.215',
+            '79.147.77.122',
+            '200.105.99.98'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1758,7 +1774,10 @@ export default {
             '103.215.74.213',
             '45.136.59.96',
             '93.158.95.193',
-            '192.121.31.109'
+            '192.121.31.109',
+            '51.15.192.215',
+            '79.147.77.122',
+            '200.105.99.98'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2257,14 +2276,6 @@ export default {
           AND lower(referer) NOT LIKE '%junoh.me%'
           AND lower(referer) NOT LIKE '%junoh.github.io%'
           AND lower(referer) NOT LIKE '%junoh1.github.io%'
-          AND NOT EXISTS (
-            SELECT 1
-            FROM visitor_logs earlier
-            WHERE
-              coalesce(earlier.session_id, earlier.visitor_id, '') =
-                coalesce(visitor_logs.session_id, visitor_logs.visitor_id, '')
-              AND earlier.ts < visitor_logs.ts
-          )
         GROUP BY referer
         ORDER BY visits DESC
       `)
@@ -3853,52 +3864,28 @@ const data = ${JSON.stringify(chartData)};
 let liveSignature = ${JSON.stringify(initialLiveSignature)};
 let liveCheckInProgress = false;
 
-async function updateRecentVisitorsInPlace(options = {}) {
-  const shouldFlash =
-    options.flash !== false;
-
-  const dashboardUrl = new URL(window.location.href);
-  dashboardUrl.searchParams.set("liveRefresh", String(Date.now()));
-
-  const response = await fetch(dashboardUrl, {
-    cache: "no-store",
-    credentials: "same-origin"
-  });
-
-  if (!response.ok) {
-    throw new Error("Recent visitors update failed");
+function announceNewVisitor() {
+  if (document.getElementById("liveUpdateNotice")) {
+    return;
   }
 
-  const nextDocument = new DOMParser()
-    .parseFromString(await response.text(), "text/html");
-  const currentTable = document.getElementById("recentVisitorsTable");
-  const nextTable = nextDocument.getElementById("recentVisitorsTable");
-  const currentStats = document.querySelector(".stats-panel");
-  const nextStats = nextDocument.querySelector(".stats-panel");
+  const notice = document.createElement("a");
+  notice.id = "liveUpdateNotice";
+  notice.href = window.location.href;
+  notice.textContent = "New visitor available — refresh dashboard";
+  notice.style.display = "block";
+  notice.style.margin = "12px 0";
+  notice.style.fontWeight = "700";
 
-  if (!currentTable || !nextTable) {
-    throw new Error("Recent visitors table is missing");
-  }
+  const recentTable = document.getElementById("recentVisitorsTable");
 
-  currentTable.innerHTML = nextTable.innerHTML;
-
-  if (currentStats && nextStats) {
-    currentStats.innerHTML = nextStats.innerHTML;
-  }
-
-  if (shouldFlash) {
-    currentTable.classList.remove("new-visitor-captured");
-    void currentTable.offsetWidth;
-    currentTable.classList.add("new-visitor-captured");
-
-    setTimeout(() => {
-      currentTable.classList.remove("new-visitor-captured");
-    }, 2400);
+  if (recentTable) {
+    recentTable.parentNode.insertBefore(notice, recentTable);
   }
 }
 
 async function checkForLiveUpdates() {
-  if (liveCheckInProgress) {
+  if (document.hidden || liveCheckInProgress) {
     return;
   }
 
@@ -3925,7 +3912,7 @@ async function checkForLiveUpdates() {
       const hasNewVisitor = Number(latest.logs) > previousLogId;
 
       if (hasNewVisitor) {
-        await updateRecentVisitorsInPlace();
+        announceNewVisitor();
       }
     }
 
@@ -3937,7 +3924,7 @@ async function checkForLiveUpdates() {
 }
 
 checkForLiveUpdates();
-setInterval(checkForLiveUpdates, 2000);
+setInterval(checkForLiveUpdates, 30000);
 
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
@@ -4341,11 +4328,12 @@ for (const button of document.querySelectorAll(".chart-grain")) {
         setSessionCookie = true;
       }
 
-      const shouldIgnoreIp =
-        await isIgnoredIpForAnalytics(env, ip);
+      try {
+        const shouldIgnoreIp =
+          await isIgnoredIpForAnalytics(env, ip);
 
-      if (!shouldIgnoreIp && !isCloudflarePreview) {
-        await env.DB.prepare(`
+        if (!shouldIgnoreIp && !isCloudflarePreview) {
+          await env.DB.prepare(`
           INSERT INTO visitor_logs
           (
             ts,
@@ -4379,7 +4367,10 @@ for (const button of document.querySelectorAll(".chart-grain")) {
             ip,
             sessionId
           )
-          .run();
+            .run();
+        }
+      } catch (error) {
+        reportAnalyticsError("page-view logging", error);
       }
     }
 
