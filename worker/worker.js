@@ -558,7 +558,11 @@ function isBannedBotIp(ip) {
     "240e:ec:726b:38e4:f85b:a624:ca89:33e4",
     "113.246.155.106",
     "2a13:f40:f6b0:f6d1:b193:ba0d:2644:dafe",
-    "2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b"
+    "2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b",
+    "87.58.197.139",
+    "183.201.252.137",
+    "116.235.203.185",
+    "186.84.21.46"
   ].includes(ip);
 }
 
@@ -689,6 +693,46 @@ export default {
             request.cf?.city || "",
             normalizeOrg(request.cf?.asOrganization || "")
           )
+            .run();
+
+          // Keep paper clicks visible in the visitor log as well as in the
+          // dedicated event table. The event row remains the source for the
+          // paper-click reports; this row makes the activity appear in the
+          // Recent Visitors table too.
+          await env.DB.prepare(`
+            INSERT INTO visitor_logs
+            (
+              ts,
+              country,
+              city,
+              asn,
+              org,
+              path,
+              ua,
+              browser,
+              referer,
+              device_type,
+              visitor_id,
+              ip,
+              session_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `)
+            .bind(
+              new Date().toISOString(),
+              countryName(request.cf?.country || ""),
+              request.cf?.city || "",
+              request.cf?.asn || 0,
+              normalizeOrg(request.cf?.asOrganization || ""),
+              `PAPER CLICK: ${slug}`,
+              ua,
+              "Paper Click",
+              referer,
+              /mobile/i.test(ua) ? "mobile" : "desktop",
+              ip || ua,
+              ip,
+              getCookie(request, "session_id")
+            )
             .run();
         }
       } catch (error) {
@@ -1515,7 +1559,11 @@ export default {
             '240e:ec:726b:38e4:f85b:a624:ca89:33e4',
             '113.246.155.106',
             '2a13:f40:f6b0:f6d1:b193:ba0d:2644:dafe',
-            '2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b'
+            '2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b',
+            '87.58.197.139',
+            '183.201.252.137',
+            '116.235.203.185',
+            '186.84.21.46'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2052,7 +2100,11 @@ export default {
             '240e:ec:726b:38e4:f85b:a624:ca89:33e4',
             '113.246.155.106',
             '2a13:f40:f6b0:f6d1:b193:ba0d:2644:dafe',
-            '2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b'
+            '2001:448a:7070:84ab:ecfc:4ab2:60a1:fe0b',
+            '87.58.197.139',
+            '183.201.252.137',
+            '116.235.203.185',
+            '186.84.21.46'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2384,7 +2436,7 @@ export default {
           ${logBotCase} AS likely_bot
         FROM visitor_logs
         ${recentLogWhere}
-        ORDER BY id DESC
+        ORDER BY ts DESC, id DESC
         LIMIT ?
         OFFSET ?
       `)
