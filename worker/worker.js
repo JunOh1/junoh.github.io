@@ -646,7 +646,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("semrush cy") ||
     normalizedOrg.includes("m247 ltd") ||
     normalizedOrg.includes("dedik services") ||
-    normalizedOrg.includes("omegatech")
+    normalizedOrg.includes("omegatech") ||
+    normalizedOrg.includes("aliyun computing")
   );
 }
 
