@@ -611,7 +611,10 @@ function isBannedBotIp(ip) {
     "67.235.167.47",
     "172.58.122.193",
     "2806:230:4002:b686:8459:c6b8:3366:adbe",
-    "115.241.181.35"
+    "115.241.181.35",
+    "95.31.168.194",
+    "79.117.194.151",
+    "93.191.113.194"
   ].includes(ip);
 }
 
@@ -1663,7 +1666,10 @@ export default {
             '67.235.167.47',
             '172.58.122.193',
             '2806:230:4002:b686:8459:c6b8:3366:adbe',
-            '115.241.181.35'
+            '115.241.181.35',
+            '95.31.168.194',
+            '79.117.194.151',
+            '93.191.113.194'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2253,7 +2259,10 @@ export default {
             '67.235.167.47',
             '172.58.122.193',
             '2806:230:4002:b686:8459:c6b8:3366:adbe',
-            '115.241.181.35'
+            '115.241.181.35',
+            '95.31.168.194',
+            '79.117.194.151',
+            '93.191.113.194'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2374,6 +2383,7 @@ export default {
             OR lower(org) LIKE '%academy%'
             OR lower(org) LIKE '%universitat%'
             OR lower(org) LIKE '%universitaet%'
+            OR lower(org) LIKE '%universiteit%'
             OR lower(org) LIKE '%université%'
             OR lower(org) LIKE '%universita%'
             OR lower(org) LIKE '%universidad%'
