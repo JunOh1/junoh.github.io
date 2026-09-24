@@ -100,7 +100,7 @@ author_profile: true
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
         <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
-      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State* (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State*</li>
       </li>
     </ul>
   </div>
@@ -117,6 +117,18 @@ author_profile: true
     </ul>
   </div>
 </div>
+
+
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[10]</span>
+  <div>
+    <span style="font-weight: bold;">Conflicting Out Rivals: Patent Disclosure and the Allocation of Legal Counsel</span>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">with <a href="https://zicklin.baruch.cuny.edu/faculty-profile/yanrong-jia/" style="color: inherit; text-decoration: none;">Yanrong Jia</a> and <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
+    </ul>
+  </div>
+</div>
+
 
 
 
