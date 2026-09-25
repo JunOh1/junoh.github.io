@@ -130,6 +130,15 @@ author_profile: true
 </div>
 
 
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[11]</span>
+  <div>
+    <span style="font-weight: bold;">Trade Secrets and the Organization of R&D Labor</span>
+  </div>
+</div>
+
+
+
 
 
 <span style="font-size: 12px; margin-bottom: 2px; font-weight: normal;">Presentation by co-author (*)</span>
