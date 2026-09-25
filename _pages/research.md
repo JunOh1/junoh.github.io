@@ -57,7 +57,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/algorithmic-trading">Algorithmic Trading and Forced CEO Turnover: A Learning Hypothesis</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://business.uoregon.edu/directory/faculty-staff/all/jkim27" style="color: inherit; text-decoration: none;">Jaewoo Kim</a>, <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a>, and <a href="https://discovery.nus.edu.sg/24557-luo-zuo" style="color: inherit; text-decoration: none;">Luo Zuo</a></li>
-      <li style="margin: 0; font-size: 16px;"><em>Review of Accounting Studies, 2026 (Forthcoming)</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Review of Accounting Studies, 2026</em></li>
     </ul>
   </div>
 </div>
@@ -69,7 +69,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/whispering-progress">Whispering Progress: Fear of Automation and Voluntary Disclosure</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://www.sheguoman.com/" style="color: inherit; text-decoration: none;">Guoman She</a></li>
-      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026 (Forthcoming)</em></li>
+      <li style="margin: 0; font-size: 16px;"><em>Journal of Accounting and Economics, 2026</em></li>
     </ul>
   </div>
 </div>
