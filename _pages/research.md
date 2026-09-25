@@ -100,7 +100,7 @@ author_profile: true
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
         <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
-      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State*</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State*, Vanderbilt University*</li>
       </li>
     </ul>
   </div>
