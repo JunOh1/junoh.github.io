@@ -648,7 +648,11 @@ function isBannedBotIp(ip) {
     "178.213.190.106",
     "38.51.216.16",
     "14.187.49.3",
-    "2804:7bbc:1e3:e200:4150:7cf0:84db:cd53"
+    "2804:7bbc:1e3:e200:4150:7cf0:84db:cd53",
+    "46.229.60.228",
+    "177.191.114.57",
+    "45.138.12.30",
+    "2806:101e:8:41c5:59e4:644f:3475:2df4"
   ].includes(ip);
 }
 
@@ -1198,6 +1202,7 @@ export default {
 
       const logBotCase = `
         CASE
+          WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
             '194.5.82.167',
@@ -1738,7 +1743,11 @@ export default {
             '178.213.190.106',
             '38.51.216.16',
             '14.187.49.3',
-            '2804:7bbc:1e3:e200:4150:7cf0:84db:cd53'
+            '2804:7bbc:1e3:e200:4150:7cf0:84db:cd53',
+            '46.229.60.228',
+            '177.191.114.57',
+            '45.138.12.30',
+            '2806:101e:8:41c5:59e4:644f:3475:2df4'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1825,6 +1834,7 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
             '194.5.82.167',
@@ -2365,7 +2375,11 @@ export default {
             '178.213.190.106',
             '38.51.216.16',
             '14.187.49.3',
-            '2804:7bbc:1e3:e200:4150:7cf0:84db:cd53'
+            '2804:7bbc:1e3:e200:4150:7cf0:84db:cd53',
+            '46.229.60.228',
+            '177.191.114.57',
+            '45.138.12.30',
+            '2806:101e:8:41c5:59e4:644f:3475:2df4'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
