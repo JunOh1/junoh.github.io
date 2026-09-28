@@ -692,7 +692,8 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("m247 ltd") ||
     normalizedOrg.includes("dedik services") ||
     normalizedOrg.includes("omegatech") ||
-    normalizedOrg.includes("aliyun computing")
+    normalizedOrg.includes("aliyun computing") ||
+    normalizedOrg.includes("rapidseedbox ltd")
   );
 }
 
@@ -2440,6 +2441,15 @@ export default {
 
       const commonLogFilters = [];
 
+      if (activeView === "total") {
+        const botRetentionStart =
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+        commonLogFilters.push(
+          `(${logBotCase} = 0 OR ts >= '${botRetentionStart}')`
+        );
+      }
+
       if (startDate) {
         commonLogFilters.push("ts >= ?");
       }
@@ -2500,6 +2510,15 @@ export default {
       const eventFilters = [
         "event_type = 'go_click'"
       ];
+
+      if (activeView === "total") {
+        const botRetentionStart =
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+        eventFilters.push(
+          `(${eventBotCase} = 0 OR ts >= '${botRetentionStart}')`
+        );
+      }
 
       if (startDate) {
         eventFilters.push("ts >= ?");
