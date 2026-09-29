@@ -656,7 +656,8 @@ function isBannedBotIp(ip) {
     "87.220.161.7",
     "2a12:da80:44a8:9c81:a27a:8f07:5142:decb",
     "163.125.132.43",
-    "151.245.207.101"
+    "151.245.207.101",
+    "88.210.11.43"
   ].includes(ip);
 }
 
@@ -1206,6 +1207,12 @@ export default {
 
       const logBotCase = `
         CASE
+          WHEN id IN (
+            5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
+            5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
+            6556, 6599, 6600, 6623, 6624, 6705, 6709, 6741, 6742,
+            6768, 6769, 6796, 6797, 6843, 6845
+          ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
@@ -1755,7 +1762,8 @@ export default {
             '87.220.161.7',
             '2a12:da80:44a8:9c81:a27a:8f07:5142:decb',
             '163.125.132.43',
-            '151.245.207.101'
+            '151.245.207.101',
+            '88.210.11.43'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2391,7 +2399,8 @@ export default {
             '87.220.161.7',
             '2a12:da80:44a8:9c81:a27a:8f07:5142:decb',
             '163.125.132.43',
-            '151.245.207.101'
+            '151.245.207.101',
+            '88.210.11.43'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
