@@ -672,7 +672,9 @@ function isBannedBotIp(ip) {
     "158.173.74.20",
     "193.235.141.185",
     "194.103.6.34",
-    "93.158.91.249"
+    "93.158.91.249",
+    "63.183.41.148",
+    "88.216.183.226"
   ].includes(ip);
 }
 
@@ -1793,7 +1795,9 @@ export default {
             '158.173.74.20',
             '193.235.141.185',
             '194.103.6.34',
-            '93.158.91.249'
+            '93.158.91.249',
+            '63.183.41.148',
+            '88.216.183.226'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2445,7 +2449,9 @@ export default {
             '158.173.74.20',
             '193.235.141.185',
             '194.103.6.34',
-            '93.158.91.249'
+            '93.158.91.249',
+            '63.183.41.148',
+            '88.216.183.226'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
