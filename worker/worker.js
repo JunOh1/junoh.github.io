@@ -695,7 +695,11 @@ function isBannedBotIp(ip) {
     "194.165.22.100",
     "45.181.84.19",
     "199.47.82.18",
-    "2a01:4f9:6b:2c00:414:900:0:9"
+    "2a01:4f9:6b:2c00:414:900:0:9",
+    "80.85.246.144",
+    "188.163.75.217",
+    "147.30.48.215",
+    "38.253.224.71"
   ].includes(ip);
 }
 
@@ -1245,6 +1249,7 @@ export default {
 
       const logBotCase = `
         CASE
+          WHEN lower(coalesce(org,'')) LIKE '%university%' THEN 0
           WHEN id IN (
             5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
             5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
@@ -1839,7 +1844,11 @@ export default {
             '194.165.22.100',
             '45.181.84.19',
             '199.47.82.18',
-            '2a01:4f9:6b:2c00:414:900:0:9'
+            '2a01:4f9:6b:2c00:414:900:0:9',
+            '80.85.246.144',
+            '188.163.75.217',
+            '147.30.48.215',
+            '38.253.224.71'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -1926,6 +1935,7 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN lower(coalesce(org,'')) LIKE '%university%' THEN 0
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
@@ -2514,7 +2524,11 @@ export default {
             '194.165.22.100',
             '45.181.84.19',
             '199.47.82.18',
-            '2a01:4f9:6b:2c00:414:900:0:9'
+            '2a01:4f9:6b:2c00:414:900:0:9',
+            '80.85.246.144',
+            '188.163.75.217',
+            '147.30.48.215',
+            '38.253.224.71'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -2589,11 +2603,10 @@ export default {
       `;
 
       const commonLogFilters = [];
+      const botRetentionStart =
+        new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
       if (activeView === "total") {
-        const botRetentionStart =
-          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
         commonLogFilters.push(
           `(${logBotCase} = 0 OR ts >= '${botRetentionStart}')`
         );
@@ -2661,9 +2674,6 @@ export default {
       ];
 
       if (activeView === "total") {
-        const botRetentionStart =
-          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
         eventFilters.push(
           `(${eventBotCase} = 0 OR ts >= '${botRetentionStart}')`
         );
