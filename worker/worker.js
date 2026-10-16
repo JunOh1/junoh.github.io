@@ -750,7 +750,9 @@ function isBannedBotIp(ip) {
     "103.235.74.65",
     "106.49.137.217",
     "185.157.88.60",
-    "158.173.67.141"
+    "158.173.67.141",
+    "142.147.225.40",
+    "103.4.249.9"
   ].includes(ip);
 }
 
@@ -1305,9 +1307,9 @@ export default {
             5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
             5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
             6556, 6599, 6600, 6623, 6624, 6705, 6709, 6741, 6742,
-            6768, 6769, 6796, 6797, 6843, 6845, 6855, 6856,
-            6982, 6983, 6998, 6999, 7029, 7045, 7081, 7082,
-            7156, 7157, 7179, 7180, 7198, 7199, 7219, 7220
+            6768, 6769, 6796, 6797, 6843, 6845, 6855, 6856, 6982,
+            6983, 6998, 6999, 7029, 7045, 7081, 7082, 7156, 7157,
+            7179, 7180, 7198, 7199, 7219, 7220, 7254
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
@@ -1952,7 +1954,9 @@ export default {
             '103.235.74.65',
             '106.49.137.217',
             '185.157.88.60',
-            '158.173.67.141'
+            '158.173.67.141',
+            '142.147.225.40',
+            '103.4.249.9'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2040,6 +2044,9 @@ export default {
       const eventBotCase = `
         CASE
           WHEN lower(coalesce(org,'')) LIKE '%university%' THEN 0
+          WHEN id IN (
+            0
+          ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
@@ -2683,7 +2690,9 @@ export default {
             '103.235.74.65',
             '106.49.137.217',
             '185.157.88.60',
-            '158.173.67.141'
+            '158.173.67.141',
+            '142.147.225.40',
+            '103.4.249.9'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
