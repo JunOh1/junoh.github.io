@@ -100,7 +100,7 @@ author_profile: true
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
         <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
-      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, 2026 Happy Valley Finance Conference at Penn State*, Vanderbilt University*</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, CEIBS*, Happy Valley Finance Conference at Penn State*, Vanderbilt University*, Texas A&amp;M*, Purdue University*, Penn State University*, George Washington University*, Rice University*, Southern Methodist University*, 2026 CFEA (Scheduled), 2027 HARC* (Scheduled)</li>
       </li>
     </ul>
   </div>
@@ -113,7 +113,7 @@ author_profile: true
     <span style="font-weight: bold;">Interlocking Directors and Technology Exclusion</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting, 2026 Conference on Empirical Legal Studies (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting, 2026 Conference on Empirical Legal Studies</li>
     </ul>
   </div>
 </div>
@@ -125,6 +125,7 @@ author_profile: true
     <span style="font-weight: bold;">Conflicting Out Rivals: Patent Disclosure and the Allocation of Legal Counsel</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://zicklin.baruch.cuny.edu/faculty-profile/yanrong-jia/" style="color: inherit; text-decoration: none;">Yanrong Jia</a> and <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University*</li>
     </ul>
   </div>
 </div>
@@ -134,6 +135,9 @@ author_profile: true
   <span>[11]</span>
   <div>
     <span style="font-weight: bold;">Trade Secrets and the Organization of R&D Labor</span>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">Presentations: 2026 CFEA (Scheduled)</li>
+    </ul>
   </div>
 </div>
 
@@ -142,7 +146,6 @@ author_profile: true
 
 
 <span style="font-size: 12px; margin-bottom: 2px; font-weight: normal;">Presentation by co-author (*)</span>
-
 
 
 
