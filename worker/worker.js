@@ -2841,6 +2841,7 @@ export default {
             OR lower(org) LIKE '%universitaet%'
             OR lower(org) LIKE '%universiteit%'
             OR lower(org) LIKE '%université%'
+            OR lower(org) LIKE '%universite%'
             OR lower(org) LIKE '%universita%'
             OR lower(org) LIKE '%universidad%'
             OR lower(org) LIKE '%universidade%'
