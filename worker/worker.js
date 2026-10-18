@@ -773,7 +773,10 @@ function isBannedBotIp(ip) {
     "124.126.98.89",
     "2a0a:4cc0:c2:a3cd:d8ab:e0ff:febd:5c82",
     "2806:2f0:a300:dbc2:c00f:fb3e:a1af:b442",
-    "2402:800:6279:47d9:ed65:e1c5:b3eb:666f"
+    "2402:800:6279:47d9:ed65:e1c5:b3eb:666f",
+    "52.81.230.40",
+    "52.80.117.62",
+    "115.190.107.107"
   ].includes(ip);
 }
 
@@ -1998,7 +2001,10 @@ export default {
             '124.126.98.89',
             '2a0a:4cc0:c2:a3cd:d8ab:e0ff:febd:5c82',
             '2806:2f0:a300:dbc2:c00f:fb3e:a1af:b442',
-            '2402:800:6279:47d9:ed65:e1c5:b3eb:666f'
+            '2402:800:6279:47d9:ed65:e1c5:b3eb:666f',
+            '52.81.230.40',
+            '52.80.117.62',
+            '115.190.107.107'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2755,7 +2761,10 @@ export default {
             '124.126.98.89',
             '2a0a:4cc0:c2:a3cd:d8ab:e0ff:febd:5c82',
             '2806:2f0:a300:dbc2:c00f:fb3e:a1af:b442',
-            '2402:800:6279:47d9:ed65:e1c5:b3eb:666f'
+            '2402:800:6279:47d9:ed65:e1c5:b3eb:666f',
+            '52.81.230.40',
+            '52.80.117.62',
+            '115.190.107.107'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
