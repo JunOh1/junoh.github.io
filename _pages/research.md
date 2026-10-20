@@ -110,7 +110,7 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[9]</span>
   <div>
-    <span style="font-weight: bold;">Interlocking Directors and Technology Exclusion</span>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/interlocking-directors">Interlocking Directors and Technology Exclusion</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
       <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting, 2026 Conference on Empirical Legal Studies</li>
