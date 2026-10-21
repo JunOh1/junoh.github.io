@@ -2153,6 +2153,30 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN EXISTS (
+            SELECT 1
+            FROM visitor_logs AS paired_log
+            WHERE paired_log.ip = visitor_events.ip
+              AND paired_log.path = 'PAPER CLICK: ' || visitor_events.text
+              AND ABS(
+                strftime('%s', paired_log.ts) -
+                strftime('%s', visitor_events.ts)
+              ) <= 60
+          ) THEN (
+            SELECT ${logBotCase}
+            FROM visitor_logs AS paired_log
+            WHERE paired_log.ip = visitor_events.ip
+              AND paired_log.path = 'PAPER CLICK: ' || visitor_events.text
+              AND ABS(
+                strftime('%s', paired_log.ts) -
+                strftime('%s', visitor_events.ts)
+              ) <= 60
+            ORDER BY ABS(
+              strftime('%s', paired_log.ts) -
+              strftime('%s', visitor_events.ts)
+            )
+            LIMIT 1
+          )
           WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             0
