@@ -3197,51 +3197,230 @@ export default {
           ? `WHERE ${recentLogFilters.join(" AND ")}`
           : "";
 
-      const recentRaw = await env.DB.prepare(`
-        SELECT
-          id,
-          ts,
-          org,
-          browser,
-          device_type,
-          path,
-          country,
-          city,
-          referer,
-          ip,
-          ua,
-          ${logBotCase} AS likely_bot
-        FROM visitor_logs
-        ${recentLogWhere}
-        ORDER BY ts DESC, id DESC
-        LIMIT ?
-        OFFSET ?
-      `)
-        .bind(...recentParams, PAGE_SIZE + 1, offset)
-        .all();
+      const bindQuery = (sql, ...params) =>
+        env.DB.prepare(sql).bind(...params);
+
+      const [
+        recentRaw,
+        totals,
+        dailyVisitorTotals,
+        academicTotals,
+        topOrgsRaw,
+        topPages,
+        countriesRaw,
+        topReferrersRaw,
+        topLocations,
+        downloads,
+        topDownloaders,
+        downloadHistoryRaw,
+        linkClickDetails,
+        linkTotals,
+        dailyRaw,
+        dailyChart,
+        latestLog,
+        latestEvent
+      ] = await env.DB.batch([
+        bindQuery(`
+          SELECT
+            id,
+            ts,
+            org,
+            browser,
+            device_type,
+            path,
+            country,
+            city,
+            referer,
+            ip,
+            ua,
+            ${logBotCase} AS likely_bot
+          FROM visitor_logs
+          ${recentLogWhere}
+          ORDER BY ts DESC, id DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...recentParams, PAGE_SIZE + 1, offset),
+        bindQuery(`
+          SELECT
+            COUNT(*) AS total_pageviews,
+            COUNT(DISTINCT visitor_id) AS unique_visitors,
+            COUNT(DISTINCT
+              CASE
+                WHEN session_id IS NOT NULL AND session_id != ''
+                THEN session_id
+                ELSE visitor_id || ':' || substr(ts,1,13)
+              END
+            ) AS total_visits
+          FROM visitor_logs
+          ${logWhere}
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT
+            COUNT(DISTINCT substr(ts, 1, 10) || ':' || visitor_id) AS visitor_days,
+            MIN(substr(ts, 1, 10)) AS first_day,
+            MAX(substr(ts, 1, 10)) AS last_day
+          FROM visitor_logs
+          ${logWhere}
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT COUNT(*) AS visits
+          FROM visitor_logs
+          ${academicWhere}
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT
+            ${normalizedOrgSql} AS org,
+            COUNT(*) AS visits
+          FROM visitor_logs
+          ${academicWhere}
+          GROUP BY ${normalizedOrgSql}
+          ORDER BY visits DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...rangeParams, PAGE_SIZE + 1, orgOffset),
+        bindQuery(`
+          SELECT
+            CASE
+              WHEN path IN ('/research', '/research/') THEN '/research'
+              ELSE path
+            END AS path,
+            COUNT(*) AS visits
+          FROM visitor_logs
+          ${logWhere}
+          GROUP BY
+            CASE
+              WHEN path IN ('/research', '/research/') THEN '/research'
+              ELSE path
+            END
+          ORDER BY visits DESC
+          LIMIT 20
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT country, COUNT(*) AS visits
+          FROM visitor_logs
+          ${logWhere}
+          GROUP BY country
+          ORDER BY visits DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...rangeParams, PAGE_SIZE + 1, countryOffset),
+        bindQuery(`
+          SELECT referer, COUNT(*) AS visits
+          FROM visitor_logs
+          ${referrerWhere}
+            AND lower(referer) NOT LIKE '%junoh.me%'
+            AND lower(referer) NOT LIKE '%junoh.github.io%'
+            AND lower(referer) NOT LIKE '%junoh1.github.io%'
+          GROUP BY referer
+          ORDER BY visits DESC
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT country, city, COUNT(*) AS visits
+          FROM visitor_logs
+          ${logWhere}
+          GROUP BY country, city
+          ORDER BY visits DESC
+          LIMIT 20
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT path, COUNT(*) AS downloads
+          FROM visitor_logs
+          ${downloadWhere}
+          GROUP BY path
+          ORDER BY downloads DESC
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT
+            ${normalizedOrgSql} AS org,
+            COUNT(*) AS downloads
+          FROM visitor_logs
+          ${downloadWhere}
+          GROUP BY ${normalizedOrgSql}
+          ORDER BY downloads DESC
+          LIMIT 20
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT
+            ts,
+            path,
+            ${normalizedOrgSql} AS org,
+            country,
+            ip,
+            ${logBotCase} AS likely_bot
+          FROM visitor_logs
+          ${downloadWhere}
+          ORDER BY ts DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...rangeParams, PAGE_SIZE + 1, downloadOffset),
+        bindQuery(`
+          SELECT
+            ts,
+            text,
+            target,
+            country,
+            city,
+            org,
+            ip,
+            ${eventBotCase} AS likely_bot
+          FROM visitor_events
+          ${eventWhere}
+          ORDER BY ts DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...rangeParams, PAGE_SIZE + 1, linkOffset),
+        bindQuery(`
+          SELECT text, COUNT(*) AS clicks
+          FROM visitor_events
+          ${eventWhere}
+          GROUP BY text
+          ORDER BY clicks DESC
+        `, ...rangeParams),
+        bindQuery(`
+          SELECT
+            substr(ts,1,10) AS date,
+            COUNT(*) AS pageviews,
+            COUNT(DISTINCT visitor_id) AS unique_visitors,
+            COUNT(DISTINCT
+              CASE
+                WHEN session_id IS NOT NULL AND session_id != ''
+                THEN session_id
+                ELSE visitor_id || ':' || substr(ts,1,13)
+              END
+            ) AS visits
+          FROM visitor_logs
+          ${logWhere}
+          GROUP BY date
+          ORDER BY date DESC
+          LIMIT ?
+          OFFSET ?
+        `, ...rangeParams, PAGE_SIZE + 1, dailyOffset),
+        bindQuery(`
+          SELECT
+            substr(ts,1,10) AS date,
+            COUNT(*) AS pageviews,
+            COUNT(DISTINCT visitor_id) AS unique_visitors,
+            COUNT(DISTINCT
+              CASE
+                WHEN session_id IS NOT NULL AND session_id != ''
+                THEN session_id
+                ELSE visitor_id || ':' || substr(ts,1,13)
+              END
+            ) AS visits
+          FROM visitor_logs
+          ${logWhere}
+          GROUP BY date
+          ORDER BY date ASC
+        `, ...rangeParams),
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_logs`),
+        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_events`)
+      ]);
 
       const recentHasNext =
         recentRaw.results.length > PAGE_SIZE;
 
       const recentRows =
         recentRaw.results.slice(0, PAGE_SIZE);
-
-      const totals = await env.DB.prepare(`
-        SELECT
-          COUNT(*) AS total_pageviews,
-          COUNT(DISTINCT visitor_id) AS unique_visitors,
-          COUNT(DISTINCT
-            CASE
-              WHEN session_id IS NOT NULL AND session_id != ''
-              THEN session_id
-              ELSE visitor_id || ':' || substr(ts,1,13)
-            END
-          ) AS total_visits
-        FROM visitor_logs
-        ${logWhere}
-      `)
-        .bind(...rangeParams)
-        .all();
 
       const totalPageviews =
         totals.results[0]?.total_pageviews || 0;
@@ -3251,17 +3430,6 @@ export default {
 
       const totalVisits =
         totals.results[0]?.total_visits || 0;
-
-      const dailyVisitorTotals = await env.DB.prepare(`
-        SELECT
-          COUNT(DISTINCT substr(ts, 1, 10) || ':' || visitor_id) AS visitor_days,
-          MIN(substr(ts, 1, 10)) AS first_day,
-          MAX(substr(ts, 1, 10)) AS last_day
-        FROM visitor_logs
-        ${logWhere}
-      `)
-        .bind(...rangeParams)
-        .all();
 
       const dailyVisitorRow =
         dailyVisitorTotals.results[0] || {};
@@ -3295,14 +3463,6 @@ export default {
           ? (visitorDays / averageWindowDays).toFixed(1)
           : "0";
 
-      const academicTotals = await env.DB.prepare(`
-        SELECT COUNT(*) AS visits
-        FROM visitor_logs
-        ${academicWhere}
-      `)
-        .bind(...rangeParams)
-        .all();
-
       const academicVisits =
         academicTotals.results[0]?.visits || 0;
 
@@ -3311,80 +3471,17 @@ export default {
           ? `${((academicVisits / totalPageviews) * 100).toFixed(1)}%`
           : "0.0%";
 
-      const topOrgsRaw = await env.DB.prepare(`
-        SELECT
-          ${normalizedOrgSql} AS org,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${academicWhere}
-        GROUP BY ${normalizedOrgSql}
-        ORDER BY visits DESC
-        LIMIT ?
-        OFFSET ?
-      `)
-        .bind(...rangeParams, PAGE_SIZE + 1, orgOffset)
-        .all();
-
       const topOrgsHasNext =
         topOrgsRaw.results.length > PAGE_SIZE;
 
       const topOrgs =
         topOrgsRaw.results.slice(0, PAGE_SIZE);
 
-      const topPages = await env.DB.prepare(`
-        SELECT
-          CASE
-            WHEN path IN ('/research', '/research/') THEN '/research'
-            ELSE path
-          END AS path,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY
-          CASE
-            WHEN path IN ('/research', '/research/') THEN '/research'
-            ELSE path
-          END
-        ORDER BY visits DESC
-        LIMIT 20
-      `)
-        .bind(...rangeParams)
-        .all();
-
-      const countriesRaw = await env.DB.prepare(`
-        SELECT
-          country,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY country
-        ORDER BY visits DESC
-        LIMIT ?
-        OFFSET ?
-      `)
-        .bind(...rangeParams, PAGE_SIZE + 1, countryOffset)
-        .all();
-
       const countriesHasNext =
         countriesRaw.results.length > PAGE_SIZE;
 
       const countries =
         countriesRaw.results.slice(0, PAGE_SIZE);
-
-      const topReferrersRaw = await env.DB.prepare(`
-        SELECT
-          referer,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${referrerWhere}
-          AND lower(referer) NOT LIKE '%junoh.me%'
-          AND lower(referer) NOT LIKE '%junoh.github.io%'
-          AND lower(referer) NOT LIKE '%junoh1.github.io%'
-        GROUP BY referer
-        ORDER BY visits DESC
-      `)
-        .bind(...rangeParams)
-        .all();
 
       const referrerTotals = {};
 
@@ -3406,91 +3503,11 @@ export default {
           .sort((a, b) => b.visits - a.visits)
           .slice(0, 20);
 
-      const topLocations = await env.DB.prepare(`
-        SELECT
-          country,
-          city,
-          COUNT(*) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY country, city
-        ORDER BY visits DESC
-        LIMIT 20
-      `)
-        .bind(...rangeParams)
-        .all();
-
-      // ======================================
-      // DATA DOWNLOAD ANALYTICS
-      // ======================================
-
-      const downloads = await env.DB.prepare(`
-        SELECT
-          path,
-          COUNT(*) AS downloads
-        FROM visitor_logs
-        ${downloadWhere}
-        GROUP BY path
-        ORDER BY downloads DESC
-      `)
-        .bind(...rangeParams)
-        .all();
-
-      const topDownloaders = await env.DB.prepare(`
-        SELECT
-          ${normalizedOrgSql} AS org,
-          COUNT(*) AS downloads
-        FROM visitor_logs
-        ${downloadWhere}
-        GROUP BY ${normalizedOrgSql}
-        ORDER BY downloads DESC
-        LIMIT 20
-      `)
-        .bind(...rangeParams)
-        .all();
-
-      const downloadHistoryRaw =
-        await env.DB.prepare(`
-          SELECT
-            ts,
-            path,
-            ${normalizedOrgSql} AS org,
-            country,
-            ip,
-            ${logBotCase} AS likely_bot
-          FROM visitor_logs
-          ${downloadWhere}
-          ORDER BY ts DESC
-          LIMIT ?
-          OFFSET ?
-        `)
-        .bind(...rangeParams, PAGE_SIZE + 1, downloadOffset)
-        .all();
-
       const downloadHistoryHasNext =
         downloadHistoryRaw.results.length > PAGE_SIZE;
 
       const downloadHistory =
         downloadHistoryRaw.results.slice(0, PAGE_SIZE);
-
-      const linkClickDetails = await env.DB.prepare(`
-        SELECT
-          ts,
-          text,
-          target,
-          country,
-          city,
-          org,
-          ip,
-          ${eventBotCase} AS likely_bot
-        FROM visitor_events
-        ${eventWhere}
-        ORDER BY ts DESC
-        LIMIT ?
-        OFFSET ?
-      `)
-        .bind(...rangeParams, PAGE_SIZE + 1, linkOffset)
-        .all();
 
       const linkHasNext =
         linkClickDetails.results.length > PAGE_SIZE;
@@ -3498,65 +3515,11 @@ export default {
       const linkRows =
         linkClickDetails.results.slice(0, PAGE_SIZE);
 
-      const linkTotals = await env.DB.prepare(`
-        SELECT
-          text,
-          COUNT(*) AS clicks
-        FROM visitor_events
-        ${eventWhere}
-        GROUP BY text
-        ORDER BY clicks DESC
-      `)
-        .bind(...rangeParams)
-        .all();
-
-      const dailyRaw = await env.DB.prepare(`
-        SELECT
-          substr(ts,1,10) AS date,
-          COUNT(*) AS pageviews,
-          COUNT(DISTINCT visitor_id) AS unique_visitors,
-          COUNT(DISTINCT
-            CASE
-              WHEN session_id IS NOT NULL AND session_id != ''
-              THEN session_id
-              ELSE visitor_id || ':' || substr(ts,1,13)
-            END
-          ) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY date
-        ORDER BY date DESC
-        LIMIT ?
-        OFFSET ?
-      `)
-        .bind(...rangeParams, PAGE_SIZE + 1, dailyOffset)
-        .all();
-
       const dailyHasNext =
         dailyRaw.results.length > PAGE_SIZE;
 
       const dailyRows =
         dailyRaw.results.slice(0, PAGE_SIZE);
-
-      const dailyChart = await env.DB.prepare(`
-        SELECT
-          substr(ts,1,10) AS date,
-          COUNT(*) AS pageviews,
-          COUNT(DISTINCT visitor_id) AS unique_visitors,
-          COUNT(DISTINCT
-            CASE
-              WHEN session_id IS NOT NULL AND session_id != ''
-              THEN session_id
-              ELSE visitor_id || ':' || substr(ts,1,13)
-            END
-          ) AS visits
-        FROM visitor_logs
-        ${logWhere}
-        GROUP BY date
-        ORDER BY date ASC
-      `)
-        .bind(...rangeParams)
-        .all();
 
       const chartData = dailyChart.results.map(r => ({
         rawDate: r.date,
@@ -3572,11 +3535,6 @@ export default {
         unique: r.unique_visitors,
         pageviews: r.pageviews
       }));
-
-      const [latestLog, latestEvent] = await env.DB.batch([
-        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_logs`),
-        env.DB.prepare(`SELECT coalesce(MAX(id), 0) AS id FROM visitor_events`)
-      ]);
 
       const initialLiveSignature =
         `${latestLog.results[0]?.id || 0}:${latestEvent.results[0]?.id || 0}`;
