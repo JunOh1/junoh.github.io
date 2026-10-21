@@ -798,7 +798,8 @@ function isBannedBotIp(ip) {
     "209.59.230.99",
     "209.59.230.78",
     "87.246.9.62",
-    "209.50.169.170"
+    "209.50.169.170",
+    "185.245.104.75"
   ].includes(ip);
 }
 
@@ -846,6 +847,12 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("rapidseedbox ltd")
   );
 }
+
+// Admin page views run several grouped reports over the same D1 time window.
+// Keep identical views warm briefly so refreshes and repeat visits do not
+// spend the free-tier row-read allowance repeatedly.
+const adminPageCache = new Map();
+const ADMIN_PAGE_CACHE_TTL_MS = 60_000;
 
 export default {
   async fetch(request, env) {
@@ -1264,6 +1271,22 @@ export default {
     }
 
     if (path === "/admin") {
+      const cacheKey = url.pathname + url.search;
+      const cachedPage = adminPageCache.get(cacheKey);
+
+      if (cachedPage && cachedPage.expiresAt > Date.now()) {
+        return new Response(cachedPage.html, {
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "cache-control": "private, no-store"
+          }
+        });
+      }
+
+      if (cachedPage) {
+        adminPageCache.delete(cacheKey);
+      }
+
       const PAGE_SIZE = 20;
 
       const page =
@@ -1378,7 +1401,6 @@ export default {
 
       const logBotCase = `
         CASE
-          WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
             5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
@@ -1386,8 +1408,9 @@ export default {
             6768, 6769, 6796, 6797, 6843, 6845, 6855, 6856, 6982,
             6983, 6998, 6999, 7029, 7045, 7081, 7082, 7156, 7157,
             7179, 7180, 7198, 7199, 7219, 7220, 7254, 7415, 7416,
-            7439, 7440, 7493, 7494, 7522, 7523
+            7439, 7440, 7493, 7494, 7522, 7523, 7559, 7560
           ) THEN 1
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '194.5.82.64',
@@ -2079,7 +2102,8 @@ export default {
             '209.59.230.99',
             '209.59.230.78',
             '87.246.9.62',
-            '209.50.169.170'
+            '209.50.169.170',
+            '185.245.104.75'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2157,6 +2181,9 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN id IN (
+            0
+          ) THEN 1
           WHEN (${academicOrganizationCase}) THEN 0
           WHEN EXISTS (
             SELECT 1
@@ -2170,9 +2197,6 @@ export default {
               AND paired_log.ts <= strftime(
                 '%Y-%m-%dT%H:%M:%fZ', visitor_events.ts, '+60 seconds'
               )
-          ) THEN 1
-          WHEN id IN (
-            0
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
@@ -2865,7 +2889,8 @@ export default {
             '209.59.230.99',
             '209.59.230.78',
             '87.246.9.62',
-            '209.50.169.170'
+            '209.50.169.170',
+            '185.245.104.75'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -5324,6 +5349,17 @@ for (const button of document.querySelectorAll(".chart-grain")) {
 </body>
 </html>
 `;
+
+      adminPageCache.set(cacheKey, {
+        html,
+        expiresAt: Date.now() + ADMIN_PAGE_CACHE_TTL_MS
+      });
+
+      // Bound per-isolate memory if many different filters are requested.
+      if (adminPageCache.size > 20) {
+        const oldestKey = adminPageCache.keys().next().value;
+        adminPageCache.delete(oldestKey);
+      }
 
       return new Response(html, {
         headers: {
