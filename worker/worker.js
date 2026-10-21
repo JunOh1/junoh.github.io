@@ -1347,9 +1347,25 @@ export default {
         END
       `;
 
+      const academicOrganizationCase = `
+        lower(coalesce(org,'')) LIKE '%university%'
+        OR lower(coalesce(org,'')) LIKE '%college%'
+        OR lower(coalesce(org,'')) LIKE '%school%'
+        OR lower(coalesce(org,'')) LIKE '%academy%'
+        OR lower(coalesce(org,'')) LIKE '%universitat%'
+        OR lower(coalesce(org,'')) LIKE '%universitaet%'
+        OR lower(coalesce(org,'')) LIKE '%universiteit%'
+        OR lower(coalesce(org,'')) LIKE '%université%'
+        OR lower(coalesce(org,'')) LIKE '%universite%'
+        OR lower(coalesce(org,'')) LIKE '%universita%'
+        OR lower(coalesce(org,'')) LIKE '%universidad%'
+        OR lower(coalesce(org,'')) LIKE '%universidade%'
+        OR lower(coalesce(org,'')) LIKE '%institute%'
+      `;
+
       const logBotCase = `
         CASE
-          WHEN lower(coalesce(org,'')) LIKE '%university%' THEN 0
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
             5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
@@ -2137,7 +2153,7 @@ export default {
 
       const eventBotCase = `
         CASE
-          WHEN lower(coalesce(org,'')) LIKE '%university%' THEN 0
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             0
           ) THEN 1
