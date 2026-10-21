@@ -1363,6 +1363,19 @@ export default {
         OR lower(coalesce(org,'')) LIKE '%institute%'
       `;
 
+      const userAgentBotCase = uaExpression => `
+        lower(coalesce(${uaExpression},'')) LIKE '%bot%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%crawler%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%spider%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%slurp%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%headless%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%python%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%curl%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%wget%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%httpclient%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%go-http-client%'
+      `;
+
       const logBotCase = `
         CASE
           WHEN (${academicOrganizationCase}) THEN 0
@@ -2137,47 +2150,25 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%pt gunung sedayu sentosa%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%modmc%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%bot%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%crawler%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%spider%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%slurp%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%headless%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%python%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%curl%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%wget%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%httpclient%' THEN 1
-          WHEN lower(coalesce(ua,'')) LIKE '%go-http-client%' THEN 1
+          WHEN (${userAgentBotCase("ua")}) THEN 1
           ELSE 0
         END
       `;
 
       const eventBotCase = `
         CASE
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN EXISTS (
             SELECT 1
             FROM visitor_logs AS paired_log
             WHERE paired_log.ip = visitor_events.ip
               AND paired_log.path = 'PAPER CLICK: ' || visitor_events.text
+              AND (${userAgentBotCase("paired_log.ua")})
               AND ABS(
                 strftime('%s', paired_log.ts) -
                 strftime('%s', visitor_events.ts)
               ) <= 60
-          ) THEN (
-            SELECT ${logBotCase}
-            FROM visitor_logs AS paired_log
-            WHERE paired_log.ip = visitor_events.ip
-              AND paired_log.path = 'PAPER CLICK: ' || visitor_events.text
-              AND ABS(
-                strftime('%s', paired_log.ts) -
-                strftime('%s', visitor_events.ts)
-              ) <= 60
-            ORDER BY ABS(
-              strftime('%s', paired_log.ts) -
-              strftime('%s', visitor_events.ts)
-            )
-            LIMIT 1
-          )
-          WHEN (${academicOrganizationCase}) THEN 0
+          ) THEN 1
           WHEN id IN (
             0
           ) THEN 1
