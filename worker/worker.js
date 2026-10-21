@@ -2164,10 +2164,12 @@ export default {
             WHERE paired_log.ip = visitor_events.ip
               AND paired_log.path = 'PAPER CLICK: ' || visitor_events.text
               AND (${userAgentBotCase("paired_log.ua")})
-              AND ABS(
-                strftime('%s', paired_log.ts) -
-                strftime('%s', visitor_events.ts)
-              ) <= 60
+              AND paired_log.ts >= strftime(
+                '%Y-%m-%dT%H:%M:%fZ', visitor_events.ts, '-60 seconds'
+              )
+              AND paired_log.ts <= strftime(
+                '%Y-%m-%dT%H:%M:%fZ', visitor_events.ts, '+60 seconds'
+              )
           ) THEN 1
           WHEN id IN (
             0
