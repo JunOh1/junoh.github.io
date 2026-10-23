@@ -24,9 +24,10 @@ function normalizeOrg(org) {
     "Universitaet Hamburg campus net": "University of Hamburg",
     "NUS Gigapop": "National University of Singapore",
     "imported inetnum object for NUS-1": "National University of Singapore",
-    "universitaet Hamburg campus net": "Universitaet Hamburg",
+    "universitaet Hamburg campus net": "University of Hamburg",
     "Lamont-Doherty Earth Observatory of Columbia University": "Columbia University",
-    "The Hong Kong University of Science and Technology": "Hong Kong University of Science and Technology"
+    "The Hong Kong University of Science and Technology": "Hong Kong University of Science and Technology",
+    "Indian School of Business, a world class business school, India": "Indian School of Business"
   };
 
   return map[org] || org;
@@ -803,7 +804,9 @@ function isBannedBotIp(ip) {
     "142.147.225.194",
     "212.135.214.6",
     "66.175.238.135",
-    "192.42.85.90"
+    "192.42.85.90",
+    "103.65.236.119",
+    "221.178.143.70"
   ].includes(ip);
 }
 
@@ -1365,6 +1368,30 @@ export default {
 
       const normalizedOrgSql = `
         CASE
+          WHEN org IN (
+            'Indian School of Business, a world class business school, India',
+            'Indian School of Business'
+          )
+          THEN 'Indian School of Business'
+          WHEN org IN (
+            'Universitaet Hamburg',
+            'Universitaet Hamburg campus net',
+            'universitaet Hamburg campus net'
+          )
+          THEN 'University of Hamburg'
+          WHEN org IN (
+            'UNI-Milano - Bocconi',
+            'Bocconi University'
+          )
+          THEN 'Bocconi University'
+          WHEN org IN (
+            'NUS Gigapop',
+            'imported inetnum object for NUS-1',
+            'National University of Singapore'
+          )
+          THEN 'National University of Singapore'
+          WHEN org = 'Lamont-Doherty Earth Observatory of Columbia University'
+          THEN 'Columbia University'
           WHEN org IN (
             'The Hong Kong University of Science and Technology',
             'Hong Kong University of Science and Technology'
@@ -2111,7 +2138,9 @@ export default {
             '142.147.225.194',
             '212.135.214.6',
             '66.175.238.135',
-            '192.42.85.90'
+            '192.42.85.90',
+            '103.65.236.119',
+            '221.178.143.70'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2902,7 +2931,9 @@ export default {
             '142.147.225.194',
             '212.135.214.6',
             '66.175.238.135',
-            '192.42.85.90'
+            '192.42.85.90',
+            '103.65.236.119',
+            '221.178.143.70'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
@@ -3261,7 +3292,7 @@ export default {
           SELECT
             id,
             ts,
-            org,
+            ${normalizedOrgSql} AS org,
             browser,
             device_type,
             path,
