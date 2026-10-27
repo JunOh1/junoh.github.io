@@ -826,7 +826,9 @@ function isBannedBotIp(ip) {
     "185.100.32.90",
     "144.124.199.135",
     "2804:30c:908:d300:15bd:60b5:cdd9:76dc",
-    "91.243.22.180"
+    "91.243.22.180",
+    "91.186.248.230",
+    "185.148.1.87"
   ].includes(ip);
 }
 
@@ -2181,7 +2183,9 @@ export default {
             '185.100.32.90',
             '144.124.199.135',
             '2804:30c:908:d300:15bd:60b5:cdd9:76dc',
-            '91.243.22.180'
+            '91.243.22.180',
+            '91.186.248.230',
+            '185.148.1.87'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2994,7 +2998,9 @@ export default {
             '185.100.32.90',
             '144.124.199.135',
             '2804:30c:908:d300:15bd:60b5:cdd9:76dc',
-            '91.243.22.180'
+            '91.243.22.180',
+            '91.186.248.230',
+            '185.148.1.87'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
