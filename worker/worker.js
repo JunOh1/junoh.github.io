@@ -839,7 +839,10 @@ function isBannedBotIp(ip) {
     "94.158.58.250",
     "103.127.94.40",
     "2405:3800:967:8acc:fc7f:47cc:f087:6bef",
-    "2001:4455:6cf:d800:258c:474f:4027:2d89"
+    "2001:4455:6cf:d800:258c:474f:4027:2d89",
+    "184.174.46.146",
+    "89.249.194.242",
+    "184.174.56.206"
   ].includes(ip);
 }
 
@@ -1455,6 +1458,7 @@ export default {
 
       const userAgentBotCase = uaExpression => `
         lower(coalesce(${uaExpression},'')) LIKE '%bot%'
+        OR lower(coalesce(${uaExpression},'')) LIKE '%baditaflorin%'
         OR lower(coalesce(${uaExpression},'')) LIKE '%crawler%'
         OR lower(coalesce(${uaExpression},'')) LIKE '%spider%'
         OR lower(coalesce(${uaExpression},'')) LIKE '%slurp%'
@@ -2210,7 +2214,10 @@ export default {
             '94.158.58.250',
             '103.127.94.40',
             '2405:3800:967:8acc:fc7f:47cc:f087:6bef',
-            '2001:4455:6cf:d800:258c:474f:4027:2d89'
+            '2001:4455:6cf:d800:258c:474f:4027:2d89',
+            '184.174.46.146',
+            '89.249.194.242',
+            '184.174.56.206'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -3036,7 +3043,10 @@ export default {
             '94.158.58.250',
             '103.127.94.40',
             '2405:3800:967:8acc:fc7f:47cc:f087:6bef',
-            '2001:4455:6cf:d800:258c:474f:4027:2d89'
+            '2001:4455:6cf:d800:258c:474f:4027:2d89',
+            '184.174.46.146',
+            '89.249.194.242',
+            '184.174.56.206'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
