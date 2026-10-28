@@ -884,7 +884,10 @@ function isBannedBotOrg(org) {
     normalizedOrg.includes("dedik services") ||
     normalizedOrg.includes("omegatech") ||
     normalizedOrg.includes("aliyun computing") ||
-    normalizedOrg.includes("rapidseedbox ltd")
+    normalizedOrg.includes("rapidseedbox ltd") ||
+    normalizedOrg.includes("server mania inc.") ||
+    normalizedOrg.includes("hostroyale llc") ||
+    normalizedOrg.includes("web2objects llc")
   );
 }
 
