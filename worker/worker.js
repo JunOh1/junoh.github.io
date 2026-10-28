@@ -843,7 +843,8 @@ function isBannedBotIp(ip) {
     "184.174.46.146",
     "89.249.194.242",
     "184.174.56.206",
-    "142.111.58.59"
+    "142.111.58.59",
+    "150.95.24.146"
   ].includes(ip);
 }
 
@@ -2219,7 +2220,8 @@ export default {
             '184.174.46.146',
             '89.249.194.242',
             '184.174.56.206',
-            '142.111.58.59'
+            '142.111.58.59',
+            '150.95.24.146'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2290,6 +2292,28 @@ export default {
           WHEN lower(coalesce(org,'')) LIKE '%pt gunung sedayu sentosa%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%tralex dedicated servers%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%modmc%' THEN 1
+          WHEN path LIKE 'PAPER CLICK: %' AND EXISTS (
+            SELECT 1
+            FROM visitor_events AS burst_anchor
+            JOIN visitor_events AS burst_peer
+              ON burst_peer.event_type = 'go_click'
+             AND coalesce(burst_peer.text,'') = coalesce(burst_anchor.text,'')
+             AND coalesce(burst_peer.page,'') = coalesce(burst_anchor.page,'')
+             AND burst_peer.ts >= burst_anchor.ts
+             AND burst_peer.ts < strftime(
+               '%Y-%m-%dT%H:%M:%fZ', burst_anchor.ts, '+60 seconds'
+             )
+            WHERE burst_anchor.event_type = 'go_click'
+              AND burst_anchor.text = substr(visitor_logs.path, 14)
+              AND coalesce(burst_anchor.page,'') = coalesce(visitor_logs.referer,'')
+              AND burst_anchor.ts <= visitor_logs.ts
+              AND visitor_logs.ts < strftime(
+                '%Y-%m-%dT%H:%M:%fZ', burst_anchor.ts, '+60 seconds'
+              )
+            GROUP BY burst_anchor.ts, burst_anchor.text, burst_anchor.page
+            HAVING COUNT(DISTINCT burst_peer.ip) >= 3
+              AND COUNT(DISTINCT burst_peer.country) >= 3
+          ) THEN 1
           WHEN (${userAgentBotCase("ua")}) THEN 1
           ELSE 0
         END
@@ -2301,6 +2325,28 @@ export default {
             0
           ) THEN 1
           WHEN (${academicOrganizationCase}) THEN 0
+          WHEN EXISTS (
+            SELECT 1
+            FROM visitor_events AS burst_anchor
+            JOIN visitor_events AS burst_peer
+              ON burst_peer.event_type = 'go_click'
+             AND coalesce(burst_peer.text,'') = coalesce(burst_anchor.text,'')
+             AND coalesce(burst_peer.page,'') = coalesce(burst_anchor.page,'')
+             AND burst_peer.ts >= burst_anchor.ts
+             AND burst_peer.ts < strftime(
+               '%Y-%m-%dT%H:%M:%fZ', burst_anchor.ts, '+60 seconds'
+             )
+            WHERE burst_anchor.event_type = 'go_click'
+              AND coalesce(burst_anchor.text,'') = coalesce(visitor_events.text,'')
+              AND coalesce(burst_anchor.page,'') = coalesce(visitor_events.page,'')
+              AND burst_anchor.ts <= visitor_events.ts
+              AND visitor_events.ts < strftime(
+                '%Y-%m-%dT%H:%M:%fZ', burst_anchor.ts, '+60 seconds'
+              )
+            GROUP BY burst_anchor.ts, burst_anchor.text, burst_anchor.page
+            HAVING COUNT(DISTINCT burst_peer.ip) >= 3
+              AND COUNT(DISTINCT burst_peer.country) >= 3
+          ) THEN 1
           WHEN EXISTS (
             SELECT 1
             FROM visitor_logs AS paired_log
@@ -3049,7 +3095,8 @@ export default {
             '184.174.46.146',
             '89.249.194.242',
             '184.174.56.206',
-            '142.111.58.59'
+            '142.111.58.59',
+            '150.95.24.146'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
