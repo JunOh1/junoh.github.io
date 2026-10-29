@@ -110,6 +110,11 @@ async function isIgnoredIpForAnalytics(env, ip) {
 
 function isBannedBotIp(ip) {
   return [
+    "64.49.39.36",
+    "185.101.21.201",
+    "122.8.93.54",
+    "170.168.175.185",
+    "46.253.131.39",
     "194.5.82.64",
     "194.5.82.167",
     "194.5.82.95",
@@ -1496,6 +1501,11 @@ export default {
           WHEN (${academicOrganizationCase}) THEN 0
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
+            '64.49.39.36',
+            '185.101.21.201',
+            '122.8.93.54',
+            '170.168.175.185',
+            '46.253.131.39',
             '194.5.82.64',
             '194.5.82.167',
             '194.5.82.95',
@@ -2380,6 +2390,11 @@ export default {
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
+            '64.49.39.36',
+            '185.101.21.201',
+            '122.8.93.54',
+            '170.168.175.185',
+            '46.253.131.39',
             '194.5.82.64',
             '194.5.82.167',
             '194.5.82.95',
