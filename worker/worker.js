@@ -862,7 +862,8 @@ function isBannedBotIp(ip) {
     "201.167.17.14",
     "185.101.20.71",
     "212.119.47.168",
-    "157.22.17.188"
+    "157.22.17.188",
+    "82.108.15.4"
   ].includes(ip);
 }
 
@@ -1500,7 +1501,7 @@ export default {
             6983, 6998, 6999, 7029, 7045, 7081, 7082, 7156, 7157,
             7179, 7180, 7198, 7199, 7219, 7220, 7254, 7415, 7416,
             7439, 7440, 7493, 7494, 7522, 7523, 7559, 7560, 7648,
-            7655, 7661, 7662, 7854, 7858, 7883
+            7655, 7661, 7662, 7854, 7858, 7883, 7884
           ) THEN 1
           WHEN (${academicOrganizationCase}) THEN 0
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
@@ -2257,7 +2258,8 @@ export default {
             '201.167.17.14',
             '185.101.20.71',
             '212.119.47.168',
-            '157.22.17.188'
+            '157.22.17.188',
+            '82.108.15.4'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -3150,7 +3152,8 @@ export default {
             '201.167.17.14',
             '185.101.20.71',
             '212.119.47.168',
-            '157.22.17.188'
+            '157.22.17.188',
+            '82.108.15.4'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%collyer quay%' THEN 1
