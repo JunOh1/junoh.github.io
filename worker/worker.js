@@ -1536,6 +1536,7 @@ export default {
 
       const logBotCase = `
         CASE
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             5065, 5171, 5172, 5212, 5213, 5271, 5272, 5293, 5294,
             5343, 5344, 5378, 5382, 5427, 5454, 5476, 5477, 6551,
@@ -1545,9 +1546,9 @@ export default {
             7179, 7180, 7198, 7199, 7219, 7220, 7254, 7415, 7416,
             7439, 7440, 7493, 7494, 7522, 7523, 7559, 7560, 7648,
             7655, 7661, 7662, 7854, 7858, 7883, 7884, 7921, 7922,
-            7955, 7956, 7990, 7991, 8029, 8030, 8079, 8080
+            7955, 7956, 7990, 7991, 8029, 8030, 8079, 8080, 8104,
+            8105, 8164, 8165
           ) THEN 1
-          WHEN (${academicOrganizationCase}) THEN 0
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
             '31.134.9.149',
@@ -2446,10 +2447,10 @@ export default {
 
       const eventBotCase = `
         CASE
+          WHEN (${academicOrganizationCase}) THEN 0
           WHEN id IN (
             0
           ) THEN 1
-          WHEN (${academicOrganizationCase}) THEN 0
           WHEN EXISTS (
             SELECT 1
             FROM visitor_events AS burst_anchor
