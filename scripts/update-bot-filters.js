@@ -379,7 +379,7 @@ function refreshHistoricalOriginBotIds(source) {
 
 function refreshAdminBotView() {
   const before = fs.readFileSync(workerPath, "utf8");
-  const source = refreshHistoricalOriginBotIds(before);
+  const source = refreshHistoricalOriginBotIdsBestEffort(before);
 
   if (source !== before) {
     fs.writeFileSync(workerPath, source);
