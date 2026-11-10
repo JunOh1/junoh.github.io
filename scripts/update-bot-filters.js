@@ -226,17 +226,31 @@ function queryRecentOriginInternetIds() {
       let detail = stderr || stdout || error.message;
       try {
         const response = JSON.parse(stdout);
-        detail = response?.error?.text || detail;
+        if (response?.error) {
+          const apiError = response.error;
+          const notes = Array.isArray(apiError.notes)
+            ? apiError.notes.map(note => note?.text).filter(Boolean)
+            : [];
+          detail = [
+            apiError.text,
+            apiError.code ? `Cloudflare error code: ${apiError.code}` : "",
+            ...notes
+          ].filter(Boolean).join("\n");
+        }
       } catch {
         // Keep Wrangler's original output when it is not JSON.
       }
       lastError = new Error(detail);
 
-      if (!/fetch failed/i.test(detail) || attempt === 3) {
+      const retryableApiFailure =
+        /fetch failed|request to the Cloudflare API/i.test(detail);
+      if (!retryableApiFailure || attempt === 3) {
         throw lastError;
       }
 
-      console.warn(`D1 lookup hit a network error; retrying (${attempt}/3)...`);
+      console.warn(
+        `D1 lookup failed; retrying (${attempt}/3)...\n${detail}`
+      );
       Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, attempt * 1000);
     }
   }
