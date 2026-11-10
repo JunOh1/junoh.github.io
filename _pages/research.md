@@ -99,7 +99,7 @@ author_profile: true
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
-        <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joe Pacelli</a>
+        <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joseph Pacelli</a>
       <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, CEIBS*, Happy Valley Finance Conference at Penn State*, Vanderbilt University*, Texas A&amp;M*, Purdue University*, Penn State University*, George Washington University*, Rice University*, Southern Methodist University*, 2026 CFEA (Scheduled), 2027 HARC* (Scheduled)</li>
       </li>
     </ul>
@@ -122,6 +122,17 @@ author_profile: true
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
   <span>[10]</span>
   <div>
+    <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/ghost-jobs">Ghost Jobs</a>
+    <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+      <li style="margin: 0; font-size: 16px;">with <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joseph Pacelli</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
+  <span>[11]</span>
+  <div>
     <span style="font-weight: bold;">Conflicting Out Rivals: Patent Disclosure and the Allocation of Legal Counsel</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://zicklin.baruch.cuny.edu/faculty-profile/yanrong-jia/" style="color: inherit; text-decoration: none;">Yanrong Jia</a> and <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
@@ -132,7 +143,7 @@ author_profile: true
 
 
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 18px;">
-  <span>[11]</span>
+  <span>[12]</span>
   <div>
     <span style="font-weight: bold;">Trade Secrets and the Organization of R&D Labor</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
