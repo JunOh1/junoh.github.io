@@ -1618,7 +1618,8 @@ export default {
             '213.232.122.169',
             '185.94.32.248',
             '45.148.233.234',
-            '173.239.217.178'
+            '173.239.217.178',
+            '185.13.43.194'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%rapidseedbox%' THEN 1
           WHEN ip IN (
@@ -2458,7 +2459,8 @@ export default {
             '213.232.122.169',
             '185.94.32.248',
             '45.148.233.234',
-            '173.239.217.178'
+            '173.239.217.178',
+            '185.13.43.194'
           ) THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%cloudflare%' THEN 1
           WHEN lower(coalesce(org,'')) LIKE '%amazon%' THEN 1
@@ -2600,7 +2602,8 @@ export default {
             '213.232.122.169',
             '185.94.32.248',
             '45.148.233.234',
-            '173.239.217.178'
+            '173.239.217.178',
+            '185.13.43.194'
           ) THEN 1
           WHEN EXISTS (
             SELECT 1
