@@ -1525,6 +1525,8 @@ export default {
             'universitaet Hamburg campus net'
           )
           THEN 'University of Hamburg'
+          WHEN org = 'SDU Tildeling 2'
+          THEN 'University of Southern Denmark'
           WHEN org IN (
             'UNI-Milano - Bocconi',
             'Bocconi University'
@@ -1561,6 +1563,7 @@ export default {
         OR lower(coalesce(org,'')) LIKE '%universidad%'
         OR lower(coalesce(org,'')) LIKE '%universidade%'
         OR lower(coalesce(org,'')) LIKE '%institute%'
+        OR lower(coalesce(org,'')) LIKE '%sdu tildeling 2%'
       `;
 
       const userAgentBotCase = uaExpression => `
