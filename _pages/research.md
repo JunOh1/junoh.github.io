@@ -100,7 +100,7 @@ author_profile: true
       <li style="margin: 0; font-size: 16px;">
         with <a href="https://www.janetgaofinance.com/" style="color: inherit; text-decoration: none;">Janet Gao</a> and 
         <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joseph Pacelli</a>
-      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, CEIBS*, Happy Valley Finance Conference at Penn State*, Vanderbilt University*, Texas A&amp;M*, Purdue University*, Penn State University*, George Washington University*, Rice University*, Southern Methodist University*, 2026 CFEA (Scheduled), 2027 HARC* (Scheduled)</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: University of Arizona*, University of Kentucky*, CEIBS*, Happy Valley Finance Conference at Penn State*, Vanderbilt University*, Texas A&amp;M*, Purdue University*, Penn State University*, George Washington University*, Rice University*, Southern Methodist University*, 2026 CFEA (Scheduled), 2027 HARC* (Scheduled), 2027 FARS (Scheduled)</li>
       </li>
     </ul>
   </div>
@@ -113,7 +113,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/interlocking-directors">Interlocking Directors and Technology Exclusion</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting, 2026 Conference on Empirical Legal Studies</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University, Baruch College*, TPRI’s Works-in-Progress Seminar Series, 16th TJAR Conference, 6th Annual RCF-ECGI Corporate Finance and Governance Conference, 2026 HARC, 2026 EFA Annual Meeting, 2026 Conference on Empirical Legal Studies, 2027 FARS (Scheduled)</li>
     </ul>
   </div>
 </div>
@@ -125,6 +125,7 @@ author_profile: true
     <a style="text-decoration: none; color: #4b8fe2; font-weight: bold;" href="/go/ghost-jobs">Ghost Jobs</a>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://joepacelli.com/" style="color: inherit; text-decoration: none;">Joseph Pacelli</a></li>
+      <li style="margin: 0; font-size: 16px;">Presentations: 2027 FARS (Scheduled)</li>
     </ul>
   </div>
 </div>
