@@ -137,7 +137,7 @@ author_profile: true
     <span style="font-weight: bold;">Conflicting Out Rivals: Patent Disclosure and the Allocation of Legal Counsel</span>
     <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
       <li style="margin: 0; font-size: 16px;">with <a href="https://zicklin.baruch.cuny.edu/faculty-profile/yanrong-jia/" style="color: inherit; text-decoration: none;">Yanrong Jia</a> and <a href="https://business.purdue.edu/directory/bio.php?username=seo92" style="color: inherit; text-decoration: none;">Hojun Seo</a></li>
-      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University*</li>
+      <li style="margin: 0; font-size: 16px;">Presentations: Purdue University*, WUSTL*</li>
     </ul>
   </div>
 </div>
