@@ -24,6 +24,7 @@ function normalizeOrg(org) {
     "Universitaet Hamburg campus net": "University of Hamburg",
     "NUS Gigapop": "National University of Singapore",
     "imported inetnum object for NUS-1": "National University of Singapore",
+    "imported inetnum object for NTU-3": "Nanyang Technological University",
     "universitaet Hamburg campus net": "University of Hamburg",
     "Lamont-Doherty Earth Observatory of Columbia University": "Columbia University",
     "The Hong Kong University of Science and Technology": "Hong Kong University of Science and Technology",
@@ -1550,6 +1551,8 @@ export default {
             'National University of Singapore'
           )
           THEN 'National University of Singapore'
+          WHEN org = 'imported inetnum object for NTU-3'
+          THEN 'Nanyang Technological University'
           WHEN org = 'Lamont-Doherty Earth Observatory of Columbia University'
           THEN 'Columbia University'
           WHEN org IN (
@@ -1576,6 +1579,7 @@ export default {
         OR lower(coalesce(org,'')) LIKE '%universidade%'
         OR lower(coalesce(org,'')) LIKE '%institute%'
         OR lower(coalesce(org,'')) LIKE '%sdu tildeling 2%'
+        OR org = 'imported inetnum object for NTU-3'
       `;
 
       const userAgentBotCase = uaExpression => `
@@ -3784,23 +3788,7 @@ export default {
         `WHERE ${referrerFilters.join(" AND ")}`;
 
       const academicWhere = `
-        WHERE
-          (
-            lower(org) LIKE '%university%'
-            OR lower(org) LIKE '%college%'
-            OR lower(org) LIKE '%school%'
-            OR lower(org) LIKE '%academy%'
-            OR lower(org) LIKE '%universitat%'
-            OR lower(org) LIKE '%universitaet%'
-            OR lower(org) LIKE '%universiteit%'
-            OR lower(org) LIKE '%université%'
-            OR lower(org) LIKE '%universite%'
-            OR lower(org) LIKE '%universita%'
-            OR lower(org) LIKE '%universidad%'
-            OR lower(org) LIKE '%universidade%'
-            OR lower(org) LIKE '%institute%'
-            OR lower(org) LIKE '%sdu tildeling 2%'
-          )
+        WHERE (${academicOrganizationCase})
           ${commonLogFilters.length
             ? `AND ${commonLogFilters.join(" AND ")}`
             : ""}
@@ -3981,10 +3969,12 @@ export default {
       if (activeOrgSearch) {
         recentLogFilters.push(`(
           lower(coalesce(org,'')) LIKE ?
+          OR lower(coalesce(${normalizedOrgSql},'')) LIKE ?
           OR lower(coalesce(country,'')) LIKE ?
           OR lower(coalesce(city,'')) LIKE ?
         )`);
         recentParams.push(
+          `%${activeOrgSearch.toLowerCase()}%`,
           `%${activeOrgSearch.toLowerCase()}%`,
           `%${activeOrgSearch.toLowerCase()}%`,
           `%${activeOrgSearch.toLowerCase()}%`
@@ -4159,7 +4149,7 @@ export default {
             target,
             country,
             city,
-            org,
+            ${normalizedOrgSql} AS org,
             ip,
             ${eventBotCase} AS likely_bot
           FROM visitor_events
